@@ -52,7 +52,7 @@ public class TowerBaseBlockEntity extends BlockEntity {
         TowerNetwork.addTower(tower);
     }
 
-    private void invalidate() {
+    public void invalidate() {
         if(tower != null) {
             TowerNetwork.removeTower(tower);
             tower = null;

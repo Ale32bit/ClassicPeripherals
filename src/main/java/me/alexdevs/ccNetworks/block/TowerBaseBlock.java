@@ -19,9 +19,18 @@ public class TowerBaseBlock extends BaseEntityBlock {
         super.onPlace(blockState, level, blockPos, blockState2, bl);
 
         var be = level.getBlockEntity(blockPos);
-        if(be instanceof TowerBaseBlockEntity base) {
+        if (be instanceof TowerBaseBlockEntity base) {
             base.calculateTower();
         }
+    }
+
+    @Override
+    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
+        var be = level.getBlockEntity(blockPos);
+        if (be instanceof TowerBaseBlockEntity base) {
+            base.invalidate();
+        }
+        super.onRemove(blockState, level, blockPos, blockState2, bl);
     }
 
     @Override
