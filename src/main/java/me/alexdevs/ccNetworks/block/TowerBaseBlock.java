@@ -1,6 +1,6 @@
 package me.alexdevs.ccNetworks.block;
 
-import me.alexdevs.ccNetworks.tiles.TowerBaseBlockEntity;
+import me.alexdevs.ccNetworks.tiles.TowerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -19,7 +19,7 @@ public class TowerBaseBlock extends BaseEntityBlock {
         super.onPlace(blockState, level, blockPos, blockState2, bl);
 
         var be = level.getBlockEntity(blockPos);
-        if (be instanceof TowerBaseBlockEntity base) {
+        if (be instanceof TowerBlockEntity base) {
             base.calculateTower();
         }
     }
@@ -27,7 +27,7 @@ public class TowerBaseBlock extends BaseEntityBlock {
     @Override
     public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
         var be = level.getBlockEntity(blockPos);
-        if (be instanceof TowerBaseBlockEntity base) {
+        if (be instanceof TowerBlockEntity base) {
             base.invalidate();
         }
         super.onRemove(blockState, level, blockPos, blockState2, bl);
@@ -35,6 +35,6 @@ public class TowerBaseBlock extends BaseEntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new TowerBaseBlockEntity(blockPos, blockState);
+        return new TowerBlockEntity(blockPos, blockState);
     }
 }

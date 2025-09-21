@@ -1,6 +1,6 @@
 package me.alexdevs.ccNetworks.block;
 
-import me.alexdevs.ccNetworks.tiles.TowerBaseBlockEntity;
+import me.alexdevs.ccNetworks.tiles.TowerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -17,7 +17,7 @@ public class TowerSegmentBlock extends Block {
             var blockBelow = level.getBlockState(below);
             if(blockBelow.is(ModBlocks.TOWER_BASE)) {
                 var be = level.getBlockEntity(below);
-                if(be instanceof TowerBaseBlockEntity base)
+                if(be instanceof TowerBlockEntity base)
                     base.calculateTower();
                 break;
             }

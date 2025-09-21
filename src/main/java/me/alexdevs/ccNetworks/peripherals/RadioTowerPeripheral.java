@@ -1,27 +1,25 @@
 package me.alexdevs.ccNetworks.peripherals;
 
+import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.AttachedComputerSet;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.ccNetworks.core.TowerNetwork;
-import me.alexdevs.ccNetworks.tiles.TowerBaseBlockEntity;
+import me.alexdevs.ccNetworks.tiles.TowerBlockEntity;
 import org.jspecify.annotations.Nullable;
 
 public class RadioTowerPeripheral implements IPeripheral {
-    private final TowerBaseBlockEntity radioTower;
+    private final TowerBlockEntity radioTower;
     private final AttachedComputerSet computers = new AttachedComputerSet();
 
-    public RadioTowerPeripheral(TowerBaseBlockEntity radioTower) {
+    public RadioTowerPeripheral(TowerBlockEntity radioTower) {
         this.radioTower = radioTower;
+        radioTower.addPeripheral(this);
     }
 
     private void update() {
-        var tower = this.radioTower.getTower();
-
-        if(tower != null) {
-            tower.setPeripheral(this);
-        }
+        this.radioTower.calculateTower();
     }
 
     @Override
@@ -46,6 +44,11 @@ public class RadioTowerPeripheral implements IPeripheral {
         computers.remove(computer);
     }
 
+    public void receive(String data, double distance) {
+        update();
+        computers.queueEvent("radio_message", data, distance);
+    }
+
     @LuaFunction
     public final boolean isValid() {
         update();
@@ -53,13 +56,46 @@ public class RadioTowerPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public final void broadcast(String data) {
+    public final void broadcast(String data) throws LuaException {
         update();
-        TowerNetwork.broadcast(radioTower.getTower(), data);
+
+        if(!radioTower.isValid()) {
+            throw new LuaException("The radio tower is not built correctly.");
+        }
+
+        TowerNetwork.broadcast(radioTower, data);
     }
 
-    public void receive(String data, double distance) {
-        update();
-        computers.forEach(x -> x.queueEvent("radio_message", data, distance));
+    @LuaFunction
+    public final void setFrequency(int frequency) throws LuaException {
+        if(frequency < TowerNetwork.MIN_FREQUENCY || frequency > TowerNetwork.MAX_FREQUENCY) {
+            throw new LuaException("Frequency out of range. Must be between " + TowerNetwork.MIN_FREQUENCY + " and " + TowerNetwork.MAX_FREQUENCY + ".");
+        }
+
+        if(!radioTower.isValid()) {
+            throw new LuaException("The radio tower is not built correctly.");
+        }
+
+        var channel = TowerNetwork.getChannel(frequency);
+        radioTower.setChannel(channel);
+    }
+
+    @LuaFunction
+    public final int getFrequency() throws LuaException {
+        if(!radioTower.isValid()) {
+            throw new LuaException("The radio tower is not built correctly.");
+        }
+
+        var channel = radioTower.getChannel();
+        return TowerNetwork.getFrequency(channel);
+    }
+
+    @LuaFunction
+    public final int getRange() throws LuaException {
+        if(!radioTower.isValid()) {
+            throw new LuaException("The radio tower is not built correctly.");
+        }
+
+        return radioTower.getMaximumRange();
     }
 }

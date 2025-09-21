@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class ModBlockTiles {
-    public static final BlockEntityType<TowerBaseBlockEntity> TOWER_BASE = register("tower_base", FabricBlockEntityTypeBuilder.create(TowerBaseBlockEntity::new, ModBlocks.TOWER_BASE).build());
+    public static final BlockEntityType<TowerBlockEntity> TOWER_BASE = register("tower_base", FabricBlockEntityTypeBuilder.create(TowerBlockEntity::new, ModBlocks.TOWER_BASE).build());
 
     public static <T extends BlockEntityType<?>> T register(String path, T blockEntityType) {
         return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(CcNetworks.MOD_ID, path), blockEntityType);
