@@ -1,30 +1,30 @@
 package me.alexdevs.ccNetworks.tiles;
 
+import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.ccNetworks.block.ModBlocks;
 import me.alexdevs.ccNetworks.core.TowerNetwork;
-import me.alexdevs.ccNetworks.peripherals.RadioTowerPeripheral;
+import me.alexdevs.ccNetworks.peripherals.RadioPeripheral;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
 import java.util.Random;
 
 public class TowerBlockEntity extends BlockEntity {
     public static final int MAX_HEIGHT = 32;
     public static final int MIN_HEIGHT = 4;
-    public static final int SEGMENT_RANGE = 2;
+    public static final int SEGMENT_RANGE = 128;
     public static final double LOSS_FACTOR = 0.25;
 
     private final Random random = new Random();
 
     private int towerHeight = 1;
     private boolean isValid = false;
-    private HashSet<RadioTowerPeripheral> peripherals = new HashSet<>();
     private int channel = 0;
     private BlockPos topPos;
 
+    private RadioPeripheral peripheral = new RadioPeripheral(this);
 
     public TowerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockTiles.TOWER_BASE, pos, state);
@@ -84,6 +84,10 @@ public class TowerBlockEntity extends BlockEntity {
         this.channel = channel;
     }
 
+    public IPeripheral peripheral() {
+        return peripheral;
+    }
+
     public int getMaximumRange() {
         if (!isValid)
             return 0;
@@ -101,15 +105,7 @@ public class TowerBlockEntity extends BlockEntity {
         var distance = this.topPos.distSqr(other.topPos);
         return distance <= range * range;
     }
-
-    public void addPeripheral(RadioTowerPeripheral peripheral) {
-        peripherals.add(peripheral);
-    }
-
     public void receive(String message, double distance, TowerBlockEntity source) {
-        if(peripherals.isEmpty())
-            return;
-
         var safeRange = Math.max(this.getSafeRange(), source.getSafeRange());
         if (distance > safeRange) {
             var maxRange = Math.max(this.getMaximumRange(), source.getMaximumRange());
@@ -120,7 +116,7 @@ public class TowerBlockEntity extends BlockEntity {
         }
 
         final var data = message;
-        peripherals.forEach(x -> x.receive(data, distance));
+        peripheral.receive(data, distance);
     }
 
     private String flipString(String data, double percentage) {

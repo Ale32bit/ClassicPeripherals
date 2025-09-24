@@ -1,14 +1,15 @@
-package me.alexdevs.ccNetworks.block;
+package me.alexdevs.ccNetworks.block.tower;
 
+import me.alexdevs.ccNetworks.block.ModBlocks;
 import me.alexdevs.ccNetworks.tiles.TowerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class TowerSegmentBlock extends Block {
-    public TowerSegmentBlock(Properties settings) {
-        super(settings);
+public class TowerHeadBlock extends Block {
+    public TowerHeadBlock(Properties properties) {
+        super(properties);
     }
 
     private void triggerBase(Level level, BlockPos blockPos) {

@@ -1,14 +1,19 @@
-package me.alexdevs.ccNetworks.block;
+package me.alexdevs.ccNetworks.block.tower;
 
+import me.alexdevs.ccNetworks.block.ModBlocks;
 import me.alexdevs.ccNetworks.tiles.TowerBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class TowerHeadBlock extends Block {
-    public TowerHeadBlock(Properties properties) {
-        super(properties);
+public class TowerSegmentBlock extends Block {
+    public TowerSegmentBlock(Properties settings) {
+        super(settings);
     }
 
     private void triggerBase(Level level, BlockPos blockPos) {
@@ -36,5 +41,10 @@ public class TowerHeadBlock extends Block {
         super.onRemove(state, level, blockPos, newState, moved);
 
         triggerBase(level, blockPos);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.box(0.25d, 0, 0.25d, 0.75d, 1d, 0.75d);
     }
 }

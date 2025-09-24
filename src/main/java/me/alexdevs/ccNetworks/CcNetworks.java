@@ -6,7 +6,7 @@ import me.alexdevs.ccNetworks.tiles.ModBlockTiles;
 import net.fabricmc.api.ModInitializer;
 
 public class CcNetworks implements ModInitializer {
-    public static final String MOD_ID = "ccnetworks";
+    public static final String MOD_ID = "cc-networks";
 
     @Override
     public void onInitialize() {

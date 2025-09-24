@@ -9,13 +9,12 @@ import me.alexdevs.ccNetworks.core.TowerNetwork;
 import me.alexdevs.ccNetworks.tiles.TowerBlockEntity;
 import org.jspecify.annotations.Nullable;
 
-public class RadioTowerPeripheral implements IPeripheral {
+public class RadioPeripheral implements IPeripheral {
     private final TowerBlockEntity radioTower;
     private final AttachedComputerSet computers = new AttachedComputerSet();
 
-    public RadioTowerPeripheral(TowerBlockEntity radioTower) {
+    public RadioPeripheral(TowerBlockEntity radioTower) {
         this.radioTower = radioTower;
-        radioTower.addPeripheral(this);
     }
 
     private void update() {
@@ -29,7 +28,7 @@ public class RadioTowerPeripheral implements IPeripheral {
 
     @Override
     public boolean equals(@Nullable IPeripheral other) {
-        return other instanceof RadioTowerPeripheral o && radioTower == o.radioTower;
+        return other instanceof RadioPeripheral o && radioTower == o.radioTower;
     }
 
     @Override
