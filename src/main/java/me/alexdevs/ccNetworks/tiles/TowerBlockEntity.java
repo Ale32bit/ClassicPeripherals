@@ -2,6 +2,7 @@ package me.alexdevs.ccNetworks.tiles;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.ccNetworks.block.ModBlocks;
+import me.alexdevs.ccNetworks.block.tower.TowerHeadBlock;
 import me.alexdevs.ccNetworks.core.TowerNetwork;
 import me.alexdevs.ccNetworks.peripherals.RadioPeripheral;
 import net.minecraft.core.BlockPos;
@@ -60,6 +61,13 @@ public class TowerBlockEntity extends BlockEntity {
         TowerNetwork.addTower(this);
     }
 
+    public void ping() {
+
+        var head = this.level.getBlockState(getTopPos());
+        this.level.setBlockAndUpdate(getTopPos(), head.setValue(TowerHeadBlock.ACTIVE, true));
+        level.scheduleTick(getTopPos(), ModBlocks.TOWER_HEAD, 4);
+    }
+
     public void invalidate() {
         TowerNetwork.removeTower(this);
     }
@@ -106,6 +114,7 @@ public class TowerBlockEntity extends BlockEntity {
         return distance <= range * range;
     }
     public void receive(String message, double distance, TowerBlockEntity source) {
+        ping();
         var safeRange = Math.max(this.getSafeRange(), source.getSafeRange());
         if (distance > safeRange) {
             var maxRange = Math.max(this.getMaximumRange(), source.getMaximumRange());

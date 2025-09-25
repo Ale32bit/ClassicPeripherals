@@ -1,0 +1,7 @@
+{
+  "parent": "cc-networks:block/tower_head_base",
+  "textures": {
+    "1": "cc-networks:block/tower_segment",
+    "2": "cc-networks:block/tower_head_on"
+  }
+}

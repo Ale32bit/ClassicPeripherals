@@ -62,6 +62,7 @@ public class RadioPeripheral implements IPeripheral {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
+        radioTower.ping();
         TowerNetwork.broadcast(radioTower, data);
     }
 
