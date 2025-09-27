@@ -9,8 +9,9 @@ public class TowerNetwork {
     private static final Map<Location, TowerBlockEntity> towers = new HashMap<>();
 
     public static final int MIN_FREQUENCY = 0;
-    public static final int MAX_FREQUENCY = 63;
+    public static final int MAX_FREQUENCY = 0xFFFF;
     public static final int STEP_FREQUENCY = 1;
+    public static final int MAX_MESSAGE_SIZE = 8 * 1024 * 1024; // 8 MiB
 
     public static int getChannel(int frequency) {
         return (frequency - MIN_FREQUENCY) / STEP_FREQUENCY;
@@ -33,6 +34,7 @@ public class TowerNetwork {
     public static void broadcast(TowerBlockEntity sourceTower, String data) {
         var level = sourceTower.getLevel();
         var channel = sourceTower.getChannel();
+        data = data.substring(0, Math.min(data.length(), MAX_MESSAGE_SIZE));
 
         var receivers = towers.values().stream()
                 .filter(x -> x.getLevel() == level && x.getChannel() == channel && x != sourceTower)

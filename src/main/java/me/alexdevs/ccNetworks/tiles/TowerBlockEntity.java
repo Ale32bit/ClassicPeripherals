@@ -13,10 +13,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 public class TowerBlockEntity extends BlockEntity {
-    public static final int MAX_HEIGHT = 32;
-    public static final int MIN_HEIGHT = 4;
+    public static final int MAX_HEIGHT = 24;
+    public static final int MIN_HEIGHT = 2;
     public static final int SEGMENT_RANGE = 128;
-    public static final double LOSS_FACTOR = 0.25;
+    public static final double LOSS_FACTOR = 0.15;
 
     private final Random random = new Random();
 
@@ -108,16 +108,34 @@ public class TowerBlockEntity extends BlockEntity {
         return range - (int) (range * LOSS_FACTOR);
     }
 
+    public int getEffectiveMaxRange() {
+        var y = this.getTopPos().getY();
+
+        var range = getMaximumRange();
+
+        if (y >= 96) {
+            return range;
+        }
+
+        return Math.max(8, (int) (96 * (1 - Math.pow(Math.E, -0.05 * y)) / 100d * range));
+    }
+
+    public int getEffectiveSafeRange() {
+        var effectiveRange = getEffectiveMaxRange();
+        return effectiveRange - (int) (effectiveRange * LOSS_FACTOR);
+    }
+
     public boolean inRange(TowerBlockEntity other) {
         var range = Math.max(this.getMaximumRange(), other.getMaximumRange());
         var distance = this.topPos.distSqr(other.topPos);
         return distance <= range * range;
     }
+
     public void receive(String message, double distance, TowerBlockEntity source) {
         ping();
-        var safeRange = Math.max(this.getSafeRange(), source.getSafeRange());
+        var safeRange = Math.max(this.getEffectiveSafeRange(), source.getEffectiveSafeRange());
         if (distance > safeRange) {
-            var maxRange = Math.max(this.getMaximumRange(), source.getMaximumRange());
+            var maxRange = Math.max(this.getEffectiveMaxRange(), source.getEffectiveMaxRange());
             var unsafeRange = maxRange - safeRange;
             var distanceInUnsafe = distance - safeRange;
             var corruption = distanceInUnsafe / unsafeRange;

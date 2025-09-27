@@ -1,7 +1,6 @@
 package me.alexdevs.ccNetworks.peripherals;
 
-import dan200.computercraft.api.lua.LuaException;
-import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.lua.*;
 import dan200.computercraft.api.peripheral.AttachedComputerSet;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
@@ -54,11 +53,11 @@ public class RadioPeripheral implements IPeripheral {
         return radioTower.isValid();
     }
 
-    @LuaFunction
+    @LuaFunction()
     public final void broadcast(String data) throws LuaException {
         update();
 
-        if(!radioTower.isValid()) {
+        if (!radioTower.isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
@@ -66,13 +65,13 @@ public class RadioPeripheral implements IPeripheral {
         TowerNetwork.broadcast(radioTower, data);
     }
 
-    @LuaFunction
-    public final void setFrequency(int frequency) throws LuaException {
-        if(frequency < TowerNetwork.MIN_FREQUENCY || frequency > TowerNetwork.MAX_FREQUENCY) {
+    @LuaFunction(mainThread = true)
+    public final void setFrequency(ILuaContext context, int frequency) throws LuaException {
+        if (frequency < TowerNetwork.MIN_FREQUENCY || frequency > TowerNetwork.MAX_FREQUENCY) {
             throw new LuaException("Frequency out of range. Must be between " + TowerNetwork.MIN_FREQUENCY + " and " + TowerNetwork.MAX_FREQUENCY + ".");
         }
 
-        if(!radioTower.isValid()) {
+        if (!radioTower.isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
@@ -82,7 +81,7 @@ public class RadioPeripheral implements IPeripheral {
 
     @LuaFunction
     public final int getFrequency() throws LuaException {
-        if(!radioTower.isValid()) {
+        if (!radioTower.isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
@@ -91,11 +90,14 @@ public class RadioPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public final int getRange() throws LuaException {
-        if(!radioTower.isValid()) {
+    public final Object[] getRange() throws LuaException {
+        if (!radioTower.isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
-        return radioTower.getMaximumRange();
+        return new Object[]{
+                radioTower.getMaximumRange(),
+                radioTower.getEffectiveMaxRange(),
+        };
     }
 }
