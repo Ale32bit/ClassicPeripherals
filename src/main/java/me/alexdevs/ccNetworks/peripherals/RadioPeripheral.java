@@ -5,19 +5,15 @@ import dan200.computercraft.api.peripheral.AttachedComputerSet;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.ccNetworks.core.TowerNetwork;
-import me.alexdevs.ccNetworks.tiles.TowerBlockEntity;
+import me.alexdevs.ccNetworks.tiles.AbstractRadioBlockEntity;
 import org.jspecify.annotations.Nullable;
 
 public class RadioPeripheral implements IPeripheral {
-    private final TowerBlockEntity radioTower;
+    private final AbstractRadioBlockEntity radioTower;
     private final AttachedComputerSet computers = new AttachedComputerSet();
 
-    public RadioPeripheral(TowerBlockEntity radioTower) {
+    public RadioPeripheral(AbstractRadioBlockEntity radioTower) {
         this.radioTower = radioTower;
-    }
-
-    private void update() {
-        this.radioTower.calculateTower();
     }
 
     @Override
@@ -32,30 +28,28 @@ public class RadioPeripheral implements IPeripheral {
 
     @Override
     public void attach(IComputerAccess computer) {
-        update();
         computers.add(computer);
     }
 
     @Override
     public void detach(IComputerAccess computer) {
-        update();
         computers.remove(computer);
     }
 
     public void receive(String data, double distance) {
-        update();
         computers.queueEvent("radio_message", data, distance);
     }
 
     @LuaFunction
     public final boolean isValid() {
-        update();
         return radioTower.isValid();
     }
 
     @LuaFunction()
     public final void broadcast(String data) throws LuaException {
-        update();
+        if(!radioTower.canBroadcast()) {
+            throw new LuaException("This antenna is not capable of broadcasting.");
+        }
 
         if (!radioTower.isValid()) {
             throw new LuaException("The radio tower is not built correctly.");

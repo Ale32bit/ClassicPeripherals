@@ -1,12 +1,12 @@
 package me.alexdevs.ccNetworks.core;
 
-import me.alexdevs.ccNetworks.tiles.TowerBlockEntity;
+import me.alexdevs.ccNetworks.tiles.AbstractRadioBlockEntity;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TowerNetwork {
-    private static final Map<Location, TowerBlockEntity> towers = new HashMap<>();
+    private static final Map<Location, AbstractRadioBlockEntity> towers = new HashMap<>();
 
     public static final int MIN_FREQUENCY = 0;
     public static final int MAX_FREQUENCY = 0xFFFF;
@@ -21,17 +21,21 @@ public class TowerNetwork {
         return channel * STEP_FREQUENCY + MIN_FREQUENCY;
     }
 
-    public static void addTower(TowerBlockEntity tower) {
+    public static void addTower(AbstractRadioBlockEntity tower) {
         var location = new Location(tower.getBlockPos(), tower.getLevel());
         towers.put(location, tower);
     }
 
-    public static void removeTower(TowerBlockEntity tower) {
+    public static void removeTower(AbstractRadioBlockEntity tower) {
         var location = new Location(tower.getBlockPos(), tower.getLevel());
         towers.remove(location);
     }
 
-    public static void broadcast(TowerBlockEntity sourceTower, String data) {
+    public static void broadcast(AbstractRadioBlockEntity sourceTower, String data) {
+        if(!sourceTower.canBroadcast()) {
+            throw new IllegalStateException(sourceTower + " cannot broadcast.");
+        }
+
         var level = sourceTower.getLevel();
         var channel = sourceTower.getChannel();
         data = data.substring(0, Math.min(data.length(), MAX_MESSAGE_SIZE));

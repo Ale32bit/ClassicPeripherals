@@ -1,7 +1,6 @@
 package me.alexdevs.ccNetworks.tiles;
 
 import me.alexdevs.ccNetworks.CcNetworks;
-import me.alexdevs.ccNetworks.block.AntennaBlock;
 import me.alexdevs.ccNetworks.block.ModBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;

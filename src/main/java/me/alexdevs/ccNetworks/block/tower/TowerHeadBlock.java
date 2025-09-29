@@ -26,7 +26,7 @@ public class TowerHeadBlock extends Block {
             if(blockBelow.is(ModBlocks.TOWER_BASE)) {
                 var be = level.getBlockEntity(below);
                 if(be instanceof TowerBlockEntity base)
-                    base.calculateTower();
+                    base.validate();
                 break;
             }
         }

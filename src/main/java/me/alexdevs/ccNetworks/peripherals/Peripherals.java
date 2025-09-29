@@ -14,6 +14,7 @@ public class Peripherals {
     public static void register() {
         var peripherals = new BlockComponentImpl<>(PeripheralLookup.get());
         peripherals.registerForBlockEntity(ModBlockTiles.TOWER_BASE, (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
+        peripherals.registerForBlockEntity(ModBlockTiles.ANTENNA, (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
     }
 
     public interface BlockComponent<T, C extends @Nullable Object> {

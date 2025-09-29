@@ -1,6 +1,7 @@
 package me.alexdevs.ccNetworks.block;
 
 import me.alexdevs.ccNetworks.CcNetworks;
+import me.alexdevs.ccNetworks.block.antenna.AntennaBlock;
 import me.alexdevs.ccNetworks.block.tower.TowerBaseBlock;
 import me.alexdevs.ccNetworks.block.tower.TowerHeadBlock;
 import me.alexdevs.ccNetworks.block.tower.TowerSegmentBlock;
