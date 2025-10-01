@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "c": {
+      "item": "classicperipherals:copper_coil"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "s": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "sss",
+    "srs",
+    "scs"
+  ],
+  "result": {
+    "item": "classicperipherals:nfc_reader"
+  },
+  "show_notification": true
+}

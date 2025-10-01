@@ -3,9 +3,16 @@
   "id": "classicperipherals",
   "version": "${version}",
   "name": "Classic Peripherals",
-  "description": "",
-  "authors": [],
-  "contact": {},
+  "description": "Classic Peripherals is a mod that adds a bunch of peripherals to CC: Tweaked.",
+  "authors": [
+    "AlexDevs"
+  ],
+  "contact": {
+    "homepage": "https://alexdevs.me",
+    "sources": "https://github.com/AlexDevs/ClassicPeripherals",
+    "issues": "https://github.com/AlexDevs/ClassicPeripherals/issues",
+    "email": "alex@alexdevs.me"
+  },
   "license": "MIT",
   "icon": "assets/classicperipherals/icon.png",
   "environment": "*",
@@ -26,6 +33,7 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "${minecraft_version}",
+    "computercraft": ">=1.116.0"
   }
 }
