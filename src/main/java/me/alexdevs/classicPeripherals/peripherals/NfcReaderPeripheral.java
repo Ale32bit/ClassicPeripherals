@@ -10,8 +10,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
-import static dan200.computercraft.core.util.StringUtil.normaliseLabel;
-
 public class NfcReaderPeripheral implements IPeripheral {
     private final NfcReaderBlockEntity nfcReader;
     private final AttachedComputerSet computers = new AttachedComputerSet();
@@ -44,13 +42,13 @@ public class NfcReaderPeripheral implements IPeripheral {
         computers.forEach(computer -> computer.queueEvent("nfc_data", computer.getAttachmentName(), data));
     }
 
-    public void queueWrite() {
-        computers.forEach(computer -> computer.queueEvent("nfc_write", computer.getAttachmentName()));
+    public void writeFeedback(boolean success, String message) {
+        computers.forEach(computer -> computer.queueEvent("nfc_write", computer.getAttachmentName(), success, message));
     }
 
     @LuaFunction(mainThread = true)
-    public final void write(String data, Optional<String> label) {
-        nfcReader.flagWrite(data, label.map(StringUtil::normaliseLabel).orElse(null));
+    public final void write(String data, Optional<String> label, Optional<Boolean> flagReadOnly) {
+        nfcReader.flagWrite(data, label.map(StringUtil::normaliseLabel).orElse(null), flagReadOnly.orElse(false));
     }
 
     @LuaFunction(mainThread = true)

@@ -79,8 +79,13 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
         if(stack.getItem() instanceof NfcCardItem) {
             var be = level.getBlockEntity(pos);
             if(be instanceof NfcReaderBlockEntity reader) {
+
+                if(level.isClientSide) {
+                    return InteractionResult.SUCCESS;
+                }
+
                 reader.onUse(stack);
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.CONSUME;
             }
         }
 
