@@ -37,7 +37,8 @@ public class RadioPeripheral implements IPeripheral {
     }
 
     public void receive(String data, double distance) {
-        computers.queueEvent("radio_message", data, distance);
+        computers.forEach(computer ->
+                computer.queueEvent("radio_message", computer.getAttachmentName(), data, distance));
     }
 
     @LuaFunction
@@ -47,12 +48,12 @@ public class RadioPeripheral implements IPeripheral {
 
     @LuaFunction()
     public final void broadcast(String data) throws LuaException {
-        if(!radioTower.canBroadcast()) {
-            throw new LuaException("This antenna is not capable of broadcasting.");
-        }
-
         if (!radioTower.isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
+        }
+
+        if (!radioTower.canBroadcast()) {
+            throw new LuaException("This antenna is not capable of broadcasting.");
         }
 
         radioTower.ping();
@@ -84,14 +85,11 @@ public class RadioPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public final Object[] getRange() throws LuaException {
+    public final int getHeight() throws LuaException {
         if (!radioTower.isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
-        return new Object[]{
-                radioTower.getMaximumRange(),
-                radioTower.getEffectiveMaxRange(),
-        };
+        return radioTower.getHeight();
     }
 }

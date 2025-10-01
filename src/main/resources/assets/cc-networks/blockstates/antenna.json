@@ -1,5 +1,10 @@
 {
   "variants": {
-    "": { "model": "cc-networks:block/antenna" }
+    "active=true": {
+      "model": "cc-networks:block/antenna_on"
+    },
+    "active=false": {
+      "model": "cc-networks:block/antenna_off"
+    }
   }
 }

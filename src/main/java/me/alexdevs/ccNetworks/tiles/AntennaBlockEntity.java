@@ -1,6 +1,7 @@
 package me.alexdevs.ccNetworks.tiles;
 
 import me.alexdevs.ccNetworks.block.ModBlocks;
+import me.alexdevs.ccNetworks.block.tower.TowerHeadBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -27,6 +28,8 @@ public class AntennaBlockEntity extends AbstractRadioBlockEntity {
 
     @Override
     public void ping() {
+        var block = getBlockState();
+        this.level.setBlockAndUpdate(getBlockPos(), block.setValue(TowerHeadBlock.ACTIVE, true));
         level.scheduleTick(getBlockPos(), ModBlocks.ANTENNA, 4);
     }
 }

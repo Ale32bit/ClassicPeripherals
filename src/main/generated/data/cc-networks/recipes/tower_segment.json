@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "c": {
+      "item": "computercraft:cable"
+    },
+    "i": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "pattern": [
+    "ici",
+    "ici",
+    "ici"
+  ],
+  "result": {
+    "item": "cc-networks:tower_segment"
+  },
+  "show_notification": true
+}

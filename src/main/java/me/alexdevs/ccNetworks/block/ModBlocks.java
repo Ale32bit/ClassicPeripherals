@@ -13,9 +13,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 
 public class ModBlocks {
     public static final TowerBaseBlock TOWER_BASE = register(new TowerBaseBlock(BlockBehaviour.Properties.of()
+            .strength(2.0F)
+            .mapColor(MapColor.STONE)
             .noOcclusion()
             .isValidSpawn(Blocks::never)
             .isRedstoneConductor(Blocks::never)
@@ -24,7 +27,9 @@ public class ModBlocks {
     ), "tower_base", true);
 
     public static final TowerSegmentBlock TOWER_SEGMENT = register(new TowerSegmentBlock(BlockBehaviour.Properties.of()
-            .noOcclusion().noOcclusion()
+            .strength(2.0F)
+            .mapColor(MapColor.STONE)
+            .noOcclusion()
             .isValidSpawn(Blocks::never)
             .isRedstoneConductor(Blocks::never)
             .isSuffocating(Blocks::never)
@@ -32,6 +37,8 @@ public class ModBlocks {
     ), "tower_segment", true);
 
     public static final TowerHeadBlock TOWER_HEAD = register(new TowerHeadBlock(BlockBehaviour.Properties.of()
+            .strength(2.0F)
+            .mapColor(MapColor.GOLD)
             .noOcclusion()
             .isValidSpawn(Blocks::never)
             .isRedstoneConductor(Blocks::never)
@@ -40,6 +47,8 @@ public class ModBlocks {
     ), "tower_head", true);
 
     public static final AntennaBlock ANTENNA = register(new AntennaBlock(BlockBehaviour.Properties.of()
+            .strength(2.0F)
+            .mapColor(MapColor.GOLD)
             .noOcclusion()
             .isValidSpawn(Blocks::never)
             .isRedstoneConductor(Blocks::never)

@@ -1,0 +1,8 @@
+{
+  "block.cc-networks.antenna": "Radio Antenna",
+  "block.cc-networks.tower_base": "Radio Tower Controller",
+  "block.cc-networks.tower_head": "Radio Tower Antenna",
+  "block.cc-networks.tower_segment": "Radio Tower Pole",
+  "item.cc-networks.copper_coil": "Copper Coil",
+  "itemGroup.ccnetworks": "CC Networks"
+}

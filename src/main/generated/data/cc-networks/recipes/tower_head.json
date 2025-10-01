@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "c": {
+      "item": "cc-networks:copper_coil"
+    },
+    "m": {
+      "item": "computercraft:wireless_modem_advanced"
+    },
+    "s": {
+      "item": "cc-networks:tower_segment"
+    }
+  },
+  "pattern": [
+    "cmc",
+    "msm",
+    "cmc"
+  ],
+  "result": {
+    "item": "cc-networks:tower_head"
+  },
+  "show_notification": true
+}
