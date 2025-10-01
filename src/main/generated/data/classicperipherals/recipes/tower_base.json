@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "a": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "c": {
+      "item": "computercraft:cable"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "m": {
+      "tag": "computercraft:wired_modem"
+    }
+  },
+  "pattern": [
+    "ici",
+    "iai",
+    "ImI"
+  ],
+  "result": {
+    "item": "classicperipherals:tower_base"
+  },
+  "show_notification": true
+}

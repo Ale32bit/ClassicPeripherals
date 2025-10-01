@@ -1,27 +1,27 @@
 {
   "schemaVersion": 1,
-  "id": "cc-networks",
+  "id": "classicperipherals",
   "version": "${version}",
-  "name": "CC: Networks",
+  "name": "Classic Peripherals",
   "description": "",
   "authors": [],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/cc-networks/icon.png",
+  "icon": "assets/classicperipherals/icon.png",
   "environment": "*",
   "entrypoints": {
     "fabric-datagen": [
-      "me.alexdevs.ccNetworks.client.CcNetworksDataGenerator"
+      "me.alexdevs.classicPeripherals.datagen.ClassicPeripheralsDataGenerator"
     ],
     "client": [
-      "me.alexdevs.ccNetworks.client.CcNetworksClient"
+      "me.alexdevs.classicPeripherals.client.ClassicPeripheralsClient"
     ],
     "main": [
-      "me.alexdevs.ccNetworks.CcNetworks"
+      "me.alexdevs.classicPeripherals.ClassicPeripherals"
     ]
   },
   "mixins": [
-    "cc-networks.mixins.json"
+    "classicperipherals.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",

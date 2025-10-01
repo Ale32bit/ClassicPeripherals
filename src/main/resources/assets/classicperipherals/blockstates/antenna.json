@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=true": {
+      "model": "classicperipherals:block/antenna_on"
+    },
+    "active=false": {
+      "model": "classicperipherals:block/antenna_off"
+    }
+  }
+}

@@ -1,7 +1,0 @@
-{
-  "parent": "cc-networks:block/antenna_base",
-  "textures": {
-    "1": "cc-networks:block/antenna_off",
-    "2": "cc-networks:block/antenna_base"
-  }
-}

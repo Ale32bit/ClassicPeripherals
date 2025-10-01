@@ -1,0 +1,7 @@
+{
+  "parent": "classicperipherals:block/tower_head_base",
+  "textures": {
+    "1": "classicperipherals:block/tower_segment",
+    "2": "classicperipherals:block/tower_head_on"
+  }
+}

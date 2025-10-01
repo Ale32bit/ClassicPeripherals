@@ -1,0 +1,7 @@
+{
+  "parent": "classicperipherals:block/antenna_base",
+  "textures": {
+    "1": "classicperipherals:block/antenna_off",
+    "2": "classicperipherals:block/antenna_base"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "w": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "ccc",
+    "cwc",
+    "ccc"
+  ],
+  "result": {
+    "count": 2,
+    "item": "classicperipherals:copper_coil"
+  },
+  "show_notification": true
+}

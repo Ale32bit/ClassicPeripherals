@@ -1,0 +1,10 @@
+{
+  "block.classicperipherals.antenna": "Radio Antenna",
+  "block.classicperipherals.nfc_reader": "NFC Reader",
+  "block.classicperipherals.tower_base": "Radio Tower Controller",
+  "block.classicperipherals.tower_head": "Radio Tower Antenna",
+  "block.classicperipherals.tower_segment": "Radio Tower Pole",
+  "item.classicperipherals.copper_coil": "Copper Coil",
+  "item.classicperipherals.nfc_card": "NFC Card",
+  "itemGroup.classicperipherals": "Classic Peripherals"
+}

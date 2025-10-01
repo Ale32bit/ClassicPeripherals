@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "classicperipherals:tower_segment"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tower_base": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "classicperipherals:tower_base"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tower_base",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "classicperipherals:tower_segment"
+    ]
+  },
+  "sends_telemetry_event": false
+}

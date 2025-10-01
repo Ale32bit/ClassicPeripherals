@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "M": {
+      "tag": "computercraft:wired_modem"
+    },
+    "c": {
+      "item": "computercraft:cable"
+    },
+    "m": {
+      "item": "computercraft:wireless_modem_normal"
+    }
+  },
+  "pattern": [
+    " m ",
+    "mcm",
+    " M "
+  ],
+  "result": {
+    "item": "classicperipherals:antenna"
+  },
+  "show_notification": true
+}

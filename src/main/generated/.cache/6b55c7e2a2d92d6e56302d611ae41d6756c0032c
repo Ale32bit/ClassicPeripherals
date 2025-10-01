@@ -1,0 +1,6 @@
+// 1.20.1	2025-10-01T21:23:31.93598	Classic Peripherals/Block Loot Tables
+8abfef0decbfdcf6c81b0ff27e919027dd016b41 data\classicperipherals\loot_tables\blocks\antenna.json
+a944894f94903b3f8c5f7994f153e91b7864db65 data\classicperipherals\loot_tables\blocks\tower_segment.json
+e7aeb45308a776b2d82ccecd25f2e858ddaa5b98 data\classicperipherals\loot_tables\blocks\tower_base.json
+fc966dd61d53f6863bdb0934b3ed5ad649101d2d data\classicperipherals\loot_tables\blocks\nfc_reader.json
+9a38a947558f53a1b2e606825ec999ed2c2bff37 data\classicperipherals\loot_tables\blocks\tower_head.json

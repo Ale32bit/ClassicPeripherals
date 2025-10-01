@@ -1,9 +1,10 @@
 {
   "replace": false,
   "values": [
-    "cc-networks:tower_base",
-    "cc-networks:tower_segment",
-    "cc-networks:tower_head",
-    "cc-networks:antenna"
+    "classicperipherals:tower_base",
+    "classicperipherals:tower_segment",
+    "classicperipherals:tower_head",
+    "classicperipherals:antenna",
+    "classicperipherals:nfc_reader"
   ]
 }
