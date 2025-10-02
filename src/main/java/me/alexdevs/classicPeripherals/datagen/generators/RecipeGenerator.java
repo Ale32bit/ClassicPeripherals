@@ -4,12 +4,10 @@ import dan200.computercraft.api.ComputerCraftTags;
 import dan200.computercraft.shared.ModRegistry;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.item.ModItems;
+import me.alexdevs.classicPeripherals.recipe.ModRecipes;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 
@@ -90,5 +88,8 @@ public class RecipeGenerator extends FabricRecipeProvider {
                 .requires(Items.COPPER_INGOT)
                 .unlockedBy("has_copper", has(Items.COPPER_INGOT))
                 .save(builder);
+
+        SpecialRecipeBuilder.special(ModRecipes.NFC_CARD_DYE)
+                .save(builder, "nfc_card_dye");
     }
 }

@@ -1,4 +1,4 @@
-// 1.20.1	2025-10-01T22:35:51.0821335	Classic Peripherals/Recipes
+// 1.20.1	2025-10-02T20:03:33.7702749	Classic Peripherals/Recipes
 bb2771edf84e436f46b7f514cd7edc4eda585dc0 data\classicperipherals\advancements\recipes\redstone\antenna.json
 1c4a471b8bb4329a688f4ded37400dda0cd3c2bf data\classicperipherals\advancements\recipes\redstone\nfc_card.json
 95f02b807a834b62411773d3bc4b407799cf211a data\classicperipherals\recipes\tower_base.json
@@ -11,5 +11,6 @@ bb2771edf84e436f46b7f514cd7edc4eda585dc0 data\classicperipherals\advancements\re
 c062634b3c763e6eb3d22a98e222524d796f348f data\classicperipherals\recipes\antenna.json
 2b4e08b0fbd1bffd2f15217501878dccc4e6ecb6 data\classicperipherals\recipes\tower_segment.json
 4e23b90b7f72804eddf4e57c3696ce6f17e15f96 data\classicperipherals\recipes\tower_head.json
+3f71649b9159876a5f3ed9f351abb4f7131874b9 data\classicperipherals\recipes\nfc_card_dye.json
 29ed5290fa687bbbb673a3e12f8d6b93de631a0a data\classicperipherals\advancements\recipes\redstone\tower_base.json
 fb7dc5b9f8dbe528a58f378d4bb1bab6fc045c4e data\classicperipherals\recipes\nfc_card.json

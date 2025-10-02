@@ -3,8 +3,10 @@ package me.alexdevs.classicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
+import me.alexdevs.classicPeripherals.recipe.ModRecipes;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
@@ -31,17 +33,29 @@ public class ClassicPeripherals implements ModInitializer {
         ModBlockTiles.initialize();
         ModItems.initialize();
         Peripherals.register();
+        ModRecipes.initialize();
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CREATIVE_TAB_KEY, CREATIVE_TAB);
 
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register((tab, entries) -> {
-            entries.accept(ModBlocks.TOWER_BASE);
-            entries.accept(ModBlocks.TOWER_SEGMENT);
-            entries.accept(ModBlocks.TOWER_HEAD);
-            entries.accept(ModBlocks.ANTENNA);
-            entries.accept(ModItems.COPPER_COIL);
-            entries.accept(ModBlocks.NFC_READER);
-            entries.accept(ModItems.NFC_CARD);
+            if (tab == CREATIVE_TAB) {
+                entries.accept(ModBlocks.TOWER_BASE);
+                entries.accept(ModBlocks.TOWER_SEGMENT);
+                entries.accept(ModBlocks.TOWER_HEAD);
+                entries.accept(ModBlocks.ANTENNA);
+                entries.accept(ModItems.COPPER_COIL);
+                entries.accept(ModBlocks.NFC_READER);
+                entries.accept(ModItems.NFC_CARD);
+            }
         });
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            if (tintIndex == 0) {
+                if (stack.hasTag() && stack.getTag().contains("color")) {
+                    return stack.getTag().getInt("color");
+                }
+            }
+            return 0xFFFFFF;
+        }, ModItems.NFC_CARD);
     }
 }
