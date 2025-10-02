@@ -4,6 +4,9 @@
   "package": "me.alexdevs.classicPeripherals.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "RedstoneRelayPeripheralMixin",
+    "WirelessModemPeripheralMixin",
+    "WirelessNetworkMixin"
   ],
   "client": [
   ],
