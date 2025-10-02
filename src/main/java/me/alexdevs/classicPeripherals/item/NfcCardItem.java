@@ -10,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class NfcCardItem extends Item {
     }
 
     @Override
-    public InteractionResult interactLivingEntity(ItemStack stack, Player source, LivingEntity target, InteractionHand usedHand) {
+    public @NotNull InteractionResult interactLivingEntity(ItemStack stack, Player source, LivingEntity target, InteractionHand usedHand) {
         if (source.level().isClientSide()) {
             if (target instanceof Player) {
                 return InteractionResult.SUCCESS;
@@ -52,9 +53,7 @@ public class NfcCardItem extends Item {
         if (inv.contains(ComputerCraftTags.Items.POCKET_COMPUTERS)) {
             var computers = getAllPocketComputers(player);
 
-            computers.forEach(computer -> {
-                computer.queueEvent("nfc_data", new Object[]{"internal", data.get()});
-            });
+            computers.forEach(computer -> computer.queueEvent("nfc_data", new Object[]{"internal", data.get()}));
         }
 
         return InteractionResult.CONSUME;

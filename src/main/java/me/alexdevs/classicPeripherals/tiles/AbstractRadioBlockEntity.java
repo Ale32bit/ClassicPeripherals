@@ -26,7 +26,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     protected int channel = 0;
     protected BlockPos topPos;
 
-    protected RadioPeripheral peripheral = new RadioPeripheral(this);
+    protected final RadioPeripheral peripheral = new RadioPeripheral(this);
 
     protected boolean initialized = false;
 

@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class NfcReaderBlock extends HorizontalDirectionalBlock implements EntityBlock {
@@ -34,7 +35,7 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
         }
 
         @Override
-        public String getSerializedName() {
+        public @NotNull String getSerializedName() {
             return name;
         }
     }
@@ -51,7 +52,7 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
     }
 
     @Override
-    public RenderShape getRenderShape(BlockState state) {
+    public @NotNull RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
 
@@ -70,7 +71,7 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public @NotNull InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         var stack = player.getItemInHand(hand);
         if(stack.isEmpty()) {
             return InteractionResult.PASS;

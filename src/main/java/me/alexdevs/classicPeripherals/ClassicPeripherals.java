@@ -51,10 +51,12 @@ public class ClassicPeripherals implements ModInitializer {
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
-                if (stack.hasTag() && stack.getTag().contains("color")) {
-                    return stack.getTag().getInt("color");
+                var tag = stack.getOrCreateTag();
+                if (tag.contains("color")) {
+                    return tag.getInt("color");
                 }
             }
+            
             return 0xFFFFFF;
         }, ModItems.NFC_CARD);
     }

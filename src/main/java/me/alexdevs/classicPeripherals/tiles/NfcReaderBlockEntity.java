@@ -14,7 +14,7 @@ import org.jspecify.annotations.Nullable;
 public class NfcReaderBlockEntity extends BlockEntity {
     public static final int MAX_DATA_SIZE = 128;
 
-    protected NfcReaderPeripheral peripheral = new NfcReaderPeripheral(this);
+    protected final NfcReaderPeripheral peripheral = new NfcReaderPeripheral(this);
 
     private boolean writeMode = false;
     private String pendingWriteData = "";

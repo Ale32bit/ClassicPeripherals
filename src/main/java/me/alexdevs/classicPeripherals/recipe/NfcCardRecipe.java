@@ -11,6 +11,7 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class NfcCardRecipe extends CustomRecipe {
     public NfcCardRecipe(ResourceLocation id, CraftingBookCategory category) {
@@ -39,7 +40,7 @@ public class NfcCardRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer container, RegistryAccess registryAccess) {
+    public @NotNull ItemStack assemble(CraftingContainer container, RegistryAccess registryAccess) {
         ItemStack item = null;
         var tracker = new ColourTracker();
 
@@ -80,7 +81,7 @@ public class NfcCardRecipe extends CustomRecipe {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return ModRecipes.NFC_CARD_DYE;
     }
 }
