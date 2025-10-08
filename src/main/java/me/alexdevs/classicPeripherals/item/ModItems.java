@@ -13,7 +13,7 @@ public class ModItems {
     ));
 
     public static <T extends Item> T register(String name, T item) {
-        ResourceLocation id = new ResourceLocation(ClassicPeripherals.MOD_ID, name);
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, name);
         return Registry.register(BuiltInRegistries.ITEM, id, item);
     }
 

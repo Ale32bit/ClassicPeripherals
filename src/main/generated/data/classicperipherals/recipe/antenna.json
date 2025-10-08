@@ -18,7 +18,7 @@
     " M "
   ],
   "result": {
-    "item": "classicperipherals:antenna"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "classicperipherals:antenna"
+  }
 }

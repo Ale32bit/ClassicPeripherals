@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 public class ClassicPeripherals implements ModInitializer {
     public static final String MOD_ID = "classicperipherals";
 
-    public static final ResourceKey<CreativeModeTab> CREATIVE_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(MOD_ID, "item_group"));
+    public static final ResourceKey<CreativeModeTab> CREATIVE_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(MOD_ID, "item_group"));
     public static final CreativeModeTab CREATIVE_TAB = FabricItemGroup.builder()
             .icon(() -> new ItemStack(ModBlocks.TOWER_HEAD))
             .title(Component.translatable("itemGroup.classicperipherals"))
@@ -29,6 +29,7 @@ public class ClassicPeripherals implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ModComponents.initialize();
         ModBlocks.initialize();
         ModBlockTiles.initialize();
         ModItems.initialize();
@@ -51,13 +52,13 @@ public class ClassicPeripherals implements ModInitializer {
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
-                var tag = stack.getOrCreateTag();
-                if (tag.contains("color")) {
-                    return tag.getInt("color");
+                var components = stack.getComponents();
+                if (components.has(ModComponents.NFC_COLOR)) {
+                    return 0xFF_000000 | components.getOrDefault(ModComponents.NFC_COLOR, 0xFFFFFF);
                 }
             }
-            
-            return 0xFFFFFF;
+
+            return 0xFF_FFFFFF;
         }, ModItems.NFC_CARD);
     }
 }

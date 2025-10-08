@@ -4,14 +4,18 @@ import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.core.HolderLookup;
+
+import java.util.concurrent.CompletableFuture;
 
 public class LanguageGenerator extends FabricLanguageProvider {
-    public LanguageGenerator(FabricDataOutput dataOutput) {
-        super(dataOutput);
+
+    public LanguageGenerator(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(dataOutput, "en_us", registryLookup);
     }
 
     @Override
-    public void generateTranslations(TranslationBuilder builder) {
+    public void generateTranslations(HolderLookup.Provider provider, TranslationBuilder builder) {
         builder.add("itemGroup.classicperipherals", "Classic Peripherals");
         builder.add(ModBlocks.TOWER_BASE, "Radio Tower Controller");
         builder.add(ModBlocks.TOWER_SEGMENT, "Radio Tower Pole");

@@ -1,5 +1,6 @@
 package me.alexdevs.classicPeripherals.block.antenna;
 
+import com.mojang.serialization.MapCodec;
 import me.alexdevs.classicPeripherals.block.AbstractRadioBlock;
 import me.alexdevs.classicPeripherals.tiles.AbstractRadioBlockEntity;
 import me.alexdevs.classicPeripherals.tiles.AntennaBlockEntity;
@@ -39,6 +40,11 @@ public class AntennaBlock extends AbstractRadioBlock implements SimpleWaterlogge
         registerDefaultState(getStateDefinition().any()
                 .setValue(ACTIVE, false)
                 .setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(AntennaBlock::new);
     }
 
     @Override

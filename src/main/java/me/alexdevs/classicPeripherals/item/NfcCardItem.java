@@ -3,6 +3,7 @@ package me.alexdevs.classicPeripherals.item;
 import dan200.computercraft.api.ComputerCraftTags;
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import dan200.computercraft.shared.pocket.items.PocketComputerItem;
+import me.alexdevs.classicPeripherals.ModComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,9 +23,8 @@ public class NfcCardItem extends Item {
     }
 
     public static Optional<String> getData(ItemStack stack) {
-        var tag = stack.getOrCreateTag();
-        var data = tag.getString("data");
-        if (data.isEmpty()) {
+        var data = stack.getComponents().get(ModComponents.NFC_DATA);
+        if (data == null || data.isEmpty()) {
             return Optional.empty();
         }
 

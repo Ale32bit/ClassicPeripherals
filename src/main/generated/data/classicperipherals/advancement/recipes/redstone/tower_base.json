@@ -1,13 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_copper": {
+    "has_modem": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:copper_ingot"
-            ]
+            "items": "#computercraft:wired_modem"
           }
         ]
       },
@@ -15,21 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "classicperipherals:nfc_reader"
+        "recipe": "classicperipherals:tower_base"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_copper",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_modem"
     ]
   ],
   "rewards": {
     "recipes": [
-      "classicperipherals:nfc_reader"
+      "classicperipherals:tower_base"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

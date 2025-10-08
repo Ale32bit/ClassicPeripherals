@@ -1,10 +1,13 @@
 package me.alexdevs.classicPeripherals.tiles;
 
+import me.alexdevs.classicPeripherals.ModComponents;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.block.NfcReaderBlock;
 import me.alexdevs.classicPeripherals.item.NfcCardItem;
 import me.alexdevs.classicPeripherals.peripherals.NfcReaderPeripheral;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -59,24 +62,26 @@ public class NfcReaderBlockEntity extends BlockEntity {
 
     public void onUse(ItemStack stack) {
         if (writeMode) {
-            var tag = stack.getOrCreateTag();
-            var readOnly = tag.getBoolean("readOnly");
+            var components = stack.getComponents();
+            var readOnly = components.getOrDefault(ModComponents.NFC_READONLY, false);
             if (readOnly) {
                 peripheral.writeFeedback(false, "read_only");
                 cancelWrite();
                 return;
             }
 
+            var mapBuilder = DataComponentMap.builder();
+
             if (pendingLabel != null) {
-                stack.setHoverName(Component.literal(pendingLabel));
+                mapBuilder.set(DataComponents.CUSTOM_NAME, Component.literal(pendingLabel));
             } else {
-                stack.resetHoverName();
+                stack.remove(DataComponents.CUSTOM_NAME);
             }
 
-            // setting/clearing name overwrites the tag precedently created.
-            tag = stack.getOrCreateTag();
-            tag.putString("data", pendingWriteData);
-            tag.putBoolean("readOnly", pendingReadOnly);
+            mapBuilder.set(ModComponents.NFC_DATA, pendingWriteData);
+            mapBuilder.set(ModComponents.NFC_READONLY, pendingReadOnly);
+
+            stack.applyComponents(mapBuilder.build());
 
             peripheral.writeFeedback(true, "success");
             cancelWrite();

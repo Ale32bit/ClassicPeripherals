@@ -20,6 +20,7 @@ import java.util.function.Function;
 import static net.minecraft.data.models.model.ModelLocationUtils.getModelLocation;
 
 public class ModelGenerator extends FabricModelProvider {
+
     public ModelGenerator(FabricDataOutput output) {
         super(output);
     }

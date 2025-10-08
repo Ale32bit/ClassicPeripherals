@@ -11,9 +11,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "classicperipherals:tower_base"
-            ]
+            "items": "classicperipherals:tower_base"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_tower_base",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_tower_base"
     ]
   ],
   "rewards": {
     "recipes": [
       "classicperipherals:tower_segment"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

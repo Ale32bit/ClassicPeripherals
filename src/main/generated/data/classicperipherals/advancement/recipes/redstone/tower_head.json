@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "classicperipherals:copper_coil"
-            ]
+            "items": "classicperipherals:copper_coil"
           }
         ]
       },
@@ -23,9 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "classicperipherals:tower_segment"
-            ]
+            "items": "classicperipherals:tower_segment"
           }
         ]
       },
@@ -34,15 +30,14 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_tower_segment",
-      "has_copper_coil",
-      "has_the_recipe"
+      "has_copper_coil"
     ]
   ],
   "rewards": {
     "recipes": [
       "classicperipherals:tower_head"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

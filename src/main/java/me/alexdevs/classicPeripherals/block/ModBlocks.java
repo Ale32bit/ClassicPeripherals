@@ -64,7 +64,7 @@ public class ModBlocks {
     ), true);
 
     public static <T extends Block> T register(String name, T block, boolean shouldRegisterItem) {
-        ResourceLocation id = new ResourceLocation(ClassicPeripherals.MOD_ID, name);
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, name);
 
         if (shouldRegisterItem) {
             BlockItem blockItem = new BlockItem(block, new Item.Properties());

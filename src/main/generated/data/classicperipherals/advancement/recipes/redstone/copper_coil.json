@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_modem": {
+    "has_copper": {
       "conditions": {
         "items": [
           {
-            "tag": "computercraft:wired_modem"
+            "items": "minecraft:copper_ingot"
           }
         ]
       },
@@ -13,21 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "classicperipherals:antenna"
+        "recipe": "classicperipherals:copper_coil"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_modem",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_copper"
     ]
   ],
   "rewards": {
     "recipes": [
-      "classicperipherals:antenna"
+      "classicperipherals:copper_coil"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

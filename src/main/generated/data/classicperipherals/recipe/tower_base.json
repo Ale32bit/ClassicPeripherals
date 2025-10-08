@@ -24,7 +24,7 @@
     "ImI"
   ],
   "result": {
-    "item": "classicperipherals:tower_base"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "classicperipherals:tower_base"
+  }
 }

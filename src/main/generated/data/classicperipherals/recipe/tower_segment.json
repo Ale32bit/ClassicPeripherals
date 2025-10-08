@@ -15,7 +15,7 @@
     "ici"
   ],
   "result": {
-    "item": "classicperipherals:tower_segment"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "classicperipherals:tower_segment"
+  }
 }

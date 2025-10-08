@@ -1,5 +1,6 @@
 package me.alexdevs.classicPeripherals.block.tower;
 
+import com.mojang.serialization.MapCodec;
 import me.alexdevs.classicPeripherals.block.AbstractRadioBlock;
 import me.alexdevs.classicPeripherals.tiles.AbstractRadioBlockEntity;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
@@ -7,6 +8,7 @@ import me.alexdevs.classicPeripherals.tiles.TowerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,6 +23,11 @@ import org.jetbrains.annotations.Nullable;
 public class TowerBaseBlock extends AbstractRadioBlock {
     public TowerBaseBlock(Properties settings) {
         super(settings);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(TowerBaseBlock::new);
     }
 
     @Override
