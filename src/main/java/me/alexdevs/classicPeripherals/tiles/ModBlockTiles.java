@@ -2,7 +2,6 @@ package me.alexdevs.classicPeripherals.tiles;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

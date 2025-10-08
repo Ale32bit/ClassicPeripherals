@@ -4,7 +4,6 @@ import dan200.computercraft.api.ComputerCraftTags;
 import dan200.computercraft.shared.ModRegistry;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.item.ModItems;
-import me.alexdevs.classicPeripherals.recipe.ModRecipes;
 import me.alexdevs.classicPeripherals.recipe.NfcCardRecipe;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -14,7 +13,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 public class RecipeGenerator extends FabricRecipeProvider {
 
