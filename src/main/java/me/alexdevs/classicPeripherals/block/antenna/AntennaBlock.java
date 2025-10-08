@@ -110,7 +110,6 @@ public class AntennaBlock extends AbstractRadioBlock implements SimpleWaterlogge
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockTiles.ANTENNA, AbstractRadioBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockTiles.ANTENNA.get(), AbstractRadioBlockEntity::tick);
     }
-
 }

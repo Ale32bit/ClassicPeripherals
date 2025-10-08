@@ -5,60 +5,76 @@ import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class ClassicPeripherals implements ModInitializer {
+@Mod(ClassicPeripherals.MOD_ID)
+public class ClassicPeripherals {
     public static final String MOD_ID = "classicperipherals";
 
-    public static final ResourceKey<CreativeModeTab> CREATIVE_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(MOD_ID, "item_group"));
-    public static final CreativeModeTab CREATIVE_TAB = FabricItemGroup.builder()
-            .icon(() -> new ItemStack(ModBlocks.TOWER_HEAD))
-            .title(Component.translatable("itemGroup.classicperipherals"))
-            .build();
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MOD_ID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MOD_ID);
+    public static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, MOD_ID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MOD_ID);
 
-    @Override
-    public void onInitialize() {
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister
+            .create(Registries.CREATIVE_MODE_TAB, MOD_ID);
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_MODE_TABS
+            .register("classicperipherals",
+                    () -> CreativeModeTab.builder()
+                            .title(Component.translatable("itemGroup.classicperipherals"))
+                            .withTabsBefore(CreativeModeTabs.COMBAT)
+                            .icon(() -> ModBlocks.TOWER_HEAD.asItem()
+                                    .getDefaultInstance())
+                            .displayItems((parameters, entries) -> {
+                                entries.accept(ModBlocks.TOWER_BASE);
+                                entries.accept(ModBlocks.TOWER_SEGMENT);
+                                entries.accept(ModBlocks.TOWER_HEAD);
+                                entries.accept(ModBlocks.ANTENNA);
+                                entries.accept(ModItems.COPPER_COIL);
+                                entries.accept(ModBlocks.NFC_READER);
+                                entries.accept(ModItems.NFC_CARD);
+                            }).build());
+
+    public ClassicPeripherals(IEventBus modEventBus, ModContainer modContainer) {
+        modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::onDataGen);
+
+        BLOCKS.register(modEventBus);
+        ITEMS.register(modEventBus);
+        COMPONENTS.register(modEventBus);
+        BLOCK_ENTITIES.register(modEventBus);
+        RECIPES.register(modEventBus);
+        CREATIVE_MODE_TABS.register(modEventBus);
+
         ModComponents.initialize();
         ModBlocks.initialize();
-        ModBlockTiles.initialize();
         ModItems.initialize();
-        Peripherals.register();
+        ModBlockTiles.initialize();
         ModRecipes.initialize();
+        Peripherals.register(modEventBus);
+    }
 
-        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CREATIVE_TAB_KEY, CREATIVE_TAB);
+    private void commonSetup(final FMLCommonSetupEvent event) {
+    }
 
-        ItemGroupEvents.MODIFY_ENTRIES_ALL.register((tab, entries) -> {
-            if (tab == CREATIVE_TAB) {
-                entries.accept(ModBlocks.TOWER_BASE);
-                entries.accept(ModBlocks.TOWER_SEGMENT);
-                entries.accept(ModBlocks.TOWER_HEAD);
-                entries.accept(ModBlocks.ANTENNA);
-                entries.accept(ModItems.COPPER_COIL);
-                entries.accept(ModBlocks.NFC_READER);
-                entries.accept(ModItems.NFC_CARD);
-            }
-        });
 
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (tintIndex == 0) {
-                var components = stack.getComponents();
-                if (components.has(ModComponents.NFC_COLOR)) {
-                    return 0xFF_000000 | components.getOrDefault(ModComponents.NFC_COLOR, 0xFFFFFF);
-                }
-            }
-
-            return 0xFF_FFFFFF;
-        }, ModItems.NFC_CARD);
+    public void onDataGen(final GatherDataEvent event) {
+        // use fabric's
+        //ClassicPeripheralsDataGenerator.register(event);
     }
 }

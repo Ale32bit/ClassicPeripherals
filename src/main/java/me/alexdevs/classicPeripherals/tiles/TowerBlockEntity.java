@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class TowerBlockEntity extends AbstractRadioBlockEntity {
 
     public TowerBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockTiles.TOWER_BASE, pos, state);
+        super(ModBlockTiles.TOWER_BASE.get(), pos, state);
     }
 
     public void validate() {
@@ -43,6 +43,6 @@ public class TowerBlockEntity extends AbstractRadioBlockEntity {
     public void ping() {
         var head = this.level.getBlockState(getTopPos());
         this.level.setBlockAndUpdate(getTopPos(), head.setValue(TowerHeadBlock.ACTIVE, true));
-        level.scheduleTick(getTopPos(), ModBlocks.TOWER_HEAD, 4);
+        level.scheduleTick(getTopPos(), ModBlocks.TOWER_HEAD.get(), 4);
     }
 }

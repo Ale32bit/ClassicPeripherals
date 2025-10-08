@@ -1,33 +1,23 @@
 package me.alexdevs.classicPeripherals.peripherals;
 
-import dan200.computercraft.api.peripheral.PeripheralLookup;
+import dan200.computercraft.api.peripheral.PeripheralCapability;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
-import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.function.BiFunction;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 public class Peripherals {
-    public static void register() {
-        var peripherals = new BlockComponentImpl<>(PeripheralLookup.get());
-        peripherals.registerForBlockEntity(ModBlockTiles.TOWER_BASE, (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
-        peripherals.registerForBlockEntity(ModBlockTiles.ANTENNA, (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
-        peripherals.registerForBlockEntity(ModBlockTiles.NFC_READER, (block, dir) -> block.peripheral());
-    }
+    public static void register(IEventBus modBus) {
+        modBus.addListener((RegisterCapabilitiesEvent event) -> {
 
-    public interface BlockComponent<T, C extends @Nullable Object> {
-        <B extends BlockEntity> void registerForBlockEntity(BlockEntityType<B> blockEntityType, BiFunction<? super B, C, @Nullable T> provider);
-    }
+            event.registerBlockEntity(PeripheralCapability.get(), ModBlockTiles.TOWER_BASE.get(),
+                    (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
 
-    private record BlockComponentImpl<T, C extends @Nullable Object>(
-            BlockApiLookup<T, C> lookup
-    ) implements BlockComponent<T, C> {
-        @Override
-        public <B extends BlockEntity> void registerForBlockEntity(BlockEntityType<B> blockEntityType, BiFunction<? super B, C, @Nullable T> provider) {
-            lookup.registerForBlockEntity(provider, blockEntityType);
-        }
+            event.registerBlockEntity(PeripheralCapability.get(), ModBlockTiles.ANTENNA.get(),
+                    (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
+
+            event.registerBlockEntity(PeripheralCapability.get(), ModBlockTiles.NFC_READER.get(),
+                    (block, dir) -> block.peripheral());
+        });
     }
 }

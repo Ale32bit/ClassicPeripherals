@@ -1,6 +1,7 @@
 package me.alexdevs.classicPeripherals.tiles;
 
 import me.alexdevs.classicPeripherals.block.ModBlocks;
+import me.alexdevs.classicPeripherals.block.antenna.AntennaBlock;
 import me.alexdevs.classicPeripherals.block.tower.TowerHeadBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
@@ -8,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class AntennaBlockEntity extends AbstractRadioBlockEntity {
 
     public AntennaBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockTiles.ANTENNA, pos, blockState);
+        super(ModBlockTiles.ANTENNA.get(), pos, blockState);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class AntennaBlockEntity extends AbstractRadioBlockEntity {
     @Override
     public void ping() {
         var block = getBlockState();
-        this.level.setBlockAndUpdate(getBlockPos(), block.setValue(TowerHeadBlock.ACTIVE, true));
-        level.scheduleTick(getBlockPos(), ModBlocks.ANTENNA, 4);
+        this.level.setBlockAndUpdate(getBlockPos(), block.setValue(AntennaBlock.ACTIVE, true));
+        level.scheduleTick(getBlockPos(), ModBlocks.ANTENNA.get(), 4);
     }
 }

@@ -23,7 +23,7 @@ public class NfcCardItem extends Item {
     }
 
     public static Optional<String> getData(ItemStack stack) {
-        var data = stack.getComponents().get(ModComponents.NFC_DATA);
+        var data = stack.getComponents().get(ModComponents.NFC_DATA.get());
         if (data == null || data.isEmpty()) {
             return Optional.empty();
         }

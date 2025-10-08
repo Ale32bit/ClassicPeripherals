@@ -21,7 +21,7 @@
       "me.alexdevs.classicPeripherals.datagen.ClassicPeripheralsDataGenerator"
     ],
     "client": [
-      "me.alexdevs.classicPeripherals.client.ClassicPeripheralsClient"
+      "me.alexdevs.classicPeripherals.ClassicPeripheralsClient"
     ],
     "main": [
       "me.alexdevs.classicPeripherals.ClassicPeripherals"

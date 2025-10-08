@@ -2,23 +2,23 @@ package me.alexdevs.classicPeripherals.tiles;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.neoforge.registries.DeferredHolder;
+
+import java.util.function.Supplier;
 
 public class ModBlockTiles {
-    public static final BlockEntityType<TowerBlockEntity> TOWER_BASE = register("tower_base",
-            BlockEntityType.Builder.of(TowerBlockEntity::new, ModBlocks.TOWER_BASE).build());
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TowerBlockEntity>> TOWER_BASE = register("tower_base",
+            () -> BlockEntityType.Builder.of(TowerBlockEntity::new, ModBlocks.TOWER_BASE.get()).build(null));
 
-    public static final BlockEntityType<AntennaBlockEntity> ANTENNA = register("antenna",
-            BlockEntityType.Builder.of(AntennaBlockEntity::new, ModBlocks.ANTENNA).build());
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AntennaBlockEntity>> ANTENNA = register("antenna",
+            () -> BlockEntityType.Builder.of(AntennaBlockEntity::new, ModBlocks.ANTENNA.get()).build(null));
 
-    public static final BlockEntityType<NfcReaderBlockEntity> NFC_READER = register("nfc_reader",
-            BlockEntityType.Builder.of(NfcReaderBlockEntity::new, ModBlocks.NFC_READER).build());
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<NfcReaderBlockEntity>> NFC_READER = register("nfc_reader",
+            () -> BlockEntityType.Builder.of(NfcReaderBlockEntity::new, ModBlocks.NFC_READER.get()).build(null));
 
-    public static <T extends BlockEntityType<?>> T register(String path, T blockEntityType) {
-        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, path), blockEntityType);
+    public static <T extends BlockEntityType<?>> DeferredHolder<BlockEntityType<?>, T> register(String path, Supplier<T> blockEntityType) {
+        return ClassicPeripherals.BLOCK_ENTITIES.register(path, blockEntityType);
     }
 
     public static void initialize() {
