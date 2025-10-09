@@ -37,7 +37,6 @@ public class ClassicPeripherals {
             .register("classicperipherals",
                     () -> CreativeModeTab.builder()
                             .title(Component.translatable("itemGroup.classicperipherals"))
-                            .withTabsBefore(CreativeModeTabs.COMBAT)
                             .icon(() -> ModBlocks.TOWER_HEAD.asItem()
                                     .getDefaultInstance())
                             .displayItems((parameters, entries) -> {
