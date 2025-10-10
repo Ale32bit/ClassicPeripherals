@@ -15,7 +15,7 @@ public class TowerBlockEntity extends AbstractRadioBlockEntity {
         towerHeight = 1;
         isValid = false;
         var pos = this.getBlockPos();
-        for (int i = 1; i < MAX_HEIGHT - 1; i++) {
+        for (int i = 1; i < MAX_HEIGHT; i++) {
             pos = pos.above(1);
             if (this.level.getBlockState(pos).is(ModBlocks.TOWER_SEGMENT)) {
                 towerHeight++;
