@@ -33,8 +33,22 @@
 				"east": {"uv": [3.5, 0, 7, 8], "texture": "#1"},
 				"south": {"uv": [3.5, 0, 7, 8], "texture": "#1"},
 				"west": {"uv": [3.5, 0, 7, 8], "texture": "#1"},
-				"up": {"uv": [4, 8, 0, 4], "texture": "#1"},
-				"down": {"uv": [4, 4, 0, 8], "texture": "#1"}
+				"up": {"uv": [4, 4, 0, 0], "texture": "#1"},
+				"down": {"uv": [4, 0, 0, 4], "texture": "#1"}
+			}
+		},
+		{
+			"name": "adapter",
+			"from": [4, -0.01, 4],
+			"to": [12, 3.99, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [6, 0, 6]},
+			"faces": {
+				"north": {"uv": [3.5, 0, 7, 8], "texture": "#1"},
+				"east": {"uv": [3.5, 0, 7, 8], "texture": "#1"},
+				"south": {"uv": [3.5, 0, 7, 8], "texture": "#1"},
+				"west": {"uv": [3.5, 0, 7, 8], "texture": "#1"},
+				"up": {"uv": [3.5, 7.5, 0, 4], "texture": "#1"},
+				"down": {"uv": [3.5, 4, 0, 7.5], "texture": "#1"}
 			}
 		},
 		{
@@ -156,17 +170,18 @@
 	"groups": [
 		0,
 		1,
+		2,
 		{
 			"name": "dish",
 			"origin": [8, 8, 8],
 			"color": 0,
-			"children": [2, 3, 4, 5]
+			"children": [3, 4, 5, 6]
 		},
 		{
 			"name": "structure",
 			"origin": [8, 8, 8],
 			"color": 0,
-			"children": [6, 7]
+			"children": [7, 8]
 		}
 	]
 }
