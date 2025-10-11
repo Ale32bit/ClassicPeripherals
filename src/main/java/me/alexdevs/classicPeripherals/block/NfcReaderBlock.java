@@ -1,6 +1,6 @@
 package me.alexdevs.classicPeripherals.block;
 
-import me.alexdevs.classicPeripherals.item.NfcCardItem;
+import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.tiles.NfcReaderBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -77,7 +77,7 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
             return InteractionResult.PASS;
         }
 
-        if(stack.getItem() instanceof NfcCardItem) {
+        if(stack.is(ModItems.NFC_CARD) || stack.is(ModItems.RFID_BADGE)) {
             var be = level.getBlockEntity(pos);
             if(be instanceof NfcReaderBlockEntity reader) {
 

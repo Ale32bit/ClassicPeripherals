@@ -1,0 +1,6 @@
+{
+  "parent": "classicperipherals:block/rfid_scanner_base",
+  "textures": {
+    "all": "classicperipherals:block/rfid_scanner"
+  }
+}

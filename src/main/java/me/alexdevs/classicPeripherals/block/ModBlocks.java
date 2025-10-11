@@ -63,6 +63,13 @@ public class ModBlocks {
             .isRedstoneConductor(Blocks::never)
     ), true);
 
+    public static final RfidScannerBlock RFID_SCANNER = register("rfid_scanner", new RfidScannerBlock(BlockBehaviour.Properties.of()
+            .strength(2.0F)
+            .mapColor(MapColor.STONE)
+            .isValidSpawn(Blocks::never)
+            .isRedstoneConductor(Blocks::never)
+    ), true);
+
     public static <T extends Block> T register(String name, T block, boolean shouldRegisterItem) {
         ResourceLocation id = new ResourceLocation(ClassicPeripherals.MOD_ID, name);
 

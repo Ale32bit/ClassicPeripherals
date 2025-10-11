@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "c": {
+      "item": "classicperipherals:copper_coil"
+    },
+    "n": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "pattern": [
+    " n ",
+    "ncn",
+    " n "
+  ],
+  "result": {
+    "item": "classicperipherals:rfid_badge"
+  },
+  "show_notification": true
+}
