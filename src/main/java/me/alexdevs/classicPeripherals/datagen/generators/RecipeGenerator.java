@@ -5,6 +5,7 @@ import dan200.computercraft.shared.ModRegistry;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.recipe.NfcCardRecipe;
+import me.alexdevs.classicPeripherals.recipe.RfidBadgeRecipe;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;

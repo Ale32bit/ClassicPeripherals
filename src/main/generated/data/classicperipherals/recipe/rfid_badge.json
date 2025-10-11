@@ -15,7 +15,7 @@
     " n "
   ],
   "result": {
-    "item": "classicperipherals:rfid_badge"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "classicperipherals:rfid_badge"
+  }
 }

@@ -26,7 +26,7 @@ import static net.minecraft.data.models.model.TextureMapping.getItemTexture;
 public class ModelGenerator extends FabricModelProvider {
 
     public static final ModelTemplate RFID_SCANNER_MODEL = new ModelTemplate(
-            Optional.of(new ResourceLocation(ClassicPeripherals.MOD_ID, "block/rfid_scanner_base")),
+            Optional.of(ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "block/rfid_scanner_base")),
             Optional.empty(),
             TextureSlot.ALL
     );

@@ -15,7 +15,7 @@ public class ModRecipes {
 
     public static final SimpleCraftingRecipeSerializer<RfidBadgeRecipe> RFID_BADGE_RECIPE = Registry
             .register(BuiltInRegistries.RECIPE_SERIALIZER,
-                    new ResourceLocation(ClassicPeripherals.MOD_ID, "rfid_badge_dye"),
+                    ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "rfid_badge_dye"),
                     new SimpleCraftingRecipeSerializer<>(RfidBadgeRecipe::new)
             );
 

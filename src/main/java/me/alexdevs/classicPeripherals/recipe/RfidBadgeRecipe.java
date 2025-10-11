@@ -1,29 +1,33 @@
 package me.alexdevs.classicPeripherals.recipe;
 
 import dan200.computercraft.shared.util.ColourTracker;
+import me.alexdevs.classicPeripherals.ModComponents;
 import me.alexdevs.classicPeripherals.item.ModItems;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class RfidBadgeRecipe extends CustomRecipe {
-    public RfidBadgeRecipe(ResourceLocation id, CraftingBookCategory category) {
-        super(id, category);
+    public RfidBadgeRecipe(CraftingBookCategory category) {
+        super(category);
     }
 
     @Override
-    public boolean matches(CraftingContainer container, Level level) {
+    public boolean matches(CraftingInput container, Level level) {
         var hasItem = false;
         var tracker = new ColourTracker();
 
-        for (int i = 0; i < container.getContainerSize(); i++) {
+        for (int i = 0; i < container.size(); i++) {
             var stack = container.getItem(i);
             if (stack.isEmpty()) {
                 continue;
@@ -40,26 +44,24 @@ public class RfidBadgeRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(CraftingContainer container, RegistryAccess registryAccess) {
+    public @NotNull ItemStack assemble(CraftingInput container, HolderLookup.Provider registries) {
         ItemStack item = null;
         var tracker = new ColourTracker();
 
-        for (int i = 0; i < container.getContainerSize(); i++) {
+        for (int i = 0; i < container.size(); i++) {
             ItemStack stack = container.getItem(i);
             if (!stack.isEmpty()) {
                 if (stack.is(ModItems.RFID_BADGE)) {
                     item = stack.copy();
                     item.setCount(1);
-                    if (item.hasTag()) {
-                        var tag = item.getOrCreateTag();
-                        if (tag.contains("color")) {
-                            var value = tag.getInt("color");
-                            var r = value >> 16 & 0xFF;
-                            var g = value >> 8 & 0xFF;
-                            var b = value & 0xFF;
+                    var tag = item.getComponents();
+                    if (tag.has(ModComponents.NFC_COLOR)) {
+                        int value = tag.getOrDefault(ModComponents.NFC_COLOR, 0xFFFFFF);
+                        var r = value >> 16 & 0xFF;
+                        var g = value >> 8 & 0xFF;
+                        var b = value & 0xFF;
 
-                            tracker.addColour(r, g, b);
-                        }
+                        tracker.addColour(r, g, b);
                     }
                 } else if (stack.getItem() instanceof DyeItem dye) {
                     tracker.addColour(dye.getDyeColor());
@@ -68,7 +70,9 @@ public class RfidBadgeRecipe extends CustomRecipe {
         }
 
         if (item != null && tracker.hasColour()) {
-            item.getOrCreateTag().putInt("color", tracker.getColour());
+            item.applyComponents(DataComponentMap.builder()
+                    .set(ModComponents.NFC_COLOR, tracker.getColour())
+                    .build());
             return item;
         }
 

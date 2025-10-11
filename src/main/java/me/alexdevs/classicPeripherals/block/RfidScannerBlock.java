@@ -1,5 +1,6 @@
 package me.alexdevs.classicPeripherals.block;
 
+import com.mojang.serialization.MapCodec;
 import dan200.computercraft.shared.peripheral.modem.ModemShapes;
 import me.alexdevs.classicPeripherals.tiles.RfidScannerBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -29,6 +30,11 @@ public class RfidScannerBlock extends DirectionalBlock implements EntityBlock {
                 .setValue(ACTIVE, false)
                 .setValue(FACING, Direction.NORTH)
         );
+    }
+
+    @Override
+    protected MapCodec<? extends DirectionalBlock> codec() {
+        return simpleCodec(RfidScannerBlock::new);
     }
 
     @Override

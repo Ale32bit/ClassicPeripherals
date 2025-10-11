@@ -15,7 +15,7 @@
     "sss"
   ],
   "result": {
-    "item": "classicperipherals:rfid_scanner"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "classicperipherals:rfid_scanner"
+  }
 }

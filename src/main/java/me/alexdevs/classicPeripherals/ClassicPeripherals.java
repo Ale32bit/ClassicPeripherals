@@ -64,14 +64,14 @@ public class ClassicPeripherals implements ModInitializer {
         }, ModItems.NFC_CARD);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (tintIndex == 1) {
-                var tag = stack.getOrCreateTag();
-                if (tag.contains("color")) {
-                    return tag.getInt("color");
+            if (tintIndex == 0) {
+                var components = stack.getComponents();
+                if (components.has(ModComponents.NFC_COLOR)) {
+                    return 0xFF_000000 | components.getOrDefault(ModComponents.NFC_COLOR, 0xFFFFFF);
                 }
             }
 
-            return 0xFFFFFF;
+            return 0xFF_FFFFFF;
         }, ModItems.RFID_BADGE);
     }
 }
