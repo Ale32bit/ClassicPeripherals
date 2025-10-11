@@ -2,6 +2,7 @@ package me.alexdevs.classicPeripherals.peripherals;
 
 import dan200.computercraft.api.peripheral.PeripheralCapability;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
+import me.alexdevs.classicPeripherals.tiles.RfidScannerBlockEntity;
 import net.minecraft.core.Direction;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;

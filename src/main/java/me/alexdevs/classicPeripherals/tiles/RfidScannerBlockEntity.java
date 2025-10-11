@@ -23,7 +23,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
     protected final RfidScannerPeripheral peripheral = new RfidScannerPeripheral(this);
 
     public RfidScannerBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockTiles.RFID_SCANNER, pos, blockState);
+        super(ModBlockTiles.RFID_SCANNER.get(), pos, blockState);
     }
 
     @Nullable
@@ -37,7 +37,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
 
     public void scheduleScan() {
         this.getLevel().setBlockAndUpdate(getBlockPos(), getBlockState().setValue(RfidScannerBlock.ACTIVE, true));
-        level.scheduleTick(getBlockPos(), ModBlocks.RFID_SCANNER, 2);
+        level.scheduleTick(getBlockPos(), ModBlocks.RFID_SCANNER.get(), 2);
     }
 
     public void scan() {

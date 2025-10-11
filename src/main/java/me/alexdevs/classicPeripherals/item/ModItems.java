@@ -12,7 +12,7 @@ public class ModItems {
     public static final DeferredItem<NfcCardItem> NFC_CARD = register("nfc_card", () -> new NfcCardItem(new Item.Properties()
             .stacksTo(1)
     ));
-    public static final Item RFID_BADGE = register("rfid_badge", new Item(new Item.Properties()
+    public static final DeferredItem<Item> RFID_BADGE = register("rfid_badge", () -> new Item(new Item.Properties()
             .stacksTo(1)
     ));
 
