@@ -18,6 +18,8 @@ public class Peripherals {
 
             event.registerBlockEntity(PeripheralCapability.get(), ModBlockTiles.NFC_READER.get(),
                     (block, dir) -> block.peripheral());
+
+            event.registerBlockEntity(PeripheralCapability.get(), ModBlockTiles.RFID_SCANNER.get(), RfidScannerBlockEntity::peripheral);
         });
     }
 }

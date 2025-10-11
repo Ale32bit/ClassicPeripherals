@@ -17,6 +17,9 @@ public class ModBlockTiles {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<NfcReaderBlockEntity>> NFC_READER = register("nfc_reader",
             () -> BlockEntityType.Builder.of(NfcReaderBlockEntity::new, ModBlocks.NFC_READER.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RfidScannerBlockEntity>> RFID_SCANNER = register("rfid_scanner",
+            () -> BlockEntityType.Builder.of(RfidScannerBlockEntity::new, ModBlocks.RFID_SCANNER).build(null));
+
     public static <T extends BlockEntityType<?>> DeferredHolder<BlockEntityType<?>, T> register(String path, Supplier<T> blockEntityType) {
         return ClassicPeripherals.BLOCK_ENTITIES.register(path, blockEntityType);
     }

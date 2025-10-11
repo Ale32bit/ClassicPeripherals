@@ -47,6 +47,8 @@ public class ClassicPeripherals {
                                 entries.accept(ModItems.COPPER_COIL);
                                 entries.accept(ModBlocks.NFC_READER);
                                 entries.accept(ModItems.NFC_CARD);
+                                entries.accept(ModBlocks.RFID_SCANNER);
+                                entries.accept(ModItems.RFID_BADGE);
                             }).build());
 
     public ClassicPeripherals(IEventBus modEventBus, ModContainer modContainer) {
