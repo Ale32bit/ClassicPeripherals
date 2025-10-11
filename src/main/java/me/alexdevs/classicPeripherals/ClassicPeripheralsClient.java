@@ -41,5 +41,16 @@ public class ClassicPeripheralsClient {
 
             return 0xFF_FFFFFF;
         }, ModItems.NFC_CARD.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 1) {
+                var components = stack.getComponents();
+                if (components.has(ModComponents.NFC_COLOR.get())) {
+                    return 0xFF_000000 | components.getOrDefault(ModComponents.NFC_COLOR.get(), 0xFFFFFF);
+                }
+            }
+
+            return 0xFF_FFFFFF;
+        }, ModItems.RFID_BADGE.get());
     }
 }
