@@ -93,5 +93,26 @@ public class RecipeGenerator extends FabricRecipeProvider {
 
         SpecialRecipeBuilder.special(NfcCardRecipe::new)
                 .save(output, "nfc_card_dye");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModItems.RFID_BADGE)
+                .pattern(" n ")
+                .pattern("ncn")
+                .pattern(" n ")
+                .define('n', Items.IRON_NUGGET)
+                .define('c', ModItems.COPPER_COIL)
+                .unlockedBy("has_copper", has(Items.COPPER_INGOT))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.RFID_SCANNER)
+                .pattern("sss")
+                .pattern("scs")
+                .pattern("sss")
+                .define('s', Items.STONE)
+                .define('c', ModItems.COPPER_COIL)
+                .unlockedBy("has_copper", has(Items.COPPER_INGOT))
+                .save(output);
+
+        SpecialRecipeBuilder.special(RfidBadgeRecipe::new)
+                .save(output, "rfid_badge_dye");
     }
 }

@@ -25,5 +25,7 @@ public class LanguageGenerator extends FabricLanguageProvider {
 
         builder.add(ModBlocks.NFC_READER, "NFC Reader");
         builder.add(ModItems.NFC_CARD, "NFC Card");
+        builder.add(ModItems.RFID_BADGE, "RFID Badge");
+        builder.add(ModBlocks.RFID_SCANNER, "RFID Scanner");
     }
 }
