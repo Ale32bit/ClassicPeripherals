@@ -17,5 +17,6 @@ public class LootTableGenerator extends FabricBlockLootTableProvider {
         this.dropSelf(ModBlocks.ANTENNA);
 
         this.dropSelf(ModBlocks.NFC_READER);
+        this.dropSelf(ModBlocks.RFID_SCANNER);
     }
 }

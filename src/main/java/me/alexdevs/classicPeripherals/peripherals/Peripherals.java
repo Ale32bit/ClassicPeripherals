@@ -2,6 +2,7 @@ package me.alexdevs.classicPeripherals.peripherals;
 
 import dan200.computercraft.api.peripheral.PeripheralLookup;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
+import me.alexdevs.classicPeripherals.tiles.RfidScannerBlockEntity;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -16,6 +17,7 @@ public class Peripherals {
         peripherals.registerForBlockEntity(ModBlockTiles.TOWER_BASE, (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
         peripherals.registerForBlockEntity(ModBlockTiles.ANTENNA, (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
         peripherals.registerForBlockEntity(ModBlockTiles.NFC_READER, (block, dir) -> block.peripheral());
+        peripherals.registerForBlockEntity(ModBlockTiles.RFID_SCANNER, RfidScannerBlockEntity::peripheral);
     }
 
     public interface BlockComponent<T, C extends @Nullable Object> {
