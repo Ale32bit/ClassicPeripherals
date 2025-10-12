@@ -2,6 +2,8 @@ package me.alexdevs.classicPeripherals.mixin;
 
 import dan200.computercraft.api.peripheral.AttachedComputerSet;
 import dan200.computercraft.shared.peripheral.redstone.RedstoneRelayPeripheral;
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
+import me.alexdevs.classicPeripherals.ClassicPeripheralsConfig;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,7 +19,9 @@ public abstract class RedstoneRelayPeripheralMixin {
 
     @Inject(method = "queueRedstoneEvent", at = @At("HEAD"), cancellable = true)
     private void classicperipherals$addNetworkNameEvent(CallbackInfo ci) {
-        computers.forEach(computer -> computer.queueEvent("redstone", computer.getAttachmentName()));
-        ci.cancel();
+        if (ClassicPeripherals.CONFIG.betterRedstoneRelayEvent) {
+            computers.forEach(computer -> computer.queueEvent("redstone", computer.getAttachmentName()));
+            ci.cancel();
+        }
     }
 }

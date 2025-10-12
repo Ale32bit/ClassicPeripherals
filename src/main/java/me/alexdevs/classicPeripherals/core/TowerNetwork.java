@@ -1,5 +1,6 @@
 package me.alexdevs.classicPeripherals.core;
 
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.tiles.AbstractRadioBlockEntity;
 
 import java.util.HashMap;
@@ -11,7 +12,6 @@ public class TowerNetwork {
     public static final int MIN_FREQUENCY = 0;
     public static final int MAX_FREQUENCY = 0xFFFF;
     public static final int STEP_FREQUENCY = 1;
-    public static final int MAX_MESSAGE_SIZE = 8 * 1024 * 1024; // 8 MiB
 
     public static int getChannel(int frequency) {
         return (frequency - MIN_FREQUENCY) / STEP_FREQUENCY;
@@ -38,7 +38,7 @@ public class TowerNetwork {
 
         var level = sourceTower.getLevel();
         var channel = sourceTower.getChannel();
-        data = data.substring(0, Math.min(data.length(), MAX_MESSAGE_SIZE));
+        data = data.substring(0, Math.min(data.length(), ClassicPeripherals.CONFIG.radioTowerMaxMessageSize));
 
         var receivers = towers.values().stream()
                 .filter(x -> x.getLevel() == level && x.getChannel() == channel && x != sourceTower)

@@ -1,5 +1,6 @@
 package me.alexdevs.classicPeripherals.tiles;
 
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.ModComponents;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.block.NfcReaderBlock;
@@ -15,8 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.Nullable;
 
 public class NfcReaderBlockEntity extends BlockEntity {
-    public static final int MAX_DATA_SIZE = 128;
-
     protected final NfcReaderPeripheral peripheral = new NfcReaderPeripheral(this);
 
     private boolean writeMode = false;
@@ -34,8 +33,10 @@ public class NfcReaderBlockEntity extends BlockEntity {
     }
 
     public void flagWrite(String data, @Nullable String label, Boolean flagReadOnly) {
+        var maxDataSize = ClassicPeripherals.CONFIG.nfcMaxDataSize;
+
         writeMode = true;
-        pendingWriteData = data.substring(0, Math.min(data.length(), MAX_DATA_SIZE));
+        pendingWriteData = data.substring(0, Math.min(data.length(), maxDataSize));
         pendingLabel = label;
         pendingReadOnly = flagReadOnly;
 

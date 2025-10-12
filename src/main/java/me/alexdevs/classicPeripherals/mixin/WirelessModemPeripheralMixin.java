@@ -2,6 +2,7 @@ package me.alexdevs.classicPeripherals.mixin;
 
 import dan200.computercraft.shared.config.Config;
 import dan200.computercraft.shared.peripheral.modem.wireless.WirelessModemPeripheral;
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,11 +27,19 @@ public abstract class WirelessModemPeripheralMixin {
             )
     )
     private boolean classicperipherals$overrideGetRangeAdvanced(WirelessModemPeripheral instance) {
-        return false;
+        if(ClassicPeripherals.CONFIG.enderModemNerf) {
+            return false;
+        }
+
+        return advanced;
     }
 
     @Inject(method = "getRange", at = @At("RETURN"), cancellable = true)
     private void classicperipherals$getRangeValue(CallbackInfoReturnable<Double> cir) {
+        if(!ClassicPeripherals.CONFIG.enderModemNerf) {
+            return;
+        }
+
         if (!advanced)
             return;
 

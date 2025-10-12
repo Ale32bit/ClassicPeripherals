@@ -16,13 +16,26 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLConfig;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.NeoForgeConfig;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.nio.file.Path;
+
 @Mod(ClassicPeripherals.MOD_ID)
 public class ClassicPeripherals {
     public static final String MOD_ID = "classicperipherals";
+    public static final ClassicPeripheralsConfig CONFIG = ClassicPeripheralsConfig.createToml(
+            FMLPaths.CONFIGDIR.get(),
+            "",
+            MOD_ID,
+            ClassicPeripheralsConfig.class
+    );
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MOD_ID);

@@ -1,5 +1,6 @@
 package me.alexdevs.classicPeripherals.tiles;
 
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.block.RfidScannerBlock;
 import me.alexdevs.classicPeripherals.item.ModItems;
@@ -11,15 +12,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RfidScannerBlockEntity extends BlockEntity {
-    public static final int RANGE = 8;
-
     protected final RfidScannerPeripheral peripheral = new RfidScannerPeripheral(this);
 
     public RfidScannerBlockEntity(BlockPos pos, BlockState blockState) {
@@ -54,8 +52,10 @@ public class RfidScannerBlockEntity extends BlockEntity {
         if(level.isClientSide)
             return List.of();
 
+        var range = ClassicPeripherals.CONFIG.rfidScanRange;
+
         var nearbyPlayers = level.players().stream()
-                .filter(player -> player.position().distanceToSqr(origin) <= RANGE * RANGE)
+                .filter(player -> player.position().distanceToSqr(origin) <= range * range)
                 .map(player -> (ServerPlayer)player)
                 .toList();
 
