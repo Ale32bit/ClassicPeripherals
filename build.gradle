@@ -29,6 +29,9 @@ repositories {
         name = 'ParchmentMC'
         url = 'https://maven.parchmentmc.org'
     }
+
+    // Kaleido config
+    maven { url 'https://repo.sleeping.town/' }
 }
 
 dependencies {
@@ -44,6 +47,9 @@ dependencies {
 
     modCompileOnly("cc.tweaked:cc-tweaked-$minecraft_version-fabric-api:$cctVersion")
     modImplementation("cc.tweaked:cc-tweaked-$minecraft_version-fabric:$cctVersion")
+
+    implementation "folk.sisby:kaleido-config:$kaleido_version"
+    include "folk.sisby:kaleido-config:$kaleido_version"
 }
 
 processResources {

@@ -9,6 +9,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -20,6 +21,12 @@ import net.minecraft.world.item.ItemStack;
 
 public class ClassicPeripherals implements ModInitializer {
     public static final String MOD_ID = "classicperipherals";
+    public static final ClassicPeripheralsConfig CONFIG = ClassicPeripheralsConfig.createToml(
+            FabricLoader.getInstance().getConfigDir(),
+            "",
+            MOD_ID,
+            ClassicPeripheralsConfig.class
+    );
 
     public static final ResourceKey<CreativeModeTab> CREATIVE_TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(MOD_ID, "item_group"));
     public static final CreativeModeTab CREATIVE_TAB = FabricItemGroup.builder()

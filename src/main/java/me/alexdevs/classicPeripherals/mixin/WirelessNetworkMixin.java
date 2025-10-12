@@ -3,22 +3,25 @@ package me.alexdevs.classicPeripherals.mixin;
 import dan200.computercraft.api.network.Packet;
 import dan200.computercraft.api.network.PacketReceiver;
 import dan200.computercraft.shared.peripheral.modem.wireless.WirelessNetwork;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import net.minecraft.world.level.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
 
 @Mixin(WirelessNetwork.class)
 public abstract class WirelessNetworkMixin {
-    /**
-     * @author Alessandro "AlexDevs" Proto
-     * @reason Nerfing the ender modem.
-     */
-    @Overwrite(remap = false)
-    private static void tryTransmit(PacketReceiver receiver, Packet packet, double range, boolean interdimensional) {
+    @Inject(method = "tryTransmit", at = @At(value = "HEAD"), remap = false, cancellable = true)
+    private static void tryTransmit(PacketReceiver receiver, Packet packet, double range, boolean interdimensional, CallbackInfo ci) {
+        if(ClassicPeripherals.CONFIG.enderModemNerf) {
+            return;
+        }
+
+        ci.cancel();
+
         var sender = packet.sender();
         if (receiver.getLevel() == sender.getLevel()) {
             var receiveRange = Math.max(range, receiver.getRange()); // Ensure range is symmetrical

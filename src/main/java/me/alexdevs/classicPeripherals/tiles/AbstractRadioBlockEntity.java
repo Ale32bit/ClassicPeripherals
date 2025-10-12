@@ -1,6 +1,7 @@
 package me.alexdevs.classicPeripherals.tiles;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.core.TowerNetwork;
 import me.alexdevs.classicPeripherals.peripherals.RadioPeripheral;
 import net.minecraft.core.BlockPos;
@@ -15,11 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 public abstract class AbstractRadioBlockEntity extends BlockEntity {
-    public static final int MAX_HEIGHT = 24;
-    public static final int MIN_HEIGHT = 2;
-    public static final int SEGMENT_RANGE = 128;
-    public static final double LOSS_FACTOR = 0.15;
-
     protected final Random random = new Random();
 
     protected int towerHeight = 1;
@@ -41,7 +37,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
         super.loadAdditional(nbt, registries);
 
-        if(nbt.contains("radio_channel")) {
+        if (nbt.contains("radio_channel")) {
             setChannel(nbt.getInt("radio_channel"));
         }
     }
@@ -60,7 +56,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AbstractRadioBlockEntity be) {
-        if(!be.initialized) {
+        if (!be.initialized) {
             be.initialized = true;
             be.validate();
         }
@@ -110,12 +106,12 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
         if (!isValid)
             return 0;
 
-        return SEGMENT_RANGE * towerHeight;
+        return towerHeight * ClassicPeripherals.CONFIG.radioTowerSegmentRange;
     }
 
     public int getSafeRange() {
         var range = getMaximumRange();
-        return range - (int) (range * LOSS_FACTOR);
+        return range - (int) (range * ClassicPeripherals.CONFIG.radioTowerLossFactor);
     }
 
     public int getEffectiveMaxRange() {
@@ -132,7 +128,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
     public int getEffectiveSafeRange() {
         var effectiveRange = getEffectiveMaxRange();
-        return effectiveRange - (int) (effectiveRange * LOSS_FACTOR);
+        return effectiveRange - (int) (effectiveRange * ClassicPeripherals.CONFIG.radioTowerLossFactor);
     }
 
     public boolean inRange(AbstractRadioBlockEntity other) {
@@ -142,7 +138,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     }
 
     public void receive(String message, double distance, AbstractRadioBlockEntity source) {
-        if(!isValid()) {
+        if (!isValid()) {
             return;
         }
 
