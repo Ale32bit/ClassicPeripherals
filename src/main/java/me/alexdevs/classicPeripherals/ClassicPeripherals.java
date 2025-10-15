@@ -60,27 +60,5 @@ public class ClassicPeripherals implements ModInitializer {
                 entries.accept(ModItems.RFID_BADGE);
             }
         });
-
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (tintIndex == 0) {
-                var tag = stack.getOrCreateTag();
-                if (tag.contains("color")) {
-                    return tag.getInt("color");
-                }
-            }
-
-            return 0xFFFFFF;
-        }, ModItems.NFC_CARD);
-
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (tintIndex == 1) {
-                var tag = stack.getOrCreateTag();
-                if (tag.contains("color")) {
-                    return tag.getInt("color");
-                }
-            }
-
-            return 0xFFFFFF;
-        }, ModItems.RFID_BADGE);
     }
 }
