@@ -15,7 +15,7 @@ public class AntennaBlockEntity extends AbstractRadioBlockEntity {
     }
 
     @Override
-    public BlockPos getTopPos() {
+    public BlockPos getAntennaPos() {
         return this.getBlockPos();
     }
 
