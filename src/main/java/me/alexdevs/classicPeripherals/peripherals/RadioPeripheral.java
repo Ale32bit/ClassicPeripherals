@@ -7,10 +7,13 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.core.TowerNetwork;
 import me.alexdevs.classicPeripherals.tiles.AbstractRadioBlockEntity;
 import org.jspecify.annotations.Nullable;
+import oshi.annotation.concurrent.GuardedBy;
+
+import java.util.NoSuchElementException;
 
 public class RadioPeripheral implements IPeripheral {
     private final AbstractRadioBlockEntity radioTower;
-    private final AttachedComputerSet computers = new AttachedComputerSet();
+    private final @GuardedBy("computers") AttachedComputerSet computers = new AttachedComputerSet();
 
     public RadioPeripheral(AbstractRadioBlockEntity radioTower) {
         this.radioTower = radioTower;
@@ -37,8 +40,10 @@ public class RadioPeripheral implements IPeripheral {
     }
 
     public void receive(String data, double distance) {
-        computers.forEach(computer ->
-                computer.queueEvent("radio_message", computer.getAttachmentName(), data, distance));
+        synchronized (computers) {
+            computers.forEach(computer ->
+                    computer.queueEvent("radio_message", computer.getAttachmentName(), data, distance));
+        }
     }
 
     @LuaFunction
@@ -46,7 +51,7 @@ public class RadioPeripheral implements IPeripheral {
         return radioTower.isValid();
     }
 
-    @LuaFunction()
+    @LuaFunction
     public final void broadcast(String data) throws LuaException {
         if (!radioTower.isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
@@ -56,8 +61,17 @@ public class RadioPeripheral implements IPeripheral {
             throw new LuaException("This antenna is not capable of broadcasting.");
         }
 
-        radioTower.ping();
         TowerNetwork.broadcast(radioTower, data);
+        try {
+            radioTower.ping();
+        } catch (NoSuchElementException e) {
+            // No op
+        }
+    }
+
+    @LuaFunction
+    public final boolean canBroadcast() {
+        return radioTower.canBroadcast();
     }
 
     @LuaFunction(mainThread = true)

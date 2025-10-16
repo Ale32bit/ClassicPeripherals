@@ -46,7 +46,7 @@ public class TowerNetwork {
 
         for (var receiver : receivers) {
             if (receiver.inRange(sourceTower)) {
-                var distance = receiver.getTopPos().distSqr(sourceTower.getTopPos());
+                var distance = receiver.getAntennaVec().distanceToSqr(sourceTower.getAntennaVec());
                 receiver.receive(data, Math.sqrt(distance), sourceTower);
             }
         }
