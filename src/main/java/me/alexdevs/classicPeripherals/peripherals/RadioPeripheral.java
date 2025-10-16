@@ -8,6 +8,8 @@ import me.alexdevs.classicPeripherals.core.TowerNetwork;
 import me.alexdevs.classicPeripherals.tiles.AbstractRadioBlockEntity;
 import org.jspecify.annotations.Nullable;
 
+import java.util.NoSuchElementException;
+
 public class RadioPeripheral implements IPeripheral {
     private final AbstractRadioBlockEntity radioTower;
     private final AttachedComputerSet computers = new AttachedComputerSet();
@@ -56,8 +58,12 @@ public class RadioPeripheral implements IPeripheral {
             throw new LuaException("This antenna is not capable of broadcasting.");
         }
 
-        radioTower.ping();
         TowerNetwork.broadcast(radioTower, data);
+        try {
+            radioTower.ping();
+        } catch (NoSuchElementException e) {
+            // No op
+        }
     }
 
     @LuaFunction(mainThread = true)

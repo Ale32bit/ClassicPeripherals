@@ -140,7 +140,6 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
             return;
         }
 
-        ping();
         var safeRange = Math.max(this.getEffectiveSafeRange(), source.getEffectiveSafeRange());
         if (distance > safeRange) {
             var maxRange = Math.max(this.getEffectiveMaxRange(), source.getEffectiveMaxRange());
@@ -152,6 +151,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
         final var data = message;
         peripheral.receive(data, distance);
+        ping();
     }
 
     protected String flipString(String data, double percentage) {

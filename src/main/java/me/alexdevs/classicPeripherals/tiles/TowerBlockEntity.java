@@ -6,6 +6,8 @@ import me.alexdevs.classicPeripherals.block.tower.TowerHeadBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.NoSuchElementException;
+
 public class TowerBlockEntity extends AbstractRadioBlockEntity {
 
     public TowerBlockEntity(BlockPos pos, BlockState state) {
@@ -42,8 +44,12 @@ public class TowerBlockEntity extends AbstractRadioBlockEntity {
 
     @Override
     public void ping() {
-        var head = this.level.getBlockState(getTopPos());
-        this.level.setBlockAndUpdate(getTopPos(), head.setValue(TowerHeadBlock.ACTIVE, true));
-        level.scheduleTick(getTopPos(), ModBlocks.TOWER_HEAD, 4);
+        try {
+            var head = this.level.getBlockState(getTopPos());
+            this.level.setBlockAndUpdate(getTopPos(), head.setValue(TowerHeadBlock.ACTIVE, true));
+            level.scheduleTick(getTopPos(), ModBlocks.TOWER_HEAD, 4);
+        } catch (NoSuchElementException e) {
+            // No op
+        }
     }
 }
