@@ -7,12 +7,13 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.core.TowerNetwork;
 import me.alexdevs.classicPeripherals.tiles.AbstractRadioBlockEntity;
 import org.jspecify.annotations.Nullable;
+import oshi.annotation.concurrent.GuardedBy;
 
 import java.util.NoSuchElementException;
 
 public class RadioPeripheral implements IPeripheral {
     private final AbstractRadioBlockEntity radioTower;
-    private final AttachedComputerSet computers = new AttachedComputerSet();
+    private final @GuardedBy("computers") AttachedComputerSet computers = new AttachedComputerSet();
 
     public RadioPeripheral(AbstractRadioBlockEntity radioTower) {
         this.radioTower = radioTower;
@@ -39,8 +40,10 @@ public class RadioPeripheral implements IPeripheral {
     }
 
     public void receive(String data, double distance) {
-        computers.forEach(computer ->
-                computer.queueEvent("radio_message", computer.getAttachmentName(), data, distance));
+        synchronized (computers) {
+            computers.forEach(computer ->
+                    computer.queueEvent("radio_message", computer.getAttachmentName(), data, distance));
+        }
     }
 
     @LuaFunction
@@ -48,7 +51,7 @@ public class RadioPeripheral implements IPeripheral {
         return radioTower.isValid();
     }
 
-    @LuaFunction()
+    @LuaFunction(value = {"data"})
     public final void broadcast(String data) throws LuaException {
         if (!radioTower.isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
@@ -66,7 +69,12 @@ public class RadioPeripheral implements IPeripheral {
         }
     }
 
-    @LuaFunction(mainThread = true)
+    @LuaFunction
+    public final boolean canBroadcast() {
+        return radioTower.canBroadcast();
+    }
+
+    @LuaFunction(mainThread = true, value = {"frequency"})
     public final void setFrequency(ILuaContext context, int frequency) throws LuaException {
         if (frequency < TowerNetwork.MIN_FREQUENCY || frequency > TowerNetwork.MAX_FREQUENCY) {
             throw new LuaException("Frequency out of range. Must be between " + TowerNetwork.MIN_FREQUENCY + " and " + TowerNetwork.MAX_FREQUENCY + ".");
@@ -80,7 +88,7 @@ public class RadioPeripheral implements IPeripheral {
         radioTower.setChannel(channel);
     }
 
-    @LuaFunction
+    @LuaFunction()
     public final int getFrequency() throws LuaException {
         if (!radioTower.isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
