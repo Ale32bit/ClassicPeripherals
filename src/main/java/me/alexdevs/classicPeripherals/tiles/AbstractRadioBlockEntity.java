@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
@@ -21,7 +22,6 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     protected int towerHeight = 1;
     protected boolean isValid = true;
     protected int channel = 0;
-    protected BlockPos topPos;
 
     protected final RadioPeripheral peripheral = new RadioPeripheral(this);
 
@@ -29,7 +29,6 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
     public AbstractRadioBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
         super(blockEntityType, pos, state);
-        topPos = pos;
     }
 
 
@@ -78,6 +77,12 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
     public abstract void ping();
 
+    public abstract BlockPos getAntennaPos();
+
+    public Vec3 getAntennaVec() {
+        return Vec3.atLowerCornerOf(getAntennaPos());
+    }
+
     public int getHeight() {
         return towerHeight;
     }
@@ -86,9 +91,6 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
         return isValid;
     }
 
-    public BlockPos getTopPos() {
-        return topPos;
-    }
 
     public int getChannel() {
         return channel;
@@ -115,7 +117,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     }
 
     public int getEffectiveMaxRange() {
-        var y = this.getTopPos().getY();
+        var y = this.getAntennaPos().getY();
 
         var range = getMaximumRange();
 
@@ -133,7 +135,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
     public boolean inRange(AbstractRadioBlockEntity other) {
         var range = Math.max(this.getMaximumRange(), other.getMaximumRange());
-        var distance = this.topPos.distSqr(other.topPos);
+        var distance = getAntennaPos().distSqr(other.getAntennaPos());
         return distance <= range * range;
     }
 
@@ -142,7 +144,6 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
             return;
         }
 
-        ping();
         var safeRange = Math.max(this.getEffectiveSafeRange(), source.getEffectiveSafeRange());
         if (distance > safeRange) {
             var maxRange = Math.max(this.getEffectiveMaxRange(), source.getEffectiveMaxRange());
@@ -154,6 +155,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
         final var data = message;
         peripheral.receive(data, distance);
+        ping();
     }
 
     protected String flipString(String data, double percentage) {
