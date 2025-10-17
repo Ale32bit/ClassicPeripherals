@@ -1,13 +1,13 @@
 package me.alexdevs.classicPeripherals.core;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.tiles.AbstractRadioBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.RadioPeripheral;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TowerNetwork {
-    private static final Map<Location, AbstractRadioBlockEntity> towers = new HashMap<>();
+    private static final Set<RadioPeripheral> receivers = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public static final int MIN_FREQUENCY = 0;
     public static final int MAX_FREQUENCY = 0xFFFF;
@@ -21,34 +21,41 @@ public class TowerNetwork {
         return channel * STEP_FREQUENCY + MIN_FREQUENCY;
     }
 
-    public static void addTower(AbstractRadioBlockEntity tower) {
-        var location = new Location(tower.getBlockPos(), tower.getLevel());
-        towers.put(location, tower);
+    public static void addReceiver(RadioPeripheral receiver) {
+        Objects.requireNonNull(receiver);
+        receivers.add(receiver);
     }
 
-    public static void removeTower(AbstractRadioBlockEntity tower) {
-        var location = new Location(tower.getBlockPos(), tower.getLevel());
-        towers.remove(location);
+    public static void removeReceiver(RadioPeripheral receiver) {
+        Objects.requireNonNull(receiver);
+        receivers.remove(receiver);
     }
 
-    public static void broadcast(AbstractRadioBlockEntity sourceTower, String data) {
-        if(!sourceTower.canBroadcast()) {
-            throw new IllegalStateException(sourceTower + " cannot broadcast.");
+    public static void broadcast(RadioPeripheral source, String data, double range) {
+        if (!source.canBroadcast()) {
+            return;
         }
 
-        var level = sourceTower.getLevel();
-        var channel = sourceTower.getChannel();
         data = data.substring(0, Math.min(data.length(), ClassicPeripherals.CONFIG.radioTowerMaxMessageSize));
 
-        var receivers = towers.values().stream()
-                .filter(x -> x.getLevel() == level && x.getChannel() == channel && x != sourceTower)
-                .toList();
-
         for (var receiver : receivers) {
-            if (receiver.inRange(sourceTower)) {
-                var distance = receiver.getAntennaVec().distanceToSqr(sourceTower.getAntennaVec());
-                receiver.receive(data, Math.sqrt(distance), sourceTower);
-            }
+            tryBroadcast(source, receiver, data, range);
+        }
+    }
+
+    private static void tryBroadcast(RadioPeripheral sender, RadioPeripheral receiver, String data, double range) {
+        if (sender == receiver) {
+            return;
+        }
+
+        if (sender.getLevel() != receiver.getLevel()) {
+            return;
+        }
+
+        var receiveRange = Math.max(range, receiver.getRange());
+        var distanceSquared = receiver.getPosition().distanceToSqr(sender.getPosition());
+        if (distanceSquared <= receiveRange * receiveRange) {
+            receiver.receive(data, Math.sqrt(distanceSquared), receiveRange);
         }
     }
 }
