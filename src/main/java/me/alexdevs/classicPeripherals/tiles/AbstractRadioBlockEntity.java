@@ -135,7 +135,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
     public boolean inRange(AbstractRadioBlockEntity other) {
         var range = Math.max(this.getMaximumRange(), other.getMaximumRange());
-        var distance = getAntennaPos().distSqr(other.getAntennaPos());
+        var distance = getAntennaPos().atY(255).distSqr(other.getAntennaPos().atY(255));
         return distance <= range * range;
     }
 
