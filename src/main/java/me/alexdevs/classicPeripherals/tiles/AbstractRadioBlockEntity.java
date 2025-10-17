@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
@@ -20,11 +19,10 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
     protected int towerHeight = 1;
     protected boolean isValid = true;
-    protected int channel = 0;
-
     protected final RadioPeripheral peripheral = new RadioPeripheral(this);
-
     protected boolean initialized = false;
+    protected int pingTicks = 4;
+    protected long lastPing = 0;
 
     public AbstractRadioBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
         super(blockEntityType, pos, state);
@@ -35,7 +33,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
         super.load(nbt);
 
         if (nbt.contains("radio_channel")) {
-            setChannel(nbt.getInt("radio_channel"));
+            peripheral.setChannel(nbt.getInt("radio_channel"));
         }
     }
 
@@ -43,7 +41,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag nbt) {
         super.saveAdditional(nbt);
 
-        nbt.putInt("radio_channel", getChannel());
+        nbt.putInt("radio_channel", peripheral.getChannel());
     }
 
     @Override
@@ -56,7 +54,21 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
         if (!be.initialized) {
             be.initialized = true;
             be.validate();
+        } else if (be.isValid) {
+            // Skip the first ever tick
+            var time = level.getGameTime();
+
+            var delta = time - be.lastPing;
+            if (delta == 0) {
+                be.onPing();
+            } else if (delta >= be.pingTicks) {
+                be.afterPing();
+            }
         }
+    }
+
+    public static double getSafeRange(double maxRange) {
+        return maxRange - (maxRange * ClassicPeripherals.CONFIG.radioTowerLossFactor);
     }
 
     public boolean canBroadcast() {
@@ -65,21 +77,25 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
     public void validate() {
         isValid = true;
-        TowerNetwork.addTower(this);
+        TowerNetwork.addReceiver(peripheral);
     }
 
     public void invalidate() {
         isValid = false;
-        TowerNetwork.removeTower(this);
+        TowerNetwork.removeReceiver(peripheral);
     }
 
-    public abstract void ping();
+    public void ping() {
+        if (level != null) {
+            lastPing = level.getGameTime();
+        }
+    }
+
+    protected abstract void onPing();
+
+    protected abstract void afterPing();
 
     public abstract BlockPos getAntennaPos();
-
-    public Vec3 getAntennaVec() {
-        return Vec3.atLowerCornerOf(getAntennaPos());
-    }
 
     public int getHeight() {
         return towerHeight;
@@ -90,14 +106,6 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     }
 
 
-    public int getChannel() {
-        return channel;
-    }
-
-    public void setChannel(int channel) {
-        this.channel = channel;
-    }
-
     public IPeripheral peripheral() {
         return peripheral;
     }
@@ -107,11 +115,6 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
             return 0;
 
         return towerHeight * ClassicPeripherals.CONFIG.radioTowerSegmentRange;
-    }
-
-    public int getSafeRange() {
-        var range = getMaximumRange();
-        return range - (int) (range * ClassicPeripherals.CONFIG.radioTowerLossFactor);
     }
 
     public int getEffectiveMaxRange() {
@@ -126,37 +129,13 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
         return Math.max(8, (int) (96 * (1 - Math.pow(Math.E, -0.05 * y)) / 100d * range));
     }
 
-    public int getEffectiveSafeRange() {
-        var effectiveRange = getEffectiveMaxRange();
-        return effectiveRange - (int) (effectiveRange * ClassicPeripherals.CONFIG.radioTowerLossFactor);
-    }
-
     public boolean inRange(AbstractRadioBlockEntity other) {
         var range = Math.max(this.getMaximumRange(), other.getMaximumRange());
         var distance = getAntennaPos().atY(255).distSqr(other.getAntennaPos().atY(255));
         return distance <= range * range;
     }
 
-    public void receive(String message, double distance, AbstractRadioBlockEntity source) {
-        if (!isValid()) {
-            return;
-        }
-
-        var safeRange = Math.max(this.getEffectiveSafeRange(), source.getEffectiveSafeRange());
-        if (distance > safeRange) {
-            var maxRange = Math.max(this.getEffectiveMaxRange(), source.getEffectiveMaxRange());
-            var unsafeRange = maxRange - safeRange;
-            var distanceInUnsafe = distance - safeRange;
-            var corruption = distanceInUnsafe / unsafeRange;
-            message = flipString(message, corruption);
-        }
-
-        final var data = message;
-        peripheral.receive(data, distance);
-        ping();
-    }
-
-    protected String flipString(String data, double percentage) {
+    public String flipString(String data, double percentage) {
         var bytes = data.getBytes(StandardCharsets.US_ASCII);
         var total = bytes.length * 8;
         var toFlip = (int) Math.ceil(total * percentage);
