@@ -94,6 +94,14 @@ jar {
     }
 }
 
+remapJar {
+    archiveClassifier.set("fabric-${minecraft_version}")
+}
+
+remapSourcesJar {
+    archiveClassifier.set("fabric-${minecraft_version}-sources")
+}
+
 // configure the maven publication
 publishing {
     publications {
