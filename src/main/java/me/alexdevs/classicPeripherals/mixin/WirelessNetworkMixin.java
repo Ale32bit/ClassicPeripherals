@@ -16,7 +16,7 @@ import java.awt.*;
 public abstract class WirelessNetworkMixin {
     @Inject(method = "tryTransmit", at = @At(value = "HEAD"), remap = false, cancellable = true)
     private static void tryTransmit(PacketReceiver receiver, Packet packet, double range, boolean interdimensional, CallbackInfo ci) {
-        if(ClassicPeripherals.CONFIG.enderModemNerf) {
+        if (!ClassicPeripherals.CONFIG.enderModemNerf) {
             return;
         }
 
@@ -40,7 +40,7 @@ public abstract class WirelessNetworkMixin {
                 var receiverPos = receiver.getPosition().multiply(scale, 1d, scale);
                 var distanceSq = receiverPos.distanceToSqr(sender.getPosition());
 
-                if(Math.sqrt(distanceSq) <= 8d) {
+                if (Math.sqrt(distanceSq) <= 8d) {
                     receiver.receiveDifferentDimension(packet);
                 }
             }
