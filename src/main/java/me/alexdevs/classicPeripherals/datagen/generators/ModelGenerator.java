@@ -1,5 +1,6 @@
 package me.alexdevs.classicPeripherals.datagen.generators;
 
+import dan200.computercraft.api.ComputerCraftAPI;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.block.NfcReaderBlock;
@@ -24,10 +25,21 @@ import static net.minecraft.data.models.model.ModelLocationUtils.getModelLocatio
 import static net.minecraft.data.models.model.TextureMapping.getItemTexture;
 
 public class ModelGenerator extends FabricModelProvider {
-    public static final ModelTemplate RFID_SCANNER_MODEL = new ModelTemplate(
+    private static final ModelTemplate RFID_SCANNER_MODEL = new ModelTemplate(
             Optional.of(new ResourceLocation(ClassicPeripherals.MOD_ID, "block/rfid_scanner_base")),
             Optional.empty(),
             TextureSlot.ALL
+    );
+
+    private static final ModelTemplate TURTLE_UPGRADE_LEFT = new ModelTemplate(
+            Optional.of(new ResourceLocation(ComputerCraftAPI.MOD_ID, "block/turtle_upgrade_base_left")),
+            Optional.of("_left"),
+            TextureSlot.TEXTURE
+    );
+    private static final ModelTemplate TURTLE_UPGRADE_RIGHT = new ModelTemplate(
+            Optional.of(new ResourceLocation(ComputerCraftAPI.MOD_ID, "block/turtle_upgrade_base_right")),
+            Optional.of("_left"),
+            TextureSlot.TEXTURE
     );
 
     public ModelGenerator(FabricDataOutput output) {
@@ -43,6 +55,8 @@ public class ModelGenerator extends FabricModelProvider {
 
         createNfcReaderModel(generators, ModBlocks.NFC_READER);
         createRfidScannerModel(generators, ModBlocks.RFID_SCANNER);
+
+        registerTurtleUpgrade(generators, "block/turtle_radio", "block/turtle_radio_face");
     }
 
     @Override
@@ -95,6 +109,19 @@ public class ModelGenerator extends FabricModelProvider {
                 })));
 
         generators.delegateItemModel(block, getModelLocation(block));
+    }
+
+    private static void registerTurtleUpgrade(BlockModelGenerators generators, String name, String texture) {
+        TURTLE_UPGRADE_LEFT.create(
+                new ResourceLocation(ClassicPeripherals.MOD_ID, name + "_left"),
+                TextureMapping.defaultTexture(new ResourceLocation(ClassicPeripherals.MOD_ID, texture)),
+                generators.modelOutput
+        );
+        TURTLE_UPGRADE_RIGHT.create(
+                new ResourceLocation(ClassicPeripherals.MOD_ID, name + "_right"),
+                TextureMapping.defaultTexture(new ResourceLocation(ClassicPeripherals.MOD_ID, texture)),
+                generators.modelOutput
+        );
     }
 
     private static <T extends Comparable<T>> PropertyDispatch createModelDispatch(Property<T> property, Function<T, ResourceLocation> makeModel) {
