@@ -60,6 +60,6 @@ public class TowerBlockEntity extends AbstractRadioBlockEntity {
 
     @Override
     public BlockPos getAntennaPos() {
-        return headPos;
+        return getBlockPos().above(towerHeight - 1);
     }
 }

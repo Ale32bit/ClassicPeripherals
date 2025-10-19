@@ -1,5 +1,7 @@
 package me.alexdevs.classicPeripherals.tiles;
 
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
+import me.alexdevs.classicPeripherals.ClassicPeripheralsConfig;
 import me.alexdevs.classicPeripherals.block.antenna.AntennaBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,7 +24,7 @@ public class AntennaBlockEntity extends AbstractRadioBlockEntity {
 
     @Override
     public boolean canBroadcast() {
-        return false;
+        return ClassicPeripherals.CONFIG.antennaCanBroadcast;
     }
 
     @Override
