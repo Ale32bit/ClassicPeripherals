@@ -52,6 +52,11 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
         }
 
         @Override
+        public int getHeight() {
+            return be.getHeight();
+        }
+
+        @Override
         public boolean equals(@Nullable IPeripheral other) {
             return this == other || (other instanceof RadioPeripheral o && be == o.be);
         }
