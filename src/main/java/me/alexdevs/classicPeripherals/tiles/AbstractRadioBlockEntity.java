@@ -3,7 +3,7 @@ package me.alexdevs.classicPeripherals.tiles;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.core.TowerNetwork;
-import me.alexdevs.classicPeripherals.peripherals.RadioPeripheral;
+import me.alexdevs.classicPeripherals.peripherals.AbstractRadioPeripheral;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -11,12 +11,51 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
 public abstract class AbstractRadioBlockEntity extends BlockEntity {
-    protected final Random random = new Random();
+    public static class RadioPeripheral extends AbstractRadioPeripheral {
+        private final AbstractRadioBlockEntity be;
+        public RadioPeripheral(AbstractRadioBlockEntity be) {
+            this.be = be;
+        }
+
+        @Override
+        public boolean isValid() {
+            return be.isValid();
+        }
+
+        @Override
+        public Level getLevel() {
+            return be.getLevel();
+        }
+
+        @Override
+        public Vec3 getPosition() {
+            return Vec3.atLowerCornerOf(be.getAntennaPos());
+        }
+
+        @Override
+        public double getRange() {
+            return be.getEffectiveMaxRange();
+        }
+
+        @Override
+        public void ping() {
+            be.ping();
+        }
+
+        @Override
+        public boolean canBroadcast() {
+            return be.canBroadcast();
+        }
+
+        @Override
+        public boolean equals(@Nullable IPeripheral other) {
+            return this == other || (other instanceof RadioPeripheral o && be == o.be);
+        }
+    }
 
     protected int towerHeight = 1;
     protected boolean isValid = true;
@@ -129,25 +168,5 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
         }
 
         return Math.max(8, (int) (96 * (1 - Math.pow(Math.E, -0.05 * y)) / 100d * range));
-    }
-
-    public boolean inRange(AbstractRadioBlockEntity other) {
-        var range = Math.max(this.getMaximumRange(), other.getMaximumRange());
-        var distance = getAntennaPos().atY(255).distSqr(other.getAntennaPos().atY(255));
-        return distance <= range * range;
-    }
-
-    public String flipString(String data, double percentage) {
-        var bytes = data.getBytes(StandardCharsets.US_ASCII);
-        var total = bytes.length * 8;
-        var toFlip = (int) Math.ceil(total * percentage);
-
-        for (int i = 0; i < toFlip; i++) {
-            var bit = random.nextInt(total);
-            var byteIndex = bit / 8;
-            var bitIndex = bit % 8;
-            bytes[byteIndex] ^= (byte) (1 << bitIndex);
-        }
-        return new String(bytes, StandardCharsets.US_ASCII);
     }
 }

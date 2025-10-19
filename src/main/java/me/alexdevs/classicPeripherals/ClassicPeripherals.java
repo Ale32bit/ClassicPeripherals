@@ -5,6 +5,7 @@ import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
+import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -42,6 +43,7 @@ public class ClassicPeripherals implements ModInitializer {
         ModItems.initialize();
         Peripherals.register();
         ModRecipes.initialize();
+        ModUpgrades.initialize();
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CREATIVE_TAB_KEY, CREATIVE_TAB);
 
@@ -58,27 +60,5 @@ public class ClassicPeripherals implements ModInitializer {
                 entries.accept(ModItems.RFID_BADGE);
             }
         });
-
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (tintIndex == 0) {
-                var components = stack.getComponents();
-                if (components.has(ModComponents.NFC_COLOR)) {
-                    return 0xFF_000000 | components.getOrDefault(ModComponents.NFC_COLOR, 0xFFFFFF);
-                }
-            }
-
-            return 0xFF_FFFFFF;
-        }, ModItems.NFC_CARD);
-
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (tintIndex == 0) {
-                var components = stack.getComponents();
-                if (components.has(ModComponents.NFC_COLOR)) {
-                    return 0xFF_000000 | components.getOrDefault(ModComponents.NFC_COLOR, 0xFFFFFF);
-                }
-            }
-
-            return 0xFF_FFFFFF;
-        }, ModItems.RFID_BADGE);
     }
 }
