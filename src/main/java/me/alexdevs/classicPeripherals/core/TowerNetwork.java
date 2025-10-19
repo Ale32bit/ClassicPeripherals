@@ -1,13 +1,13 @@
 package me.alexdevs.classicPeripherals.core;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.peripherals.RadioPeripheral;
+import me.alexdevs.classicPeripherals.peripherals.AbstractRadioPeripheral;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TowerNetwork {
-    private static final Set<RadioPeripheral> receivers = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private static final Set<AbstractRadioPeripheral> receivers = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public static final int MIN_FREQUENCY = 0;
     public static final int MAX_FREQUENCY = 0xFFFF;
@@ -21,17 +21,17 @@ public class TowerNetwork {
         return channel * STEP_FREQUENCY + MIN_FREQUENCY;
     }
 
-    public static void addReceiver(RadioPeripheral receiver) {
+    public static void addReceiver(AbstractRadioPeripheral receiver) {
         Objects.requireNonNull(receiver);
         receivers.add(receiver);
     }
 
-    public static void removeReceiver(RadioPeripheral receiver) {
+    public static void removeReceiver(AbstractRadioPeripheral receiver) {
         Objects.requireNonNull(receiver);
         receivers.remove(receiver);
     }
 
-    public static void broadcast(RadioPeripheral source, String data, double range) {
+    public static void broadcast(AbstractRadioPeripheral source, String data, double range) {
         if (!source.canBroadcast()) {
             return;
         }
@@ -43,12 +43,16 @@ public class TowerNetwork {
         }
     }
 
-    private static void tryBroadcast(RadioPeripheral sender, RadioPeripheral receiver, String data, double range) {
+    private static void tryBroadcast(AbstractRadioPeripheral sender, AbstractRadioPeripheral receiver, String data, double range) {
         if (sender == receiver) {
             return;
         }
 
         if (sender.getLevel() != receiver.getLevel()) {
+            return;
+        }
+
+        if(sender.getChannel() != receiver.getChannel()) {
             return;
         }
 

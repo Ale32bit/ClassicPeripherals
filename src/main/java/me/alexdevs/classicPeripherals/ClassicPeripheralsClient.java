@@ -1,6 +1,13 @@
 package me.alexdevs.classicPeripherals;
 
+import dan200.computercraft.api.ComputerCraftAPI;
+import dan200.computercraft.api.ForgeComputerCraftAPI;
+import dan200.computercraft.api.client.turtle.RegisterTurtleModellersEvent;
+import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
+import dan200.computercraft.core.computer.Computer;
 import me.alexdevs.classicPeripherals.item.ModItems;
+import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -52,5 +59,21 @@ public class ClassicPeripheralsClient {
 
             return 0xFF_FFFFFF;
         }, ModItems.RFID_BADGE.get());
+    }
+
+    @SubscribeEvent
+    public static void onUpgradeModeller(RegisterTurtleModellersEvent event) {
+        event.register(ModUpgrades.TURTLE_RADIO, TurtleUpgradeModeller.sided(
+                model("turtle_radio_left"),
+                model("turtle_radio_right")
+        ));
+    }
+
+    private static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, path);
+    }
+
+    private static ResourceLocation model(String path) {
+        return id("block/" + path);
     }
 }

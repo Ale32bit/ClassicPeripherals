@@ -1,31 +1,29 @@
 package me.alexdevs.classicPeripherals;
 
+import dan200.computercraft.api.pocket.IPocketUpgrade;
+import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
+import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.loading.FMLConfig;
 import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.NeoForgeConfig;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.nio.file.Path;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 @Mod(ClassicPeripherals.MOD_ID)
 public class ClassicPeripherals {
@@ -67,6 +65,7 @@ public class ClassicPeripherals {
     public ClassicPeripherals(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::onDataGen);
+        modEventBus.addListener(this::registerUpgrades);
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
@@ -90,5 +89,19 @@ public class ClassicPeripherals {
     public void onDataGen(final GatherDataEvent event) {
         // use fabric's
         //ClassicPeripheralsDataGenerator.register(event);
+    }
+
+    private void registerUpgrades(RegisterEvent event) {
+        event.register(
+                IPocketUpgrade.typeRegistry(),
+                ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "radio"),
+                () -> ModUpgrades.POCKET_RADIO
+        );
+
+        event.register(
+                ITurtleUpgrade.typeRegistry(),
+                ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "radio"),
+                () -> ModUpgrades.TURTLE_RADIO
+        );
     }
 }

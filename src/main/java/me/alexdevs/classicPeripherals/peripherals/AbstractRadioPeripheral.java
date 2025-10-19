@@ -8,26 +8,19 @@ import me.alexdevs.classicPeripherals.core.TowerNetwork;
 import me.alexdevs.classicPeripherals.tiles.AbstractRadioBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.Nullable;
 import oshi.annotation.concurrent.GuardedBy;
 
-public class RadioPeripheral implements IPeripheral {
-    private final AbstractRadioBlockEntity tile;
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
+
+public abstract class AbstractRadioPeripheral implements IPeripheral {
     private final @GuardedBy("computers") AttachedComputerSet computers = new AttachedComputerSet();
     private int channel = 0;
-
-    public RadioPeripheral(AbstractRadioBlockEntity tile) {
-        this.tile = tile;
-    }
+    protected final Random random = new Random();
 
     @Override
     public String getType() {
         return "radio_tower";
-    }
-
-    @Override
-    public boolean equals(@Nullable IPeripheral other) {
-        return this == other || (other instanceof RadioPeripheral o && tile == o.tile);
     }
 
     @Override
@@ -46,20 +39,20 @@ public class RadioPeripheral implements IPeripheral {
         }
     }
 
-    public Level getLevel() {
-        return tile.getLevel();
-    }
+    public abstract boolean isValid();
 
-    public Vec3 getPosition() {
-        return Vec3.atLowerCornerOf(tile.getBlockPos());
-    }
+    public abstract Level getLevel();
 
-    public double getRange() {
-        return tile.getEffectiveMaxRange();
-    }
+    public abstract Vec3 getPosition();
 
-    public AbstractRadioBlockEntity getTile() {
-        return tile;
+    public abstract double getRange();
+
+    public abstract void ping();
+
+    public abstract boolean canBroadcast();
+
+    public int getHeight() {
+        return 1;
     }
 
     public int getChannel() {
@@ -68,6 +61,20 @@ public class RadioPeripheral implements IPeripheral {
 
     public void setChannel(int channel) {
         this.channel = channel;
+    }
+
+    public String flipString(String data, double percentage) {
+        var bytes = data.getBytes(StandardCharsets.US_ASCII);
+        var total = bytes.length * 8;
+        var toFlip = (int) Math.ceil(total * percentage);
+
+        for (int i = 0; i < toFlip; i++) {
+            var bit = random.nextInt(total);
+            var byteIndex = bit / 8;
+            var bitIndex = bit % 8;
+            bytes[byteIndex] ^= (byte) (1 << bitIndex);
+        }
+        return new String(bytes, StandardCharsets.US_ASCII);
     }
 
     public void receive(String data, double distance, double range) {
@@ -80,7 +87,7 @@ public class RadioPeripheral implements IPeripheral {
             var unsafeRange = range - safeRange;
             var distanceInUnsafe = distance - safeRange;
             var corruption = distanceInUnsafe / unsafeRange;
-            data = tile.flipString(data, corruption);
+            data = flipString(data, corruption);
         }
 
         final var mutatedData = data;
@@ -90,40 +97,40 @@ public class RadioPeripheral implements IPeripheral {
                     computer.queueEvent("radio_message", computer.getAttachmentName(), mutatedData, distance));
         }
 
-        tile.ping();
+        ping();
     }
 
-    @LuaFunction
-    public final boolean isValid() {
-        return tile.isValid();
+    @LuaFunction("isValid")
+    public final boolean LuaIsValid() {
+        return isValid();
     }
 
-    @LuaFunction
-    public final void broadcast(String data) throws LuaException {
-        if (!tile.isValid()) {
+    @LuaFunction("broadcast")
+    public final void LuaBroadcast(String data) throws LuaException {
+        if (!isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
-        if (!tile.canBroadcast()) {
+        if (!canBroadcast()) {
             throw new LuaException("This antenna is not capable of broadcasting.");
         }
 
-        TowerNetwork.broadcast(this, data, tile.getEffectiveMaxRange());
-        tile.ping();
+        TowerNetwork.broadcast(this, data, getRange());
+        ping();
     }
 
-    @LuaFunction
-    public final boolean canBroadcast() {
-        return tile.canBroadcast();
+    @LuaFunction("canBroadcast")
+    public final boolean LuaCanBroadcast() {
+        return canBroadcast();
     }
 
-    @LuaFunction(mainThread = true)
-    public final void setFrequency(ILuaContext context, int frequency) throws LuaException {
+    @LuaFunction(mainThread = true, value = "setFrequency")
+    public final void LuaSetFrequency(ILuaContext context, int frequency) throws LuaException {
         if (frequency < TowerNetwork.MIN_FREQUENCY || frequency > TowerNetwork.MAX_FREQUENCY) {
             throw new LuaException("Frequency out of range. Must be between " + TowerNetwork.MIN_FREQUENCY + " and " + TowerNetwork.MAX_FREQUENCY + ".");
         }
 
-        if (!tile.isValid()) {
+        if (!isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
@@ -131,9 +138,9 @@ public class RadioPeripheral implements IPeripheral {
         this.setChannel(channel);
     }
 
-    @LuaFunction
-    public final int getFrequency() throws LuaException {
-        if (!tile.isValid()) {
+    @LuaFunction("getFrequency")
+    public final int LuaGetFrequency() throws LuaException {
+        if (!isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
@@ -141,12 +148,12 @@ public class RadioPeripheral implements IPeripheral {
         return TowerNetwork.getFrequency(channel);
     }
 
-    @LuaFunction
-    public final int getHeight() throws LuaException {
-        if (!tile.isValid()) {
+    @LuaFunction("getHeight")
+    public final int LuaGetHeight() throws LuaException {
+        if (!isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
-        return tile.getHeight();
+        return getHeight();
     }
 }
