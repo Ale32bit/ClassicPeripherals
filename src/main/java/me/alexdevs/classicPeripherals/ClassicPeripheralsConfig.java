@@ -27,6 +27,9 @@ public class ClassicPeripheralsConfig extends WrappedConfig {
     @IntegerRange(min = 1, max = Integer.MAX_VALUE)
     public int radioTowerMaxMessageSize = 8 * 1024 * 1024;
 
+    @Comment("Whether the Mini Antenna can broadcast instead of just receiving.")
+    public boolean antennaCanBroadcast = true;
+
     @Comment("The maximum size in bytes of the NFC card and RFID badge data.")
     @IntegerRange(min = 1, max = Integer.MAX_VALUE)
     public int nfcMaxDataSize = 128;
