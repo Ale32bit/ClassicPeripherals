@@ -23,6 +23,16 @@ public class AntennaBlockEntity extends AbstractRadioBlockEntity {
     }
 
     @Override
+    public int getMaximumRange() {
+        return 0;
+    }
+
+    @Override
+    public int getEffectiveMaxRange() {
+        return 0;
+    }
+
+    @Override
     public boolean canBroadcast() {
         return ClassicPeripherals.CONFIG.antennaCanBroadcast;
     }
