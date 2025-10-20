@@ -7,6 +7,7 @@ import dan200.computercraft.api.turtle.ITurtleAccess;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import dan200.computercraft.api.turtle.TurtleSide;
 import dan200.computercraft.api.turtle.TurtleUpgradeType;
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.peripherals.AbstractRadioPeripheral;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -49,7 +50,7 @@ public class TurtleRadio implements ITurtleUpgrade {
 
         @Override
         public boolean canBroadcast() {
-            return false;
+            return ClassicPeripherals.CONFIG.antennaCanBroadcast;
         }
 
         @Override

@@ -47,7 +47,7 @@ public class PocketRadio implements IPocketUpgrade {
 
         @Override
         public boolean canBroadcast() {
-            return false;
+            return ClassicPeripherals.CONFIG.antennaCanBroadcast;
         }
 
         @Override
