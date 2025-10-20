@@ -3,6 +3,7 @@ package me.alexdevs.classicPeripherals.upgrades.radio;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.*;
 import dan200.computercraft.api.upgrades.UpgradeType;
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.peripherals.AbstractRadioPeripheral;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.minecraft.world.item.ItemStack;
@@ -45,7 +46,7 @@ public class TurtleRadio extends AbstractTurtleUpgrade {
 
         @Override
         public boolean canBroadcast() {
-            return false;
+            return ClassicPeripherals.CONFIG.antennaCanBroadcast;
         }
 
         @Override
