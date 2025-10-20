@@ -5,13 +5,9 @@ import dan200.computercraft.api.pocket.AbstractPocketUpgrade;
 import dan200.computercraft.api.pocket.IPocketAccess;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.upgrades.UpgradeType;
-import dan200.computercraft.shared.ModRegistry;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.peripherals.AbstractRadioPeripheral;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
-import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -52,7 +48,7 @@ public class PocketRadio extends AbstractPocketUpgrade {
 
         @Override
         public boolean canBroadcast() {
-            return false;
+            return ClassicPeripherals.CONFIG.antennaCanBroadcast;
         }
 
         @Override
