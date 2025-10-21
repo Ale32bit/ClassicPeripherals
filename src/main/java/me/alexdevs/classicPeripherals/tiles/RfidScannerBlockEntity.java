@@ -38,7 +38,6 @@ public class RfidScannerBlockEntity extends BlockEntity {
         if(scanner.scheduleScan) {
             scanner.scanAt = level.getGameTime() + SCAN_TIME;
             scanner.getLevel().setBlockAndUpdate(pos, state.setValue(RfidScannerBlock.ACTIVE, true));
-            level.scheduleTick(pos, ModBlocks.RFID_SCANNER, 2);
             scanner.scheduleScan = false;
         }
 
