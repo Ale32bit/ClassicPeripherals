@@ -9,8 +9,10 @@ import me.alexdevs.classicPeripherals.peripherals.RfidScannerPeripheral;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,10 +20,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RfidScannerBlockEntity extends BlockEntity {
+    public static final int SCAN_TIME = 4;
+
     protected final RfidScannerPeripheral peripheral = new RfidScannerPeripheral(this);
+    private long scanAt = 0;
+    private boolean scheduleScan = false;
 
     public RfidScannerBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockTiles.RFID_SCANNER, pos, blockState);
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, RfidScannerBlockEntity scanner) {
+        if(level.isClientSide) {
+            return;
+        }
+
+        if(scanner.scheduleScan) {
+            scanner.scanAt = level.getGameTime() + SCAN_TIME;
+            scanner.getLevel().setBlockAndUpdate(pos, state.setValue(RfidScannerBlock.ACTIVE, true));
+            level.scheduleTick(pos, ModBlocks.RFID_SCANNER, 2);
+            scanner.scheduleScan = false;
+        }
+
+        if(level.getGameTime() >= scanner.scanAt) {
+            scanner.scan();
+            scanner.getLevel().setBlockAndUpdate(pos, state.setValue(RfidScannerBlock.ACTIVE, false));
+        }
     }
 
     @Nullable
@@ -34,8 +58,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
     }
 
     public void scheduleScan() {
-        this.getLevel().setBlockAndUpdate(getBlockPos(), getBlockState().setValue(RfidScannerBlock.ACTIVE, true));
-        level.scheduleTick(getBlockPos(), ModBlocks.RFID_SCANNER, 2);
+        scheduleScan = true;
     }
 
     public void scan() {

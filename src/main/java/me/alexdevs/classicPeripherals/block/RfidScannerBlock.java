@@ -1,16 +1,18 @@
 package me.alexdevs.classicPeripherals.block;
 
 import dan200.computercraft.shared.peripheral.modem.ModemShapes;
+import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
 import me.alexdevs.classicPeripherals.tiles.RfidScannerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -76,14 +78,16 @@ public class RfidScannerBlock extends DirectionalBlock implements EntityBlock {
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        level.setBlockAndUpdate(pos, state.setValue(ACTIVE, false));
-
-        var be = level.getBlockEntity(pos);
-        if(be instanceof RfidScannerBlockEntity scanner) {
-            if(!level.isClientSide) {
-                scanner.scan();
-            }
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        if (!level.isClientSide) {
+            return createTickerHelper(type, ModBlockTiles.RFID_SCANNER, RfidScannerBlockEntity::tick);
         }
+        return null;
+    }
+
+    @Nullable
+    @SuppressWarnings("unchecked")
+    protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(BlockEntityType<A> serverType, BlockEntityType<E> clientType, BlockEntityTicker<? super E> ticker) {
+        return clientType == serverType ? (BlockEntityTicker<A>) ticker : null;
     }
 }
