@@ -64,7 +64,7 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
     }
 
     public String flipString(String data, double percentage) {
-        var bytes = data.getBytes(StandardCharsets.US_ASCII);
+        var bytes = data.getBytes(StandardCharsets.ISO_8859_1);
         var total = bytes.length * 8;
         var toFlip = (int) Math.ceil(total * percentage);
 
@@ -74,7 +74,7 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
             var bitIndex = bit % 8;
             bytes[byteIndex] ^= (byte) (1 << bitIndex);
         }
-        return new String(bytes, StandardCharsets.US_ASCII);
+        return new String(bytes, StandardCharsets.ISO_8859_1);
     }
 
     public void receive(String data, double distance, double range) {
