@@ -56,7 +56,7 @@ public class TurtleRadio extends AbstractTurtleUpgrade {
     }
 
     public TurtleRadio(ItemStack stack) {
-        super(TurtleUpgradeType.PERIPHERAL, "radio", stack);
+        super(TurtleUpgradeType.PERIPHERAL, "upgrade.radio.adjective", stack);
     }
 
     @Override
