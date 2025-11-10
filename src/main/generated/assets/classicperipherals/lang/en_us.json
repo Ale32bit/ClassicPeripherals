@@ -8,5 +8,6 @@
   "item.classicperipherals.copper_coil": "Copper Coil",
   "item.classicperipherals.nfc_card": "NFC Card",
   "item.classicperipherals.rfid_badge": "RFID Badge",
-  "itemGroup.classicperipherals": "Classic Peripherals"
+  "itemGroup.classicperipherals": "Classic Peripherals",
+  "upgrade.radio.adjective": "Radio"
 }

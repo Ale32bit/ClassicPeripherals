@@ -84,7 +84,7 @@ public class TurtleRadio implements ITurtleUpgrade {
 
     @Override
     public String getUnlocalisedAdjective() {
-        return "Radio";
+        return "upgrade.radio.adjective";
     }
 
     @Override

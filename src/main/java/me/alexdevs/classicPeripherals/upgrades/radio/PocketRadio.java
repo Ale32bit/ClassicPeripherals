@@ -76,7 +76,7 @@ public class PocketRadio implements IPocketUpgrade {
 
     @Override
     public String getUnlocalisedAdjective() {
-        return "Radio";
+        return "upgrade.radio.adjective";
     }
 
     @Override
