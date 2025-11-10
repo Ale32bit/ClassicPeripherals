@@ -58,7 +58,7 @@ public class PocketRadio extends AbstractPocketUpgrade {
     }
 
     public PocketRadio(ItemStack stack) {
-        super("radio", stack);
+        super("upgrade.radio.adjective", stack);
     }
 
     @Override
