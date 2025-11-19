@@ -1,9 +1,6 @@
 package me.alexdevs.classicPeripherals.recipe;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraftforge.registries.RegistryObject;
