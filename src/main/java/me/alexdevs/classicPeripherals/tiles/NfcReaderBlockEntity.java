@@ -22,7 +22,7 @@ public class NfcReaderBlockEntity extends BlockEntity {
     private boolean pendingReadOnly = false;
 
     public NfcReaderBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockTiles.NFC_READER, pos, blockState);
+        super(ModBlockTiles.NFC_READER.get(), pos, blockState);
     }
 
     public NfcReaderPeripheral peripheral() {
@@ -55,7 +55,7 @@ public class NfcReaderBlockEntity extends BlockEntity {
 
     public void pingRead() {
         this.getLevel().setBlockAndUpdate(getBlockPos(), getBlockState().setValue(NfcReaderBlock.STATE, NfcReaderBlock.NfcReaderState.READING));
-        level.scheduleTick(getBlockPos(), ModBlocks.NFC_READER, 10);
+        level.scheduleTick(getBlockPos(), ModBlocks.NFC_READER.get(), 10);
     }
 
     public void onUse(ItemStack stack) {

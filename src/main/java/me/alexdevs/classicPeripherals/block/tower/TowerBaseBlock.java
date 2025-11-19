@@ -38,6 +38,6 @@ public class TowerBaseBlock extends AbstractRadioBlock {
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockTiles.TOWER_BASE, AbstractRadioBlockEntity::tick);
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModBlockTiles.TOWER_BASE.get(), AbstractRadioBlockEntity::tick);
     }
 }

@@ -6,6 +6,7 @@
 		"0": "classicperipherals:block/tower_segment",
 		"particle": "classicperipherals:block/tower_segment"
 	},
+    "render_type": "minecraft:cutout_mipped",
 	"elements": [
 		{
 			"name": "cable",

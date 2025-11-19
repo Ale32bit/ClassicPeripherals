@@ -5,19 +5,21 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Supplier;
 
 public class ModItems {
-    public static final Item COPPER_COIL = register("copper_coil", new Item(new Item.Properties()));
-    public static final NfcCardItem NFC_CARD = register("nfc_card", new NfcCardItem(new Item.Properties()
+    public static final RegistryObject<Item> COPPER_COIL = register("copper_coil", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<NfcCardItem> NFC_CARD = register("nfc_card", () -> new NfcCardItem(new Item.Properties()
             .stacksTo(1)
     ));
-    public static final Item RFID_BADGE = register("rfid_badge", new Item(new Item.Properties()
+    public static final RegistryObject<Item> RFID_BADGE = register("rfid_badge", () -> new Item(new Item.Properties()
             .stacksTo(1)
     ));
 
-    public static <T extends Item> T register(String name, T item) {
-        ResourceLocation id = new ResourceLocation(ClassicPeripherals.MOD_ID, name);
-        return Registry.register(BuiltInRegistries.ITEM, id, item);
+    public static <T extends Item> RegistryObject<T> register(String name, Supplier<T> item) {
+        return ClassicPeripherals.ITEMS.register(name, item);
     }
 
     public static void initialize() {

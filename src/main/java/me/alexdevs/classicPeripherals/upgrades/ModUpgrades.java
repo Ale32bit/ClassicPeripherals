@@ -13,34 +13,15 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 
 public class ModUpgrades {
-    public static final PocketUpgradeSerialiser<PocketRadio> POCKET_RADIO =
-            pocket("radio", PocketUpgradeSerialiser.simpleWithCustomItem(PocketRadio::new));
+    public static final PocketUpgradeSerialiser<PocketRadio> POCKET_RADIO = PocketUpgradeSerialiser.simpleWithCustomItem(PocketRadio::new);
 
-    public static final TurtleUpgradeSerialiser<TurtleRadio> TURTLE_RADIO =
-            turtle("radio", TurtleUpgradeSerialiser.simpleWithCustomItem(TurtleRadio::new));
+    public static final TurtleUpgradeSerialiser<TurtleRadio> TURTLE_RADIO = TurtleUpgradeSerialiser.simpleWithCustomItem(TurtleRadio::new);
 
     @SuppressWarnings("unchecked")
-    public static <T extends IPocketUpgrade> PocketUpgradeSerialiser<T> pocket(String name, PocketUpgradeSerialiser<T> upgrade) {
-        var id = new ResourceLocation(ClassicPeripherals.MOD_ID, name);
-        var registry = (Registry<? super PocketUpgradeSerialiser<?>>) BuiltInRegistries.REGISTRY.get(PocketUpgradeSerialiser.registryId().location());
-        if(registry == null) {
-            throw new IllegalStateException("ComputerCraft has not yet initialized!");
-        }
-
-        return Registry.register(registry, id, upgrade);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends ITurtleUpgrade> TurtleUpgradeSerialiser<T> turtle(String name, TurtleUpgradeSerialiser<T> upgrade) {
-        var id = new ResourceLocation(ClassicPeripherals.MOD_ID, name);
-        var registry = (Registry<? super TurtleUpgradeSerialiser<?>>) BuiltInRegistries.REGISTRY.get(TurtleUpgradeSerialiser.registryId().location());
-        if(registry == null) {
-            throw new IllegalStateException("ComputerCraft has not yet initialized!");
-        }
-
-        return Registry.register(registry, id, upgrade);
-    }
-
     public static void initialize() {
+        var pocket = (Registry<PocketUpgradeSerialiser<?>>) BuiltInRegistries.REGISTRY.get(PocketUpgradeSerialiser.registryId().location());
+        var turtle = (Registry<TurtleUpgradeSerialiser<?>>) BuiltInRegistries.REGISTRY.get(TurtleUpgradeSerialiser.registryId().location());
+        Registry.register(pocket, new ResourceLocation(ClassicPeripherals.MOD_ID, "radio"), POCKET_RADIO);
+        Registry.register(turtle, new ResourceLocation(ClassicPeripherals.MOD_ID, "radio"), TURTLE_RADIO);
     }
 }

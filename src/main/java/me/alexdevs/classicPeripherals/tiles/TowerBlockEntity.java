@@ -11,7 +11,7 @@ public class TowerBlockEntity extends AbstractRadioBlockEntity {
     protected BlockPos headPos;
 
     public TowerBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockTiles.TOWER_BASE, pos, state);
+        super(ModBlockTiles.TOWER_BASE.get(), pos, state);
     }
 
     public void validate() {
@@ -20,14 +20,14 @@ public class TowerBlockEntity extends AbstractRadioBlockEntity {
         var pos = this.getBlockPos();
         for (int i = 1; i < ClassicPeripherals.CONFIG.radioTowerMaxHeight; i++) {
             pos = pos.above(1);
-            if (this.level.getBlockState(pos).is(ModBlocks.TOWER_SEGMENT)) {
+            if (this.level.getBlockState(pos).is(ModBlocks.TOWER_SEGMENT.get())) {
                 towerHeight++;
             } else {
                 break;
             }
         }
 
-        if (!this.level.getBlockState(pos).is(ModBlocks.TOWER_HEAD)) {
+        if (!this.level.getBlockState(pos).is(ModBlocks.TOWER_HEAD.get())) {
             invalidate();
             return;
         }

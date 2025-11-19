@@ -29,7 +29,7 @@ public class NfcCardRecipe extends CustomRecipe {
                 continue;
             }
 
-            if (stack.is(ModItems.NFC_CARD)) {
+            if (stack.is(ModItems.NFC_CARD.get())) {
                 hasItem = true;
             } else if (stack.getItem() instanceof DyeItem dye) {
                 tracker.addColour(dye.getDyeColor());
@@ -47,7 +47,7 @@ public class NfcCardRecipe extends CustomRecipe {
         for (int i = 0; i < container.getContainerSize(); i++) {
             ItemStack stack = container.getItem(i);
             if (!stack.isEmpty()) {
-                if (stack.is(ModItems.NFC_CARD)) {
+                if (stack.is(ModItems.NFC_CARD.get())) {
                     item = stack.copy();
                     item.setCount(1);
                     if (item.hasTag()) {
@@ -82,6 +82,6 @@ public class NfcCardRecipe extends CustomRecipe {
 
     @Override
     public @NotNull RecipeSerializer<?> getSerializer() {
-        return ModRecipes.NFC_CARD_DYE;
+        return ModRecipes.NFC_CARD_DYE.get();
     }
 }

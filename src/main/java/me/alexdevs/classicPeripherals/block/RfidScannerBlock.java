@@ -80,7 +80,7 @@ public class RfidScannerBlock extends DirectionalBlock implements EntityBlock {
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (!level.isClientSide) {
-            return createTickerHelper(type, ModBlockTiles.RFID_SCANNER, RfidScannerBlockEntity::tick);
+            return createTickerHelper(type, ModBlockTiles.RFID_SCANNER.get(), RfidScannerBlockEntity::tick);
         }
         return null;
     }

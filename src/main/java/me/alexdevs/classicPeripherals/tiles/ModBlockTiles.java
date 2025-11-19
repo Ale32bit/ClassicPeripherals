@@ -2,20 +2,26 @@ package me.alexdevs.classicPeripherals.tiles;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Supplier;
 
 public class ModBlockTiles {
-    public static final BlockEntityType<TowerBlockEntity> TOWER_BASE = register("tower_base", FabricBlockEntityTypeBuilder.create(TowerBlockEntity::new, ModBlocks.TOWER_BASE).build());
-    public static final BlockEntityType<AntennaBlockEntity> ANTENNA = register("antenna", FabricBlockEntityTypeBuilder.create(AntennaBlockEntity::new, ModBlocks.ANTENNA).build());
-    public static final BlockEntityType<NfcReaderBlockEntity> NFC_READER = register("nfc_reader", FabricBlockEntityTypeBuilder.create(NfcReaderBlockEntity::new, ModBlocks.NFC_READER).build());
-    public static final BlockEntityType<RfidScannerBlockEntity> RFID_SCANNER = register("rfid_scanner", FabricBlockEntityTypeBuilder.create(RfidScannerBlockEntity::new, ModBlocks.RFID_SCANNER).build());
+    public static final RegistryObject<BlockEntityType<TowerBlockEntity>> TOWER_BASE = register("tower_base",
+            () -> BlockEntityType.Builder.of(TowerBlockEntity::new, ModBlocks.TOWER_BASE.get()).build(null));
 
-    public static <T extends BlockEntityType<?>> T register(String path, T blockEntityType) {
-        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(ClassicPeripherals.MOD_ID, path), blockEntityType);
+    public static final RegistryObject<BlockEntityType<AntennaBlockEntity>> ANTENNA = register("antenna",
+            () -> BlockEntityType.Builder.of(AntennaBlockEntity::new, ModBlocks.ANTENNA.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<NfcReaderBlockEntity>> NFC_READER = register("nfc_reader",
+            () -> BlockEntityType.Builder.of(NfcReaderBlockEntity::new, ModBlocks.NFC_READER.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<RfidScannerBlockEntity>> RFID_SCANNER = register("rfid_scanner",
+            () -> BlockEntityType.Builder.of(RfidScannerBlockEntity::new, ModBlocks.RFID_SCANNER.get()).build(null));
+
+    public static <T extends BlockEntityType<?>> RegistryObject<T> register(String path, Supplier<T> blockEntityType) {
+        return ClassicPeripherals.BLOCK_ENTITIES.register(path, blockEntityType);
     }
 
     public static void initialize() {

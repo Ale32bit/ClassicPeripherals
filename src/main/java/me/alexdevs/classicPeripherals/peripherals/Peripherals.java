@@ -1,35 +1,81 @@
 package me.alexdevs.classicPeripherals.peripherals;
 
-import dan200.computercraft.api.peripheral.PeripheralLookup;
-import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
-import me.alexdevs.classicPeripherals.tiles.RfidScannerBlockEntity;
-import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
+import dan200.computercraft.api.ComputerCraftAPI;
+import dan200.computercraft.api.ForgeComputerCraftAPI;
+import dan200.computercraft.api.peripheral.IPeripheral;
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
+import me.alexdevs.classicPeripherals.block.tower.TowerBaseBlock;
+import me.alexdevs.classicPeripherals.tiles.*;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import org.jetbrains.annotations.Nullable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 
-import java.util.function.BiFunction;
+import javax.annotation.Nullable;
+import java.util.function.Function;
 
 public class Peripherals {
-    public static void register() {
-        var peripherals = new BlockComponentImpl<>(PeripheralLookup.get());
-        peripherals.registerForBlockEntity(ModBlockTiles.TOWER_BASE, (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
-        peripherals.registerForBlockEntity(ModBlockTiles.ANTENNA, (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
-        peripherals.registerForBlockEntity(ModBlockTiles.NFC_READER, (block, dir) -> block.peripheral());
-        peripherals.registerForBlockEntity(ModBlockTiles.RFID_SCANNER, RfidScannerBlockEntity::peripheral);
-    }
+    // Boilerplate for adding a new capability provider
 
-    public interface BlockComponent<T, C extends @Nullable Object> {
-        <B extends BlockEntity> void registerForBlockEntity(BlockEntityType<B> blockEntityType, BiFunction<? super B, C, @Nullable T> provider);
-    }
+    public static final Capability<IPeripheral> CAPABILITY_PERIPHERAL = CapabilityManager.get(new CapabilityToken<>() {
+    });
+    private static final ResourceLocation PERIPHERAL = new ResourceLocation(ClassicPeripherals.MOD_ID, "peripheral");
 
-    private record BlockComponentImpl<T, C extends @Nullable Object>(
-            BlockApiLookup<T, C> lookup
-    ) implements BlockComponent<T, C> {
-        @Override
-        public <B extends BlockEntity> void registerForBlockEntity(BlockEntityType<B> blockEntityType, BiFunction<? super B, C, @Nullable T> provider) {
-            lookup.registerForBlockEntity(provider, blockEntityType);
+
+    public static void register(AttachCapabilitiesEvent<BlockEntity> event) {
+        if (event.getObject() instanceof TowerBlockEntity tower) {
+            PeripheralProvider.attach(event, tower, AbstractRadioBlockEntity.RadioPeripheral::new);
+        }
+
+        if (event.getObject() instanceof AntennaBlockEntity antenna) {
+            PeripheralProvider.attach(event, antenna, AbstractRadioBlockEntity.RadioPeripheral::new);
+        }
+
+        if (event.getObject() instanceof NfcReaderBlockEntity reader) {
+            PeripheralProvider.attach(event, reader, NfcReaderPeripheral::new);
+        }
+
+        if (event.getObject() instanceof RfidScannerBlockEntity scanner) {
+            PeripheralProvider.attach(event, scanner, RfidScannerPeripheral::new);
         }
     }
+
+    // A {@link ICapabilityProvider} that lazily creates an {@link IPeripheral} when required.
+    private static final class PeripheralProvider<O extends BlockEntity> implements ICapabilityProvider {
+        private final O blockEntity;
+        private final Function<O, IPeripheral> factory;
+        private @Nullable LazyOptional<IPeripheral> peripheral;
+
+        private PeripheralProvider(O blockEntity, Function<O, IPeripheral> factory) {
+            this.blockEntity = blockEntity;
+            this.factory = factory;
+        }
+
+        private static <O extends BlockEntity> void attach(AttachCapabilitiesEvent<BlockEntity> event, O blockEntity, Function<O, IPeripheral> factory) {
+            var provider = new PeripheralProvider<>(blockEntity, factory);
+            event.addCapability(PERIPHERAL, provider);
+            event.addListener(provider::invalidate);
+        }
+
+        private void invalidate() {
+            if (peripheral != null) peripheral.invalidate();
+            peripheral = null;
+        }
+
+        @Override
+        public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction direction) {
+            if (capability != CAPABILITY_PERIPHERAL) return LazyOptional.empty();
+            if (blockEntity.isRemoved()) return LazyOptional.empty();
+
+            var peripheral = this.peripheral;
+            return (peripheral == null ? (this.peripheral = LazyOptional.of(() -> factory.apply(blockEntity))) : peripheral).cast();
+        }
+    }
+
 }

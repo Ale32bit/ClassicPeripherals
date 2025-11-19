@@ -27,7 +27,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
     private boolean scheduleScan = false;
 
     public RfidScannerBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockTiles.RFID_SCANNER, pos, blockState);
+        super(ModBlockTiles.RFID_SCANNER.get(), pos, blockState);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, RfidScannerBlockEntity scanner) {
@@ -84,7 +84,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
         for (var player : nearbyPlayers) {
             var inventory = player.getInventory();
             for(var stack : inventory.items) {
-                if(!stack.is(ModItems.RFID_BADGE)) {
+                if(!stack.is(ModItems.RFID_BADGE.get())) {
                     continue;
                 }
 

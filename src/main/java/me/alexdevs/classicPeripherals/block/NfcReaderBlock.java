@@ -77,7 +77,7 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
             return InteractionResult.PASS;
         }
 
-        if(stack.is(ModItems.NFC_CARD) || stack.is(ModItems.RFID_BADGE)) {
+        if(stack.is(ModItems.NFC_CARD.get()) || stack.is(ModItems.RFID_BADGE.get())) {
             var be = level.getBlockEntity(pos);
             if(be instanceof NfcReaderBlockEntity reader) {
 

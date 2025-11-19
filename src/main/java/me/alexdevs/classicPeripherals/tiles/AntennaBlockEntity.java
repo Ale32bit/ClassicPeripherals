@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class AntennaBlockEntity extends AbstractRadioBlockEntity {
 
     public AntennaBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockTiles.ANTENNA, pos, blockState);
+        super(ModBlockTiles.ANTENNA.get(), pos, blockState);
     }
 
     @Override

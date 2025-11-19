@@ -23,7 +23,7 @@ public class TowerHeadBlock extends Block {
         for(int i = 1; i < 32; i++) {
             BlockPos below = blockPos.below(i);
             var blockBelow = level.getBlockState(below);
-            if(blockBelow.is(ModBlocks.TOWER_BASE)) {
+            if(blockBelow.is(ModBlocks.TOWER_BASE.get())) {
                 var be = level.getBlockEntity(below);
                 if(be instanceof TowerBlockEntity base)
                     base.validate();
