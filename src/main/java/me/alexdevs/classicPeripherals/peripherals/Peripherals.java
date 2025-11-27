@@ -26,19 +26,19 @@ public class Peripherals {
 
     public static void register(AttachCapabilitiesEvent<BlockEntity> event) {
         if (event.getObject() instanceof TowerBlockEntity tower) {
-            PeripheralProvider.attach(event, tower, AbstractRadioBlockEntity.RadioPeripheral::new);
+            PeripheralProvider.attach(event, tower, AbstractRadioBlockEntity::peripheral);
         }
 
         if (event.getObject() instanceof AntennaBlockEntity antenna) {
-            PeripheralProvider.attach(event, antenna, AbstractRadioBlockEntity.RadioPeripheral::new);
+            PeripheralProvider.attach(event, antenna, AbstractRadioBlockEntity::peripheral);
         }
 
         if (event.getObject() instanceof NfcReaderBlockEntity reader) {
-            PeripheralProvider.attach(event, reader, NfcReaderPeripheral::new);
+            PeripheralProvider.attach(event, reader, NfcReaderBlockEntity::peripheral);
         }
 
         if (event.getObject() instanceof RfidScannerBlockEntity scanner) {
-            PeripheralProvider.attach(event, scanner, RfidScannerPeripheral::new);
+            PeripheralProvider.attach(event, scanner, (t) -> t.peripheral(t.getDirection()));
         }
     }
 
