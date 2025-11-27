@@ -5,6 +5,7 @@ import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
 import dan200.computercraft.api.pocket.PocketUpgradeSerialiser;
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
+import me.alexdevs.classicPeripherals.compat.ConfigManager;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
@@ -38,11 +39,11 @@ import net.minecraftforge.registries.RegistryObject;
 public class ClassicPeripherals {
     public static final String MOD_ID = "classicperipherals";
 
-    public static final ClassicPeripheralsConfig CONFIG = ClassicPeripheralsConfig.createToml(
+    public static final ClassicPeripheralsConfig CONFIG = ConfigManager.createToml(
             FMLPaths.CONFIGDIR.get(),
-            "",
             MOD_ID,
-            ClassicPeripheralsConfig.class
+            ClassicPeripheralsConfig.class,
+            ClassicPeripheralsConfig::new
     );
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);

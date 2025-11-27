@@ -1,12 +1,11 @@
 package me.alexdevs.classicPeripherals;
 
 
-import folk.sisby.kaleido.api.WrappedConfig;
-import folk.sisby.kaleido.lib.quiltconfig.api.annotations.Comment;
-import folk.sisby.kaleido.lib.quiltconfig.api.annotations.FloatRange;
-import folk.sisby.kaleido.lib.quiltconfig.api.annotations.IntegerRange;
+import me.alexdevs.classicPeripherals.compat.Comment;
+import me.alexdevs.classicPeripherals.compat.FloatRange;
+import me.alexdevs.classicPeripherals.compat.IntegerRange;
 
-public class ClassicPeripheralsConfig extends WrappedConfig {
+public class ClassicPeripheralsConfig {
     @Comment("The maximum height of the radio tower. Including base and head.")
     @IntegerRange(min = 2, max = Integer.MAX_VALUE)
     public int radioTowerMaxHeight = 24;
