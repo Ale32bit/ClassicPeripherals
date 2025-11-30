@@ -3,10 +3,9 @@ package me.alexdevs.classicPeripherals.tiles;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.block.NfcReaderBlock;
-import me.alexdevs.classicPeripherals.item.NfcCardItem;
+import me.alexdevs.classicPeripherals.item.AbstractDataItem;
 import me.alexdevs.classicPeripherals.peripherals.NfcReaderPeripheral;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -60,8 +59,7 @@ public class NfcReaderBlockEntity extends BlockEntity {
 
     public void onUse(ItemStack stack) {
         if (writeMode) {
-            var tag = stack.getOrCreateTag();
-            var readOnly = tag.getBoolean("readOnly");
+            var readOnly = AbstractDataItem.isReadOnly(stack);
             if (readOnly) {
                 peripheral.writeFeedback(false, "read_only");
                 cancelWrite();
@@ -69,20 +67,19 @@ public class NfcReaderBlockEntity extends BlockEntity {
             }
 
             if (pendingLabel != null) {
-                stack.setHoverName(Component.literal(pendingLabel));
+                AbstractDataItem.setLabel(stack, pendingLabel);
             } else {
-                stack.resetHoverName();
+                AbstractDataItem.clearLabel(stack);
             }
 
             // setting/clearing name overwrites the tag precedently created.
-            tag = stack.getOrCreateTag();
-            tag.putString("data", pendingWriteData);
-            tag.putBoolean("readOnly", pendingReadOnly);
+            AbstractDataItem.setData(stack, pendingWriteData);
+            AbstractDataItem.setReadOnly(stack, pendingReadOnly);
 
             peripheral.writeFeedback(true, "success");
             cancelWrite();
         } else {
-            var data = NfcCardItem.getData(stack);
+            var data = AbstractDataItem.getData(stack);
             if (data.isPresent()) {
                 peripheral.read(data.get());
                 pingRead();
