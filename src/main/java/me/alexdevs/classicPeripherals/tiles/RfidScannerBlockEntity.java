@@ -25,25 +25,30 @@ public class RfidScannerBlockEntity extends BlockEntity {
     protected final RfidScannerPeripheral peripheral = new RfidScannerPeripheral(this);
     private long scanAt = 0;
     private boolean scheduleScan = false;
+    private boolean startedScan = false;
 
     public RfidScannerBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockTiles.RFID_SCANNER, pos, blockState);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, RfidScannerBlockEntity scanner) {
-        if(level.isClientSide) {
+        if (level.isClientSide) {
             return;
         }
 
-        if(scanner.scheduleScan) {
-            scanner.scanAt = level.getGameTime() + SCAN_TIME;
-            scanner.getLevel().setBlockAndUpdate(pos, state.setValue(RfidScannerBlock.ACTIVE, true));
-            scanner.scheduleScan = false;
+        if (!scanner.scheduleScan) {
+            return;
         }
 
-        if(level.getGameTime() >= scanner.scanAt) {
+        if (!scanner.startedScan) {
+            scanner.getLevel().setBlockAndUpdate(pos, state.setValue(RfidScannerBlock.ACTIVE, true));
+            scanner.startedScan = false;
+        }
+
+        if (level.getGameTime() >= scanner.scanAt) {
             scanner.scan();
             scanner.getLevel().setBlockAndUpdate(pos, state.setValue(RfidScannerBlock.ACTIVE, false));
+            scanner.scheduleScan = false;
         }
     }
 
@@ -57,7 +62,9 @@ public class RfidScannerBlockEntity extends BlockEntity {
     }
 
     public void scheduleScan() {
+        scanAt = level.getGameTime() + SCAN_TIME;
         scheduleScan = true;
+        startedScan = true;
     }
 
     public void scan() {
