@@ -11,7 +11,7 @@ public class ModItems {
     public static final RegistryObject<NfcCardItem> NFC_CARD = register("nfc_card", () -> new NfcCardItem(new Item.Properties()
             .stacksTo(1)
     ));
-    public static final RegistryObject<Item> RFID_BADGE = register("rfid_badge", () -> new Item(new Item.Properties()
+    public static final RegistryObject<RfidBadgeItem> RFID_BADGE = register("rfid_badge", () -> new RfidBadgeItem(new Item.Properties()
             .stacksTo(1)
     ));
 
