@@ -9,26 +9,15 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class NfcCardItem extends Item {
+public class NfcCardItem extends AbstractDataItem {
     public NfcCardItem(Properties properties) {
         super(properties);
-    }
-
-    public static Optional<String> getData(ItemStack stack) {
-        var data = stack.getComponents().get(ModComponents.NFC_DATA.get());
-        if (data == null || data.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(data);
     }
 
     @Override
@@ -40,7 +29,7 @@ public class NfcCardItem extends Item {
             return InteractionResult.PASS;
         }
 
-        var data = getData(stack);
+        var data = AbstractDataItem.getData(stack);
         if (data.isEmpty()) {
             return InteractionResult.PASS;
         }
