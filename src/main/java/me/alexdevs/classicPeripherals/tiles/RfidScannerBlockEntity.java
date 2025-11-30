@@ -1,19 +1,21 @@
 package me.alexdevs.classicPeripherals.tiles;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.block.RfidScannerBlock;
+import me.alexdevs.classicPeripherals.item.AbstractDataItem;
 import me.alexdevs.classicPeripherals.item.ModItems;
-import me.alexdevs.classicPeripherals.item.NfcCardItem;
+import me.alexdevs.classicPeripherals.mixinInterface.ILivingEntityMixin;
 import me.alexdevs.classicPeripherals.peripherals.RfidScannerPeripheral;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -78,29 +80,59 @@ public class RfidScannerBlockEntity extends BlockEntity {
         var level = getLevel();
         var origin = peripheral.getPosition();
 
-        if(level.isClientSide)
+        if (level.isClientSide)
             return List.of();
 
         var range = ClassicPeripherals.CONFIG.rfidScanRange;
 
+        // Scan player inventories
         var nearbyPlayers = level.players().stream()
                 .filter(player -> player.position().distanceToSqr(origin) <= range * range)
-                .map(player -> (ServerPlayer)player)
+                .map(player -> (ServerPlayer) player)
                 .toList();
 
         for (var player : nearbyPlayers) {
             var inventory = player.getInventory();
-            for(var stack : inventory.items) {
-                if(!stack.is(ModItems.RFID_BADGE)) {
+            for (var stack : inventory.items) {
+                if (!stack.is(ModItems.RFID_BADGE)) {
                     continue;
                 }
 
-                var data = NfcCardItem.getData(stack);
-                if(data.isEmpty()) {
+                var data = AbstractDataItem.getData(stack);
+                if (data.isEmpty()) {
                     continue;
                 }
 
-                badges.add(new ScannedRfidBadge(data.get(), player.position().distanceTo(origin)));
+                var distance = player.position().distanceTo(origin);
+                data.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
+            }
+        }
+
+        var aabb = AABB.ofSize(origin, range, range, range);
+        var nearbyEntities = level.getEntitiesOfClass(LivingEntity.class, aabb);
+
+        for (var livingEntity : nearbyEntities) {
+            // Skip players because already fully scanned
+            if (livingEntity instanceof Player) {
+                continue;
+            }
+
+            var distance = livingEntity.position().distanceTo(origin);
+
+            // Scan living entities with RFID injected
+            var entity = (ILivingEntityMixin) livingEntity;
+            var injectedData = entity.getRfidData();
+            injectedData.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
+
+            // Scan living entities holding RFID badge
+            if (livingEntity.isHolding(ModItems.RFID_BADGE)) {
+                var handSlots = livingEntity.getHandSlots();
+                for (var handStack : handSlots) {
+                    if (handStack.is(ModItems.RFID_BADGE)) {
+                        var data = AbstractDataItem.getData(handStack);
+                        data.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
+                    }
+                }
             }
         }
 
