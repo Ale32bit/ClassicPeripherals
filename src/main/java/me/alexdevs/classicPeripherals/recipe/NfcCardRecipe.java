@@ -1,6 +1,7 @@
 package me.alexdevs.classicPeripherals.recipe;
 
 import dan200.computercraft.shared.util.ColourTracker;
+import me.alexdevs.classicPeripherals.item.AbstractDataItem;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -68,7 +69,7 @@ public class NfcCardRecipe extends CustomRecipe {
         }
 
         if (item != null && tracker.hasColour()) {
-            item.getOrCreateTag().putInt("color", tracker.getColour());
+            AbstractDataItem.setColor(item, tracker.getColour());
             return item;
         }
 

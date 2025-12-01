@@ -1,18 +1,16 @@
 package me.alexdevs.classicPeripherals.client;
 
-import dan200.computercraft.api.ComputerCraftAPI;
-import dan200.computercraft.api.client.ComputerCraftAPIClient;
 import dan200.computercraft.api.client.FabricComputerCraftAPIClient;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
+import me.alexdevs.classicPeripherals.item.AbstractDataItem;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 
 public class ClassicPeripheralsClient implements ClientModInitializer {
@@ -30,10 +28,7 @@ public class ClassicPeripheralsClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
-                var tag = stack.getOrCreateTag();
-                if (tag.contains("color")) {
-                    return tag.getInt("color");
-                }
+                return AbstractDataItem.getColor(stack);
             }
 
             return 0xFFFFFF;
@@ -41,10 +36,7 @@ public class ClassicPeripheralsClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
-                var tag = stack.getOrCreateTag();
-                if (tag.contains("color")) {
-                    return tag.getInt("color");
-                }
+                return AbstractDataItem.getColor(stack);
             }
 
             return 0xFFFFFF;

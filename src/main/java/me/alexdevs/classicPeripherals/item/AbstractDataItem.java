@@ -1,5 +1,6 @@
 package me.alexdevs.classicPeripherals.item;
 
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -42,5 +43,19 @@ public abstract class AbstractDataItem extends Item {
 
     public static void clearLabel(ItemStack stack) {
         stack.resetHoverName();
+    }
+
+    public static void setColor(ItemStack stack, int color) {
+        var tag = stack.getOrCreateTag();
+        tag.putInt("color", color);
+    }
+
+    public static int getColor(ItemStack stack) {
+        var tag = stack.getOrCreateTag();
+        if (tag.contains("color", Tag.TAG_INT)) {
+            return tag.getInt("color");
+        }
+
+        return 0xFFFFFF;
     }
 }

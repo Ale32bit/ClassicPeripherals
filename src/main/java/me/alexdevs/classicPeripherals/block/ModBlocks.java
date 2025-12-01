@@ -60,7 +60,6 @@ public class ModBlocks {
             .strength(2.0F)
             .mapColor(MapColor.STONE)
             .isValidSpawn(Blocks::never)
-            .isRedstoneConductor(Blocks::never)
     ), true);
 
     public static final RfidScannerBlock RFID_SCANNER = register("rfid_scanner", new RfidScannerBlock(BlockBehaviour.Properties.of()
