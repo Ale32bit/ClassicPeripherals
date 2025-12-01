@@ -6,6 +6,7 @@ import dan200.computercraft.api.pocket.PocketUpgradeSerialiser;
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.compat.ConfigManager;
+import me.alexdevs.classicPeripherals.item.AbstractDataItem;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
@@ -124,10 +125,7 @@ public class ClassicPeripherals {
         static void onItemColorHandler(RegisterColorHandlersEvent.Item event) {
             event.register((stack, tintIndex) -> {
                 if (tintIndex == 0) {
-                    var tag = stack.getOrCreateTag();
-                    if (tag.contains("color")) {
-                        return tag.getInt("color");
-                    }
+                    return AbstractDataItem.getColor(stack);
                 }
 
                 return 0xFFFFFF;
@@ -135,10 +133,7 @@ public class ClassicPeripherals {
 
             event.register((stack, tintIndex) -> {
                 if (tintIndex == 1) {
-                    var tag = stack.getOrCreateTag();
-                    if (tag.contains("color")) {
-                        return tag.getInt("color");
-                    }
+                    return AbstractDataItem.getColor(stack);
                 }
 
                 return 0xFFFFFF;
