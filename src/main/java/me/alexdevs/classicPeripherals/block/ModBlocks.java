@@ -61,7 +61,6 @@ public class ModBlocks {
             .strength(2.0F)
             .mapColor(MapColor.STONE)
             .isValidSpawn(ModBlocks::never)
-            .isRedstoneConductor(ModBlocks::never)
     ), true);
 
     public static final DeferredBlock<RfidScannerBlock> RFID_SCANNER = register("rfid_scanner", () -> new RfidScannerBlock(BlockBehaviour.Properties.of()

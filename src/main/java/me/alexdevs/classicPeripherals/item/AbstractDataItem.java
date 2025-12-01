@@ -1,8 +1,8 @@
 package me.alexdevs.classicPeripherals.item;
 
 import me.alexdevs.classicPeripherals.ModComponents;
-import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -41,5 +41,13 @@ public abstract class AbstractDataItem extends Item {
 
     public static void clearLabel(ItemStack stack) {
         stack.remove(DataComponents.CUSTOM_NAME);
+    }
+
+    public static void setColor(ItemStack stack, int color) {
+        stack.set(ModComponents.NFC_COLOR, color & 0x00_FFFFFF);
+    }
+
+    public static int getColor(ItemStack stack) {
+        return 0xFF_000000 | stack.getComponents().getOrDefault(ModComponents.NFC_COLOR.get(), 0xFFFFFF);
     }
 }

@@ -5,6 +5,7 @@ import dan200.computercraft.api.ForgeComputerCraftAPI;
 import dan200.computercraft.api.client.turtle.RegisterTurtleModellersEvent;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
 import dan200.computercraft.core.computer.Computer;
+import me.alexdevs.classicPeripherals.item.AbstractDataItem;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.minecraft.resources.ResourceLocation;
@@ -40,10 +41,7 @@ public class ClassicPeripheralsClient {
     static void onItemColorHandler(RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
-                var components = stack.getComponents();
-                if (components.has(ModComponents.NFC_COLOR.get())) {
-                    return 0xFF_000000 | components.getOrDefault(ModComponents.NFC_COLOR.get(), 0xFFFFFF);
-                }
+                return AbstractDataItem.getColor(stack);
             }
 
             return 0xFF_FFFFFF;
@@ -51,10 +49,7 @@ public class ClassicPeripheralsClient {
 
         event.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
-                var components = stack.getComponents();
-                if (components.has(ModComponents.NFC_COLOR.get())) {
-                    return 0xFF_000000 | components.getOrDefault(ModComponents.NFC_COLOR.get(), 0xFFFFFF);
-                }
+                return AbstractDataItem.getColor(stack);
             }
 
             return 0xFF_FFFFFF;
