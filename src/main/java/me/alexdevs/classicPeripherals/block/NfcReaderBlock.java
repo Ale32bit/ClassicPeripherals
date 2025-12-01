@@ -1,5 +1,6 @@
 package me.alexdevs.classicPeripherals.block;
 
+import me.alexdevs.classicPeripherals.item.AbstractDataItem;
 import com.mojang.serialization.MapCodec;
 import me.alexdevs.classicPeripherals.item.NfcCardItem;
 import me.alexdevs.classicPeripherals.item.ModItems;
@@ -73,7 +74,7 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
 
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
-        return super.getStateForPlacement(context)
+        return defaultBlockState()
                 .setValue(FACING, context.getHorizontalDirection().getOpposite())
                 .setValue(STATE, NfcReaderState.NONE);
     }
@@ -84,7 +85,7 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
-        if(stack.is(ModItems.NFC_CARD) || stack.is(ModItems.RFID_BADGE)) {
+        if(stack.getItem() instanceof AbstractDataItem) {
             var be = level.getBlockEntity(pos);
             if(be instanceof NfcReaderBlockEntity reader) {
 
