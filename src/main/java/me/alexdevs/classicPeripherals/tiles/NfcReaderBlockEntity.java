@@ -1,10 +1,13 @@
 package me.alexdevs.classicPeripherals.tiles;
 
+import dan200.computercraft.shared.pocket.core.PocketServerComputer;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.ModComponents;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.block.NfcReaderBlock;
 import me.alexdevs.classicPeripherals.item.AbstractDataItem;
+import me.alexdevs.classicPeripherals.item.NfcCardItem;
+import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.peripherals.NfcReaderPeripheral;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
@@ -86,5 +89,17 @@ public class NfcReaderBlockEntity extends BlockEntity {
                 pingRead();
             }
         }
+    }
+
+    public void onPocketUse(PocketServerComputer pocket) {
+        var id = pocket.getID();
+
+        if (writeMode) {
+            pocket.queueEvent("nfc_data", new Object[]{NfcCardItem.INTERNAL_SIDE, pendingWriteData});
+            cancelWrite();
+        }
+
+        var data = PocketNfcAccess.pop(id);
+        data.ifPresent(peripheral::read);
     }
 }

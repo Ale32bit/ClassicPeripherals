@@ -1,5 +1,7 @@
 package me.alexdevs.classicPeripherals.block;
 
+import dan200.computercraft.api.ComputerCraftTags;
+import dan200.computercraft.shared.pocket.items.PocketComputerItem;
 import me.alexdevs.classicPeripherals.item.AbstractDataItem;
 import com.mojang.serialization.MapCodec;
 import me.alexdevs.classicPeripherals.tiles.NfcReaderBlockEntity;
@@ -83,16 +85,25 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
-        if(stack.getItem() instanceof AbstractDataItem) {
-            var be = level.getBlockEntity(pos);
-            if(be instanceof NfcReaderBlockEntity reader) {
-
-                if(level.isClientSide) {
+        var be = level.getBlockEntity(pos);
+        if (be instanceof NfcReaderBlockEntity reader) {
+            if (stack.getItem() instanceof AbstractDataItem) {
+                if (level.isClientSide) {
                     return ItemInteractionResult.SUCCESS;
                 }
 
                 reader.onUse(stack);
                 return ItemInteractionResult.CONSUME;
+            } else if (stack.is(ComputerCraftTags.Items.POCKET_COMPUTERS)) {
+                if (level.isClientSide) {
+                    return ItemInteractionResult.SUCCESS;
+                }
+
+                var pocket = PocketComputerItem.getServerComputer(level.getServer(), stack);
+                if (pocket != null) {
+                    reader.onPocketUse(pocket);
+                    return ItemInteractionResult.CONSUME;
+                }
             }
         }
 

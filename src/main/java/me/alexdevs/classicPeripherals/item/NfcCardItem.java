@@ -4,6 +4,7 @@ import dan200.computercraft.api.ComputerCraftTags;
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import dan200.computercraft.shared.pocket.items.PocketComputerItem;
 import me.alexdevs.classicPeripherals.ModComponents;
+import me.alexdevs.classicPeripherals.utils.PocketUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,10 +13,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class NfcCardItem extends AbstractDataItem {
+    public static final String INTERNAL_SIDE = "internal";
+
     public NfcCardItem(Properties properties) {
         super(properties);
     }
@@ -40,25 +40,11 @@ public class NfcCardItem extends AbstractDataItem {
 
         var inv = player.getInventory();
         if (inv.contains(ComputerCraftTags.Items.POCKET_COMPUTERS)) {
-            var computers = getAllPocketComputers(player);
-
-            computers.forEach(computer -> computer.queueEvent("nfc_data", new Object[]{"internal", data.get()}));
+            var computers = PocketUtils.getAllPocketComputers(player);
+            computers.forEach(computer -> computer.queueEvent("nfc_data", new Object[]{NfcCardItem.INTERNAL_SIDE, data.get()}));
         }
 
         return InteractionResult.CONSUME;
     }
 
-    private static List<ServerComputer> getAllPocketComputers(ServerPlayer player) {
-        var list = new ArrayList<ServerComputer>();
-        var inventory = player.getInventory();
-        for (var i = 0; i < inventory.getContainerSize(); i++) {
-            var item = inventory.getItem(i);
-            if (item.getTags().anyMatch(x -> x == ComputerCraftTags.Items.POCKET_COMPUTERS)) {
-                var computer = PocketComputerItem.getServerComputer(player.getServer(), item);
-                list.add(computer);
-            }
-        }
-
-        return list;
-    }
 }

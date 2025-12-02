@@ -3,7 +3,9 @@ package me.alexdevs.classicPeripherals;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
+import me.alexdevs.classicPeripherals.luaApi.ModLuaApiProvider;
 import me.alexdevs.classicPeripherals.item.ModItems;
+import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
@@ -12,15 +14,19 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -80,6 +86,8 @@ public class ClassicPeripherals {
         ModBlockTiles.initialize();
         ModRecipes.initialize();
         Peripherals.register(modEventBus);
+        ModLuaApiProvider.initialize();
+        NeoForge.EVENT_BUS.addListener(this::onServerStart);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -103,5 +111,9 @@ public class ClassicPeripherals {
                 ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "radio"),
                 () -> ModUpgrades.TURTLE_RADIO
         );
+    }
+
+    public void onServerStart(final ServerStartedEvent event) {
+        PocketNfcAccess.clear();
     }
 }
