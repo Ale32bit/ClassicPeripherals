@@ -1,13 +1,15 @@
 package me.alexdevs.classicPeripherals;
 
 import me.alexdevs.classicPeripherals.block.ModBlocks;
+import me.alexdevs.classicPeripherals.luaApi.ModLuaApiProvider;
 import me.alexdevs.classicPeripherals.item.ModItems;
+import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.loader.api.FabricLoader;
@@ -17,6 +19,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
@@ -44,6 +47,9 @@ public class ClassicPeripherals implements ModInitializer {
         Peripherals.register();
         ModRecipes.initialize();
         ModUpgrades.initialize();
+        ModLuaApiProvider.initialize();
+
+        ServerLifecycleEvents.SERVER_STARTED.register(this::serverStartHook);
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CREATIVE_TAB_KEY, CREATIVE_TAB);
 
@@ -60,5 +66,9 @@ public class ClassicPeripherals implements ModInitializer {
                 entries.accept(ModItems.RFID_BADGE);
             }
         });
+    }
+
+    private void serverStartHook(MinecraftServer server) {
+        PocketNfcAccess.clear();
     }
 }
