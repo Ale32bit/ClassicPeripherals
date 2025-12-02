@@ -1,7 +1,8 @@
 package me.alexdevs.classicPeripherals.block;
 
+import dan200.computercraft.api.ComputerCraftTags;
+import dan200.computercraft.shared.pocket.items.PocketComputerItem;
 import me.alexdevs.classicPeripherals.item.AbstractDataItem;
-import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.tiles.NfcReaderBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -74,20 +75,29 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
     @Override
     public @NotNull InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         var stack = player.getItemInHand(hand);
-        if(stack.isEmpty()) {
+        if (stack.isEmpty()) {
             return InteractionResult.PASS;
         }
 
-        if(stack.getItem() instanceof AbstractDataItem) {
-            var be = level.getBlockEntity(pos);
-            if(be instanceof NfcReaderBlockEntity reader) {
-
-                if(level.isClientSide) {
+        var be = level.getBlockEntity(pos);
+        if (be instanceof NfcReaderBlockEntity reader) {
+            if (stack.getItem() instanceof AbstractDataItem) {
+                if (level.isClientSide) {
                     return InteractionResult.SUCCESS;
                 }
 
                 reader.onUse(stack);
                 return InteractionResult.CONSUME;
+            } else if (stack.is(ComputerCraftTags.Items.POCKET_COMPUTERS)) {
+                if (level.isClientSide) {
+                    return InteractionResult.SUCCESS;
+                }
+
+                var pocket = PocketComputerItem.getServerComputer(level.getServer(), stack);
+                if (pocket != null) {
+                    reader.onPocketUse(pocket);
+                    return InteractionResult.CONSUME;
+                }
             }
         }
 

@@ -7,7 +7,9 @@ import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.compat.ConfigManager;
 import me.alexdevs.classicPeripherals.item.AbstractDataItem;
+import me.alexdevs.classicPeripherals.luaApi.ModLuaApiProvider;
 import me.alexdevs.classicPeripherals.item.ModItems;
+import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
@@ -15,6 +17,7 @@ import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -25,6 +28,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -88,7 +92,9 @@ public class ClassicPeripherals {
         ModItems.initialize();
         ModBlockTiles.initialize();
         ModRecipes.initialize();
+        ModLuaApiProvider.initialize();
         MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, Peripherals::register);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStart);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -98,6 +104,10 @@ public class ClassicPeripherals {
     public void onDataGen(final GatherDataEvent event) {
         // use fabric's
         //ClassicPeripheralsDataGenerator.register(event);
+    }
+
+    public void onServerStart(final ServerStartedEvent event) {
+        serverStartHook(event.getServer());
     }
 
     private void registerUpgrades(RegisterEvent event) {
@@ -155,5 +165,9 @@ public class ClassicPeripherals {
         private static ResourceLocation model(String path) {
             return id("block/" + path);
         }
+    }
+
+    private void serverStartHook(MinecraftServer server) {
+        PocketNfcAccess.clear();
     }
 }
