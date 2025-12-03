@@ -2,7 +2,7 @@ package me.alexdevs.classicPeripherals.tiles;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.RfidScannerBlock;
-import me.alexdevs.classicPeripherals.item.AbstractDataItem;
+import me.alexdevs.classicPeripherals.item.IDataItem;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.mixinInterface.ILivingEntityMixin;
 import me.alexdevs.classicPeripherals.peripherals.RfidScannerPeripheral;
@@ -93,19 +93,22 @@ public class RfidScannerBlockEntity extends BlockEntity {
 
         for (var player : nearbyPlayers) {
             var inventory = player.getInventory();
+            var distance = player.position().distanceTo(origin);
             for (var stack : inventory.items) {
                 if (!stack.is(ModItems.RFID_BADGE.get())) {
                     continue;
                 }
 
-                var data = AbstractDataItem.getData(stack);
+                var data = IDataItem.getData(stack);
                 if (data.isEmpty()) {
                     continue;
                 }
 
-                var distance = player.position().distanceTo(origin);
                 data.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
             }
+
+            var equippedData = ModItems.RFID_BADGE.getEquippedData(player);
+            equippedData.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
         }
 
         var aabb = AABB.ofSize(origin, range, range, range);
@@ -129,7 +132,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
                 var handSlots = livingEntity.getHandSlots();
                 for (var handStack : handSlots) {
                     if (handStack.is(ModItems.RFID_BADGE.get())) {
-                        var data = AbstractDataItem.getData(handStack);
+                        var data = IDataItem.getData(handStack);
                         data.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
                     }
                 }
@@ -140,6 +143,5 @@ public class RfidScannerBlockEntity extends BlockEntity {
     }
 
     public static record ScannedRfidBadge(String data, double distance) {
-
     }
 }
