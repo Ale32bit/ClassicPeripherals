@@ -10,10 +10,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class NfcCardItem extends AbstractDataItem {
+public class NfcCardItem extends Item implements IDataItem {
     public static final String INTERNAL_SIDE = "internal";
 
     public NfcCardItem(Properties properties) {
@@ -29,7 +30,7 @@ public class NfcCardItem extends AbstractDataItem {
             return InteractionResult.PASS;
         }
 
-        var data = AbstractDataItem.getData(stack);
+        var data = IDataItem.getData(stack);
         if (data.isEmpty()) {
             return InteractionResult.PASS;
         }

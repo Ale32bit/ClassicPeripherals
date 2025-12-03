@@ -2,7 +2,7 @@ package me.alexdevs.classicPeripherals.block;
 
 import dan200.computercraft.api.ComputerCraftTags;
 import dan200.computercraft.shared.pocket.items.PocketComputerItem;
-import me.alexdevs.classicPeripherals.item.AbstractDataItem;
+import me.alexdevs.classicPeripherals.item.IDataItem;
 import com.mojang.serialization.MapCodec;
 import me.alexdevs.classicPeripherals.item.NfcCardItem;
 import me.alexdevs.classicPeripherals.item.ModItems;
@@ -89,7 +89,7 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
 
         var be = level.getBlockEntity(pos);
         if (be instanceof NfcReaderBlockEntity reader) {
-            if (stack.getItem() instanceof AbstractDataItem) {
+            if (stack.getItem() instanceof IDataItem) {
                 if (level.isClientSide) {
                     return ItemInteractionResult.SUCCESS;
                 }

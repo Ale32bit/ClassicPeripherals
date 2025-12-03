@@ -4,7 +4,7 @@ import dan200.computercraft.api.client.FabricComputerCraftAPIClient;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
-import me.alexdevs.classicPeripherals.item.AbstractDataItem;
+import me.alexdevs.classicPeripherals.item.IDataItem;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.fabricmc.api.ClientModInitializer;
@@ -28,7 +28,7 @@ public class ClassicPeripheralsClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
-                return AbstractDataItem.getColor(stack);
+                return IDataItem.getColor(stack);
             }
 
             return 0xFF_FFFFFF;
@@ -36,7 +36,7 @@ public class ClassicPeripheralsClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
-                return AbstractDataItem.getColor(stack);
+                return IDataItem.getColor(stack);
             }
 
             return 0xFF_FFFFFF;
