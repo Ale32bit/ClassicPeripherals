@@ -1,11 +1,8 @@
 package me.alexdevs.classicPeripherals;
 
-import dan200.computercraft.api.ComputerCraftAPI;
-import dan200.computercraft.api.ForgeComputerCraftAPI;
 import dan200.computercraft.api.client.turtle.RegisterTurtleModellersEvent;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
-import dan200.computercraft.core.computer.Computer;
-import me.alexdevs.classicPeripherals.item.AbstractDataItem;
+import me.alexdevs.classicPeripherals.item.IDataItem;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +13,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.client.event.RegisterNamedRenderTypesEvent;
 
 @Mod(value = ClassicPeripherals.MOD_ID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = ClassicPeripherals.MOD_ID, value = Dist.CLIENT)
@@ -41,7 +37,7 @@ public class ClassicPeripheralsClient {
     static void onItemColorHandler(RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
-                return AbstractDataItem.getColor(stack);
+                return IDataItem.getColor(stack);
             }
 
             return 0xFF_FFFFFF;
@@ -49,7 +45,7 @@ public class ClassicPeripheralsClient {
 
         event.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
-                return AbstractDataItem.getColor(stack);
+                return IDataItem.getColor(stack);
             }
 
             return 0xFF_FFFFFF;

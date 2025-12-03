@@ -5,7 +5,7 @@ import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.ModComponents;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.block.NfcReaderBlock;
-import me.alexdevs.classicPeripherals.item.AbstractDataItem;
+import me.alexdevs.classicPeripherals.item.IDataItem;
 import me.alexdevs.classicPeripherals.item.NfcCardItem;
 import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.peripherals.NfcReaderPeripheral;
@@ -63,7 +63,7 @@ public class NfcReaderBlockEntity extends BlockEntity {
 
     public void onUse(ItemStack stack) {
         if (writeMode) {
-            var readOnly = AbstractDataItem.isReadOnly(stack);
+            var readOnly = IDataItem.isReadOnly(stack);
             if (readOnly) {
                 peripheral.writeFeedback(false, "read_only");
                 cancelWrite();
@@ -71,19 +71,19 @@ public class NfcReaderBlockEntity extends BlockEntity {
             }
 
             if (pendingLabel != null) {
-                AbstractDataItem.setLabel(stack, pendingLabel);
+                IDataItem.setLabel(stack, pendingLabel);
             } else {
-                AbstractDataItem.clearLabel(stack);
+                IDataItem.clearLabel(stack);
             }
 
             // setting/clearing name overwrites the tag precedently created.
-            AbstractDataItem.setData(stack, pendingWriteData);
-            AbstractDataItem.setReadOnly(stack, pendingReadOnly);
+            IDataItem.setData(stack, pendingWriteData);
+            IDataItem.setReadOnly(stack, pendingReadOnly);
 
             peripheral.writeFeedback(true, "success");
             cancelWrite();
         } else {
-            var data = AbstractDataItem.getData(stack);
+            var data = IDataItem.getData(stack);
             if (data.isPresent()) {
                 peripheral.read(data.get());
                 pingRead();
