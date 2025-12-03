@@ -6,7 +6,7 @@ import dan200.computercraft.api.pocket.PocketUpgradeSerialiser;
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.compat.ConfigManager;
-import me.alexdevs.classicPeripherals.item.AbstractDataItem;
+import me.alexdevs.classicPeripherals.item.IDataItem;
 import me.alexdevs.classicPeripherals.luaApi.ModLuaApiProvider;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
@@ -135,7 +135,7 @@ public class ClassicPeripherals {
         static void onItemColorHandler(RegisterColorHandlersEvent.Item event) {
             event.register((stack, tintIndex) -> {
                 if (tintIndex == 0) {
-                    return AbstractDataItem.getColor(stack);
+                    return IDataItem.getColor(stack);
                 }
 
                 return 0xFFFFFF;
@@ -143,7 +143,7 @@ public class ClassicPeripherals {
 
             event.register((stack, tintIndex) -> {
                 if (tintIndex == 1) {
-                    return AbstractDataItem.getColor(stack);
+                    return IDataItem.getColor(stack);
                 }
 
                 return 0xFFFFFF;

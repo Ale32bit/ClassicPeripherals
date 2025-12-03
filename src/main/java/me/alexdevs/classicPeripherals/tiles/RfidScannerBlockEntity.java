@@ -107,7 +107,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
                 data.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
             }
 
-            var equippedData = ModItems.RFID_BADGE.getEquippedData(player);
+            var equippedData = ModItems.RFID_BADGE.get().getEquippedData(player);
             equippedData.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
         }
 
