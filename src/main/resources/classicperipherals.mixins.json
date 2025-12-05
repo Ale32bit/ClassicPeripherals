@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "me.alexdevs.classicPeripherals.mixin",
   "compatibilityLevel": "JAVA_17",
+  "refmap": "classicperipherals.refmap.json",
   "mixins": [
     "LivingEntityMixin",
     "ItemMixin",
