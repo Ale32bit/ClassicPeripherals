@@ -34,14 +34,14 @@ repositories {
     maven { url 'https://repo.sleeping.town/' }
 
     // Trinkets
-//    maven {
-//        name = "TerraformersMC"
-//        url = "https://maven.terraformersmc.com/"
-//    }
-//    maven {
-//        name = "Ladysnake Libs"
-//        url = 'https://maven.ladysnake.org/releases'
-//    }
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven {
+        name = "Ladysnake Libs"
+        url = 'https://maven.ladysnake.org/releases'
+    }
 }
 
 dependencies {
@@ -61,7 +61,7 @@ dependencies {
     implementation "folk.sisby:kaleido-config:$kaleido_version"
     include "folk.sisby:kaleido-config:$kaleido_version"
 
-    // modImplementation "dev.emi:trinkets:${trinkets_version}"
+     modCompileOnly "dev.emi:trinkets:${trinkets_version}"
 }
 
 processResources {

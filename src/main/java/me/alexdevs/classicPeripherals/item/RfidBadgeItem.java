@@ -1,5 +1,7 @@
 package me.alexdevs.classicPeripherals.item;
 
+import dev.emi.trinkets.api.TrinketsApi;
+import me.alexdevs.classicPeripherals.integrations.TrinketsIntegration;
 import me.alexdevs.classicPeripherals.mixinInterface.ILivingEntityMixin;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -43,12 +45,7 @@ public class RfidBadgeItem extends Item implements IDataItem {
         return InteractionResult.CONSUME;
     }
 
-    // Trinkets mod is not compatible with this project due to mapping issues.
     public Optional<String> getEquippedData(ServerPlayer player) {
-        return Optional.empty();
-    }
-
-    /*public Optional<String> getEquippedData(ServerPlayer player) {
         if (!TrinketsIntegration.isLoaded()) {
             return Optional.empty();
         }
@@ -70,5 +67,5 @@ public class RfidBadgeItem extends Item implements IDataItem {
 
         var stack = badge.get().getB();
         return IDataItem.getData(stack);
-    }*/
+    }
 }
