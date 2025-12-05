@@ -1,0 +1,13 @@
+{
+  "block.classicperipherals.antenna": "Радио Антена",
+  "block.classicperipherals.nfc_reader": "NFC Считыватель",
+  "block.classicperipherals.rfid_scanner": "RFID Сканер",
+  "block.classicperipherals.tower_base": "Контроллер Радио Башни",
+  "block.classicperipherals.tower_head": "Антена Радио Башни",
+  "block.classicperipherals.tower_segment": "Сегмент Радио Башни",
+  "item.classicperipherals.copper_coil": "Медный Провод",
+  "item.classicperipherals.nfc_card": "NFC Карта",
+  "item.classicperipherals.rfid_badge": "RFID Бадж",
+  "itemGroup.classicperipherals": "Classic Peripherals",
+  "upgrade.radio.adjective": "Radio"
+}
