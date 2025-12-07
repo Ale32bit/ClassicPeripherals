@@ -144,7 +144,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
         var nearbyDroppedItems = level.getEntitiesOfClass(ItemEntity.class, aabb);
         for (var droppedItem : nearbyDroppedItems) {
             var stack = droppedItem.getItem();
-            if(!stack.is(ModItems.RFID_BADGE)) {
+            if(!stack.is(ModItems.RFID_BADGE.get())) {
                 continue;
             }
 
