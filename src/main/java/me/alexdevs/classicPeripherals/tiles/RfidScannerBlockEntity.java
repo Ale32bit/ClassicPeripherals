@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DirectionalBlock;
@@ -139,9 +140,22 @@ public class RfidScannerBlockEntity extends BlockEntity {
             }
         }
 
+        // Dropped RFID badges
+        var nearbyDroppedItems = level.getEntitiesOfClass(ItemEntity.class, aabb);
+        for (var droppedItem : nearbyDroppedItems) {
+            var stack = droppedItem.getItem();
+            if(!stack.is(ModItems.RFID_BADGE)) {
+                continue;
+            }
+
+            var distance = droppedItem.position().distanceTo(origin);
+            var badgeData = IDataItem.getData(stack);
+            badgeData.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
+        }
+
         return badges;
     }
 
-    public static record ScannedRfidBadge(String data, double distance) {
+    public record ScannedRfidBadge(String data, double distance) {
     }
 }
