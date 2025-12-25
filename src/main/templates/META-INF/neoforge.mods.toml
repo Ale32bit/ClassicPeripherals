@@ -89,7 +89,7 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="computercraft"
 type="required"
-versionRange="[1.116,)"
+versionRange="[1.117.0,)"
 ordering="NONE"
 side="BOTH"
 

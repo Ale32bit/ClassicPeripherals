@@ -38,7 +38,7 @@ public abstract class ItemMixin {
             return;
         }
 
-        var id = PocketComputerItem.getServerComputer(source.getServer(), stack).getID();
+        var id = PocketUtils.getServerComputer(source.getServer(), stack).getID();
         var data = PocketNfcAccess.pop(id);
         if (data.isEmpty()) {
             cir.setReturnValue(InteractionResult.PASS);
