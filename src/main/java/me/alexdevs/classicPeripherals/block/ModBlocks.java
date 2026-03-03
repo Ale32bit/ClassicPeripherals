@@ -70,6 +70,14 @@ public class ModBlocks {
             .isRedstoneConductor(ModBlocks::never)
     ), true);
 
+    public static final DeferredBlock<CryptographicAcceleratorBlock> CRYPTOGRAPHIC_ACCELERATOR = register("cryptographic_accelerator", () -> new CryptographicAcceleratorBlock(BlockBehaviour.Properties.of()
+            .strength(2.0F)
+            .mapColor(MapColor.STONE)
+            .isValidSpawn(ModBlocks::never)
+            .isRedstoneConductor(ModBlocks::never)
+    ), true);
+
+
     public static <T extends Block> DeferredBlock<T> register(String name, Supplier<T> block, boolean shouldRegisterItem) {
         var registeredBlock = ClassicPeripherals.BLOCKS.register(name, block);
 

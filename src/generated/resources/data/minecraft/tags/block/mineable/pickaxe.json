@@ -5,6 +5,7 @@
     "classicperipherals:tower_head",
     "classicperipherals:antenna",
     "classicperipherals:nfc_reader",
-    "classicperipherals:rfid_scanner"
+    "classicperipherals:rfid_scanner",
+    "classicperipherals:cryptographic_accelerator"
   ]
 }
