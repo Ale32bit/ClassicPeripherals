@@ -23,6 +23,7 @@ import java.util.HexFormat;
 
 public class Crypto {
     private static final Charset CHARSET = StandardCharsets.ISO_8859_1;
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     static {
         // Register Bouncy Castle as a security provider
@@ -79,7 +80,7 @@ public class Crypto {
     private String hmac(Digest digest, String key, String data, boolean hex) {
         var hmac = new HMac(digest);
         hmac.init(new KeyParameter(key.getBytes(CHARSET)));
-        hmac.update(data.getBytes(CHARSET), 0, key.length());
+        hmac.update(data.getBytes(CHARSET), 0, data.length());
         byte[] hash = new byte[hmac.getMacSize()];
         hmac.doFinal(hash, 0);
         return toStr(hash, hex);
@@ -114,14 +115,12 @@ public class Crypto {
     }
 
     public double secureRandom() {
-        var random = new SecureRandom();
-        return random.nextDouble();
+        return SECURE_RANDOM.nextDouble();
     }
 
     public byte[] secureRandomBuffer(int length) {
-        var random = new SecureRandom();
         var bytes = new byte[length];
-        random.nextBytes(bytes);
+        SECURE_RANDOM.nextBytes(bytes);
         return bytes;
     }
 
