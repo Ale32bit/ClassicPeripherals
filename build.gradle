@@ -77,6 +77,10 @@ dependencies {
     include(modApi("dev.ryanhcode.sable-companion:sable-companion-fabric-${project.minecraft_version}:${project.sable_companion_version}"))
 
     modCompileOnly "dev.emi:trinkets:${trinkets_version}"
+    modCompileOnly "dev.emi:trinkets:${trinkets_version}"
+
+    implementation "org.bouncycastle:bcprov-jdk18on:1.78.1"
+    include "org.bouncycastle:bcprov-jdk18on:1.78.1"
 }
 
 processResources {

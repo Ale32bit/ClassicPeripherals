@@ -8,7 +8,6 @@ import me.alexdevs.classicPeripherals.block.RfidScannerBlock;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.blockstates.*;
@@ -56,6 +55,9 @@ public class ModelGenerator extends FabricModelProvider {
 
         createNfcReaderModel(generators, ModBlocks.NFC_READER);
         createRfidScannerModel(generators, ModBlocks.RFID_SCANNER);
+
+        generators.createHorizontallyRotatedBlock(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR, TexturedModel.ORIENTABLE);
+        generators.delegateItemModel(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR, getModelLocation(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR));
 
         registerTurtleUpgrade(generators, "block/turtle_radio", "block/turtle_radio_face");
     }

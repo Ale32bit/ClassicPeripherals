@@ -20,6 +20,9 @@ public class ModBlockTiles {
     public static final BlockEntityType<RfidScannerBlockEntity> RFID_SCANNER = register("rfid_scanner",
             BlockEntityType.Builder.of(RfidScannerBlockEntity::new, ModBlocks.RFID_SCANNER).build());
 
+    public static final BlockEntityType<CryptographicAcceleratorBlockEntity> CRYPTOGRAPHIC_ACCELERATOR = register("cryptographic_accelerator",
+            BlockEntityType.Builder.of(CryptographicAcceleratorBlockEntity::new, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR).build());
+
     public static <T extends BlockEntityType<?>> T register(String path, T blockEntityType) {
         return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, path), blockEntityType);
     }

@@ -1,3 +1,3 @@
-// 1.21.1	2025-11-10T23:09:22.362486178	Classic Peripherals/Tags for minecraft:block
-1c8d8b74eea31635a966aff90a2039b9aa986f78 data/minecraft/tags/block/mineable/pickaxe.json
-1c8d8b74eea31635a966aff90a2039b9aa986f78 data/minecraft/tags/block/needs_iron_tool.json
+// 1.21.1	2026-05-03T15:32:07.0758759	Classic Peripherals/Tags for minecraft:block
+2e79061ac426a23ac77bf55fd3c92a98b77a236b data\minecraft\tags\block\needs_iron_tool.json
+2e79061ac426a23ac77bf55fd3c92a98b77a236b data\minecraft\tags\block\mineable\pickaxe.json

@@ -69,6 +69,13 @@ public class ModBlocks {
             .isRedstoneConductor(Blocks::never)
     ), true);
 
+    public static final CryptographicAcceleratorBlock CRYPTOGRAPHIC_ACCELERATOR = register("cryptographic_accelerator", new CryptographicAcceleratorBlock(BlockBehaviour.Properties.of()
+            .strength(2.0F)
+            .mapColor(MapColor.STONE)
+            .isValidSpawn(Blocks::never)
+            .isRedstoneConductor(Blocks::never)
+    ), true);
+
     public static <T extends Block> T register(String name, T block, boolean shouldRegisterItem) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, name);
 

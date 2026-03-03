@@ -115,5 +115,19 @@ public class RecipeGenerator extends FabricRecipeProvider {
 
         SpecialRecipeBuilder.special(RfidBadgeRecipe::new)
                 .save(output, "rfid_badge_dye");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR)
+                .pattern("did")
+                .pattern("cac")
+                .pattern("iri")
+                .define('d', Items.DIAMOND)
+                .define('i', Items.IRON_INGOT)
+                .define('c', Items.COMPARATOR)
+                .define('a', ModRegistry.Items.COMPUTER_ADVANCED.get())
+                .define('r', Items.REDSTONE_TORCH)
+                .unlockedBy("has_diamond", has(Items.DIAMOND))
+                .unlockedBy("has_advanced_computer", has(ModRegistry.Items.COMPUTER_ADVANCED.get()))
+                .unlockedBy("has_comparator", has(Items.COMPARATOR))
+                .save(output);
     }
 }
