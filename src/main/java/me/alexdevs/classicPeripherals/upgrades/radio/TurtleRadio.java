@@ -1,8 +1,6 @@
 package me.alexdevs.classicPeripherals.upgrades.radio;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.api.pocket.IPocketAccess;
-import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import dan200.computercraft.api.turtle.TurtleSide;

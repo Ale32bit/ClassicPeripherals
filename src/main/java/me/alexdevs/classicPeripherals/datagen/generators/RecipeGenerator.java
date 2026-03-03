@@ -1,6 +1,8 @@
 package me.alexdevs.classicPeripherals.datagen.generators;
 
+import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.ComputerCraftTags;
+import dan200.computercraft.shared.ComputerCraft;
 import dan200.computercraft.shared.ModRegistry;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.item.ModItems;
@@ -112,5 +114,19 @@ public class RecipeGenerator extends FabricRecipeProvider {
 
         SpecialRecipeBuilder.special(ModRecipes.RFID_BADGE_RECIPE)
                 .save(builder, "rfid_badge_dye");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR)
+                .pattern("did")
+                .pattern("cac")
+                .pattern("iri")
+                .define('d', Items.DIAMOND)
+                .define('i', Items.IRON_INGOT)
+                .define('c', Items.COMPARATOR)
+                .define('a', ModRegistry.Items.COMPUTER_ADVANCED.get())
+                .define('r', Items.REDSTONE_TORCH)
+                .unlockedBy("has_diamond", has(Items.DIAMOND))
+                .unlockedBy("has_advanced_computer", has(ModRegistry.Items.COMPUTER_ADVANCED.get()))
+                .unlockedBy("has_comparator", has(Items.COMPARATOR))
+                .save(builder);
     }
 }

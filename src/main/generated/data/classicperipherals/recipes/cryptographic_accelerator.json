@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "a": {
+      "item": "computercraft:computer_advanced"
+    },
+    "c": {
+      "item": "minecraft:comparator"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "r": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
+  "pattern": [
+    "did",
+    "cac",
+    "iri"
+  ],
+  "result": {
+    "item": "classicperipherals:cryptographic_accelerator"
+  },
+  "show_notification": true
+}

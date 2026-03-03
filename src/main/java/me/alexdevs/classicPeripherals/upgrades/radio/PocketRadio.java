@@ -4,7 +4,6 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.pocket.IPocketAccess;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.peripherals.AbstractRadioPeripheral;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

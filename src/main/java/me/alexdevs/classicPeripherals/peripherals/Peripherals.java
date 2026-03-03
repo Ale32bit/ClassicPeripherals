@@ -18,6 +18,7 @@ public class Peripherals {
         peripherals.registerForBlockEntity(ModBlockTiles.ANTENNA, (block, dir) -> dir == Direction.DOWN ? block.peripheral() : null);
         peripherals.registerForBlockEntity(ModBlockTiles.NFC_READER, (block, dir) -> block.peripheral());
         peripherals.registerForBlockEntity(ModBlockTiles.RFID_SCANNER, RfidScannerBlockEntity::peripheral);
+        peripherals.registerForBlockEntity(ModBlockTiles.CRYPTOGRAPHIC_ACCELERATOR, (block, dir) -> block.peripheral());
     }
 
     public interface BlockComponent<T, C extends @Nullable Object> {
