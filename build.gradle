@@ -26,6 +26,19 @@ repositories {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
     }
+
+    exclusiveContent { // Sable
+        forRepository {
+            maven {
+                url = "https://maven.ryanhcode.dev/releases"
+                name = "RyanHCode Maven"
+            }
+        }
+        filter {
+            includeGroup("dev.ryanhcode.sable")
+            includeGroup("dev.ryanhcode.sable-companion")
+        }
+    }
 }
 
 base {
@@ -123,6 +136,12 @@ dependencies {
 
     compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
     runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}")
+
+    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[${project.sable_companion_version},)")) {
+        version {
+            prefer project.sable_companion_version
+        }
+    }
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

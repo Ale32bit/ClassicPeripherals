@@ -1,12 +1,13 @@
 package me.alexdevs.classicPeripherals.core;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
+import me.alexdevs.classicPeripherals.integrations.SableIntegration;
 import me.alexdevs.classicPeripherals.peripherals.AbstractRadioPeripheral;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class TowerNetwork {
+public class RadioNetwork {
     private static final Set<AbstractRadioPeripheral> receivers = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public static final int MIN_FREQUENCY = 0;
@@ -57,7 +58,7 @@ public class TowerNetwork {
         }
 
         var receiveRange = Math.max(range, receiver.getRange());
-        var distanceSquared = receiver.getPosition().distanceToSqr(sender.getPosition());
+        var distanceSquared = SableIntegration.getDistanceSquared(receiver.getLevel(), receiver.getPosition(), sender.getPosition());
         if (distanceSquared <= receiveRange * receiveRange) {
             receiver.receive(data, Math.sqrt(distanceSquared), receiveRange);
         }

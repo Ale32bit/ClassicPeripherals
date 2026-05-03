@@ -4,7 +4,7 @@ import dan200.computercraft.api.lua.*;
 import dan200.computercraft.api.peripheral.AttachedComputerSet;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import me.alexdevs.classicPeripherals.core.TowerNetwork;
+import me.alexdevs.classicPeripherals.core.RadioNetwork;
 import me.alexdevs.classicPeripherals.tiles.AbstractRadioBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -27,7 +27,7 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
     public void attach(IComputerAccess computer) {
         computers.add(computer);
 
-        TowerNetwork.addReceiver(this);
+        RadioNetwork.addReceiver(this);
     }
 
     @Override
@@ -35,7 +35,7 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
         computers.remove(computer);
 
         if (!computers.hasComputers()) {
-            TowerNetwork.removeReceiver(this);
+            RadioNetwork.removeReceiver(this);
         }
     }
 
@@ -115,7 +115,7 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
             throw new LuaException("This antenna is not capable of broadcasting.");
         }
 
-        TowerNetwork.broadcast(this, data, getRange());
+        RadioNetwork.broadcast(this, data, getRange());
         ping();
     }
 
@@ -126,15 +126,15 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
 
     @LuaFunction(mainThread = true, value = "setFrequency")
     public final void LuaSetFrequency(ILuaContext context, int frequency) throws LuaException {
-        if (frequency < TowerNetwork.MIN_FREQUENCY || frequency > TowerNetwork.MAX_FREQUENCY) {
-            throw new LuaException("Frequency out of range. Must be between " + TowerNetwork.MIN_FREQUENCY + " and " + TowerNetwork.MAX_FREQUENCY + ".");
+        if (frequency < RadioNetwork.MIN_FREQUENCY || frequency > RadioNetwork.MAX_FREQUENCY) {
+            throw new LuaException("Frequency out of range. Must be between " + RadioNetwork.MIN_FREQUENCY + " and " + RadioNetwork.MAX_FREQUENCY + ".");
         }
 
         if (!isValid()) {
             throw new LuaException("The radio tower is not built correctly.");
         }
 
-        var channel = TowerNetwork.getChannel(frequency);
+        var channel = RadioNetwork.getChannel(frequency);
         this.setChannel(channel);
     }
 
@@ -145,7 +145,7 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
         }
 
         var channel = this.getChannel();
-        return TowerNetwork.getFrequency(channel);
+        return RadioNetwork.getFrequency(channel);
     }
 
     @LuaFunction("getHeight")
