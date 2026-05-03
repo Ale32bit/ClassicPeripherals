@@ -4,6 +4,7 @@ import dan200.computercraft.api.network.Packet;
 import dan200.computercraft.api.network.PacketReceiver;
 import dan200.computercraft.shared.peripheral.modem.wireless.WirelessNetwork;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
+import me.alexdevs.classicPeripherals.integrations.SableIntegration;
 import net.minecraft.world.level.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,7 +26,7 @@ public abstract class WirelessNetworkMixin {
         var sender = packet.sender();
         if (receiver.getLevel() == sender.getLevel()) {
             var receiveRange = Math.max(range, receiver.getRange()); // Ensure range is symmetrical
-            var distanceSq = receiver.getPosition().distanceToSqr(sender.getPosition());
+            var distanceSq = SableIntegration.getDistanceSquared(receiver.getLevel(), receiver.getPosition(), sender.getPosition());
             if (distanceSq <= receiveRange * receiveRange) {
                 receiver.receiveSameDimension(packet, Math.sqrt(distanceSq));
             }
@@ -38,7 +39,7 @@ public abstract class WirelessNetworkMixin {
                 // Apply dimensional coordinate scaling. (i.e., overworld / nether = 1 / 8)
                 var scale = DimensionType.getTeleportationScale(originLevel.dimensionType(), destinationLevel.dimensionType());
                 var receiverPos = receiver.getPosition().multiply(scale, 1d, scale);
-                var distanceSq = receiverPos.distanceToSqr(sender.getPosition());
+                var distanceSq = SableIntegration.getDistanceSquared(receiver.getLevel(), receiverPos, sender.getPosition());
 
                 if (Math.sqrt(distanceSq) <= 8d) {
                     receiver.receiveDifferentDimension(packet);
