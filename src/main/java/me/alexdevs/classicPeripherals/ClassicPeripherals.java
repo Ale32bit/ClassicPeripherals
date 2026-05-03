@@ -66,6 +66,7 @@ public class ClassicPeripherals {
                                 entries.accept(ModItems.NFC_CARD);
                                 entries.accept(ModBlocks.RFID_SCANNER);
                                 entries.accept(ModItems.RFID_BADGE);
+                                entries.accept(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR);
                             }).build());
 
     public ClassicPeripherals(IEventBus modEventBus, ModContainer modContainer) {
