@@ -34,6 +34,6 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}",
-    "computercraft": ">=1.117.0"
+    "computercraft": ">=1.118.0"
   }
 }
