@@ -46,7 +46,9 @@ public class TowerBlockEntity extends AbstractRadioBlockEntity {
     protected void onPing() {
         if(level != null) {
             var head = level.getBlockState(getAntennaPos());
-            this.level.setBlockAndUpdate(getAntennaPos(), head.setValue(TowerHeadBlock.ACTIVE, true));
+            if(head.is(ModBlocks.TOWER_HEAD)) {
+                this.level.setBlockAndUpdate(getAntennaPos(), head.setValue(TowerHeadBlock.ACTIVE, true));
+            }
         }
     }
 
@@ -54,7 +56,9 @@ public class TowerBlockEntity extends AbstractRadioBlockEntity {
     protected void afterPing() {
         if(level != null) {
             var head = level.getBlockState(getAntennaPos());
-            this.level.setBlockAndUpdate(getAntennaPos(), head.setValue(TowerHeadBlock.ACTIVE, false));
+            if(head.is(ModBlocks.TOWER_HEAD)) {
+                this.level.setBlockAndUpdate(getAntennaPos(), head.setValue(TowerHeadBlock.ACTIVE, false));
+            }
         }
     }
 

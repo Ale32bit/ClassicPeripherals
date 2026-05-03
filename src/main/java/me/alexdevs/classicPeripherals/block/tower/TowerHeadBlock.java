@@ -34,7 +34,6 @@ public class TowerHeadBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(ACTIVE, WATERLOGGED);
-
     }
 
     @Override

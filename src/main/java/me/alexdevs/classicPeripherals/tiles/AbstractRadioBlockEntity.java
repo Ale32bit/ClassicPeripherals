@@ -2,7 +2,7 @@ package me.alexdevs.classicPeripherals.tiles;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.core.TowerNetwork;
+import me.alexdevs.classicPeripherals.core.RadioNetwork;
 import me.alexdevs.classicPeripherals.peripherals.AbstractRadioPeripheral;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -69,6 +69,8 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     protected int pingTicks = 4;
     protected long lastPing = 0;
 
+    protected boolean shouldClearPing = false;
+
     public AbstractRadioBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
         super(blockEntityType, pos, state);
     }
@@ -107,8 +109,10 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
             var delta = time - be.lastPing;
             if (delta == 0) {
                 be.onPing();
-            } else if (delta >= be.pingTicks) {
+                be.shouldClearPing = true;
+            } else if (delta >= be.pingTicks && be.shouldClearPing) {
                 be.afterPing();
+                be.shouldClearPing = false;
             }
         }
     }
@@ -123,12 +127,12 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
     public void validate() {
         isValid = true;
-        TowerNetwork.addReceiver(peripheral);
+        RadioNetwork.addReceiver(peripheral);
     }
 
     public void invalidate() {
         isValid = false;
-        TowerNetwork.removeReceiver(peripheral);
+        RadioNetwork.removeReceiver(peripheral);
     }
 
     public void ping() {

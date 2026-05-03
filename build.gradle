@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.14-SNAPSHOT'
+    id 'fabric-loom' version '1.16-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -42,6 +42,19 @@ repositories {
         name = "Ladysnake Libs"
         url = 'https://maven.ladysnake.org/releases'
     }
+
+    exclusiveContent { // Sable
+        forRepository {
+            maven {
+                url = "https://maven.ryanhcode.dev/releases"
+                name = "RyanHCode Maven"
+            }
+        }
+        filter {
+            includeGroup("dev.ryanhcode.sable")
+            includeGroup("dev.ryanhcode.sable-companion")
+        }
+    }
 }
 
 dependencies {
@@ -61,7 +74,9 @@ dependencies {
     implementation "folk.sisby:kaleido-config:$kaleido_version"
     include "folk.sisby:kaleido-config:$kaleido_version"
 
-     modCompileOnly "dev.emi:trinkets:${trinkets_version}"
+    include(modApi("dev.ryanhcode.sable-companion:sable-companion-fabric-${project.minecraft_version}:${project.sable_companion_version}"))
+
+    modCompileOnly "dev.emi:trinkets:${trinkets_version}"
 }
 
 processResources {
