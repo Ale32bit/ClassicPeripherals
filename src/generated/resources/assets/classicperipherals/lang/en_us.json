@@ -10,5 +10,6 @@
   "item.classicperipherals.nfc_card": "NFC Card",
   "item.classicperipherals.rfid_badge": "RFID Badge",
   "itemGroup.classicperipherals": "Classic Peripherals",
+  "upgrade.crypto.adjective": "Crypto",
   "upgrade.radio.adjective": "Radio"
 }

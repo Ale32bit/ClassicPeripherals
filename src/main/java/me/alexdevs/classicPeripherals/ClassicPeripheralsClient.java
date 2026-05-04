@@ -58,6 +58,11 @@ public class ClassicPeripheralsClient {
                 model("turtle_radio_left"),
                 model("turtle_radio_right")
         ));
+
+        event.register(ModUpgrades.TURTLE_CRYPTO, TurtleUpgradeModeller.sided(
+                model("turtle_crypto_left"),
+                model("turtle_crypto_right")
+        ));
     }
 
     private static ResourceLocation id(String path) {
