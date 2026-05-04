@@ -18,5 +18,6 @@ public class TurtleUpgradeGenerator extends TurtleUpgradeDataProvider {
     @Override
     protected void addUpgrades(Consumer<Upgrade<TurtleUpgradeSerialiser<?>>> addUpgrade) {
         simpleWithCustomItem(new ResourceLocation(ClassicPeripherals.MOD_ID, "radio"), ModUpgrades.TURTLE_RADIO, ModBlocks.ANTENNA.asItem()).add(addUpgrade);
+        simpleWithCustomItem(new ResourceLocation(ClassicPeripherals.MOD_ID, "crypto"), ModUpgrades.TURTLE_CRYPTO, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.asItem()).add(addUpgrade);
     }
 }

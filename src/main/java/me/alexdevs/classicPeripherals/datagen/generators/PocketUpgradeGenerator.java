@@ -18,6 +18,7 @@ public class PocketUpgradeGenerator extends PocketUpgradeDataProvider {
     @Override
     protected void addUpgrades(Consumer<Upgrade<PocketUpgradeSerialiser<?>>> addUpgrade) {
         simpleWithCustomItem(new ResourceLocation(ClassicPeripherals.MOD_ID, "radio"), ModUpgrades.POCKET_RADIO, ModBlocks.ANTENNA.asItem()).add(addUpgrade);
+        simpleWithCustomItem(new ResourceLocation(ClassicPeripherals.MOD_ID, "crypto"), ModUpgrades.POCKET_CRYPTO, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.asItem()).add(addUpgrade);
     }
 
 }

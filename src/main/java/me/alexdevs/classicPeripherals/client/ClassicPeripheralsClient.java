@@ -26,6 +26,13 @@ public class ClassicPeripheralsClient implements ClientModInitializer {
                 )
         );
 
+        FabricComputerCraftAPIClient.registerTurtleUpgradeModeller(ModUpgrades.TURTLE_CRYPTO,
+                TurtleUpgradeModeller.sided(
+                        model("turtle_crypto_left"),
+                        model("turtle_crypto_right")
+                )
+        );
+
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
                 return IDataItem.getColor(stack);

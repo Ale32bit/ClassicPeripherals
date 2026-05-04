@@ -6,6 +6,8 @@ import dan200.computercraft.api.pocket.PocketUpgradeSerialiser;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
+import me.alexdevs.classicPeripherals.upgrades.crypto.PocketCrypto;
+import me.alexdevs.classicPeripherals.upgrades.crypto.TurtleCrypto;
 import me.alexdevs.classicPeripherals.upgrades.radio.PocketRadio;
 import me.alexdevs.classicPeripherals.upgrades.radio.TurtleRadio;
 import net.minecraft.core.Registry;
@@ -18,6 +20,12 @@ public class ModUpgrades {
 
     public static final TurtleUpgradeSerialiser<TurtleRadio> TURTLE_RADIO =
             turtle("radio", TurtleUpgradeSerialiser.simpleWithCustomItem(TurtleRadio::new));
+
+    public static final PocketUpgradeSerialiser<PocketCrypto> POCKET_CRYPTO =
+            pocket("crypto", PocketUpgradeSerialiser.simpleWithCustomItem(PocketCrypto::new));
+
+    public static final TurtleUpgradeSerialiser<TurtleCrypto> TURTLE_CRYPTO =
+            turtle("crypto", TurtleUpgradeSerialiser.simpleWithCustomItem(TurtleCrypto::new));
 
     @SuppressWarnings("unchecked")
     public static <T extends IPocketUpgrade> PocketUpgradeSerialiser<T> pocket(String name, PocketUpgradeSerialiser<T> upgrade) {

@@ -59,6 +59,7 @@ public class ModelGenerator extends FabricModelProvider {
         generators.delegateItemModel(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR, getModelLocation(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR));
 
         registerTurtleUpgrade(generators, "block/turtle_radio", "block/turtle_radio_face");
+        registerTurtleUpgrade(generators, "block/turtle_crypto", "block/turtle_crypto_face");
     }
 
     @Override
