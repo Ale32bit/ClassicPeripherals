@@ -3,12 +3,8 @@ package me.alexdevs.classicPeripherals.peripherals;
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
-import dan200.computercraft.api.peripheral.AttachedComputerSet;
-import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.core.Crypto;
-import me.alexdevs.classicPeripherals.tiles.CryptographicAcceleratorBlockEntity;
-import org.jspecify.annotations.Nullable;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -20,35 +16,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-public class CryptographicAcceleratorPeripheral implements IPeripheral {
-    private final CryptographicAcceleratorBlockEntity cryptographicAccelerator;
+public abstract class AbstractCryptographicAcceleratorPeripheral implements IPeripheral {
 
     private final Crypto crypto = new Crypto();
-
-    private final AttachedComputerSet computers = new AttachedComputerSet();
-
-    public CryptographicAcceleratorPeripheral(CryptographicAcceleratorBlockEntity blockEntity) {
-        this.cryptographicAccelerator = blockEntity;
-    }
 
     @Override
     public String getType() {
         return "cryptographic_accelerator";
-    }
-
-    @Override
-    public boolean equals(@Nullable IPeripheral other) {
-        return other instanceof CryptographicAcceleratorPeripheral o && cryptographicAccelerator == o.cryptographicAccelerator;
-    }
-
-    @Override
-    public void attach(IComputerAccess computer) {
-        computers.add(computer);
-    }
-
-    @Override
-    public void detach(IComputerAccess computer) {
-        computers.remove(computer);
     }
 
     @LuaFunction
@@ -109,7 +83,7 @@ public class CryptographicAcceleratorPeripheral implements IPeripheral {
 
     @LuaFunction
     public final String randomBytes(int length) throws LuaException {
-        if(length > 0x7ffffff0) {
+        if (length > 0x7ffffff0) {
             throw new LuaException("buffer size limit exceeded");
         }
 

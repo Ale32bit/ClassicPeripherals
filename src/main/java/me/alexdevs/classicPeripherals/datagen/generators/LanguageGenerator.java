@@ -30,5 +30,6 @@ public class LanguageGenerator extends FabricLanguageProvider {
         builder.add(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR, "Cryptographic Accelerator");
 
         builder.add("upgrade.radio.adjective", "Radio");
+        builder.add("upgrade.crypto.adjective", "Crypto");
     }
 }

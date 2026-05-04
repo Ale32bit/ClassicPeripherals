@@ -3,6 +3,7 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
+import me.alexdevs.classicPeripherals.upgrades.crypto.TurtleCrypto;
 import me.alexdevs.classicPeripherals.upgrades.radio.TurtleRadio;
 import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
@@ -20,6 +21,11 @@ public class TurtleUpgradeGenerator {
         upgrades.register(
                 ITurtleUpgrade.createKey(id("radio")),
                 new TurtleRadio(new ItemStack(ModBlocks.ANTENNA.asItem()))
+        );
+
+        upgrades.register(
+                ITurtleUpgrade.createKey(id("crypto")),
+                new TurtleCrypto(new ItemStack(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.asItem()))
         );
     }
 
