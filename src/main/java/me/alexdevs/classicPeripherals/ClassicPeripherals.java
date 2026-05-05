@@ -112,6 +112,18 @@ public class ClassicPeripherals {
                 ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "radio"),
                 () -> ModUpgrades.TURTLE_RADIO
         );
+
+        event.register(
+                IPocketUpgrade.typeRegistry(),
+                ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "crypto"),
+                () -> ModUpgrades.POCKET_CRYPTO
+        );
+
+        event.register(
+                ITurtleUpgrade.typeRegistry(),
+                ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "crypto"),
+                () -> ModUpgrades.TURTLE_CRYPTO
+        );
     }
 
     public void onServerStart(final ServerStartedEvent event) {
