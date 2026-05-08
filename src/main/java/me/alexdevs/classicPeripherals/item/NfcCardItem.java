@@ -45,4 +45,8 @@ public class NfcCardItem extends Item implements IDataItem {
         return InteractionResult.CONSUME;
     }
 
+    @Override
+    public boolean supportsPrivateKey() {
+        return true;
+    }
 }

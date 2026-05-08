@@ -41,6 +41,10 @@ public class ClassicPeripheralsConfig extends WrappedConfig {
     @Comment("Enable the Ender Modem nerf.")
     public boolean enderModemNerf = true;
 
+    @Comment("Ender Modem cross-dimensional range.")
+    @FloatRange(min = 1, max = Float.MAX_VALUE)
+    public double enderModemCrossDimensionalRange = 8;
+
     @Comment("Enable the improvement of the Redstone Relay event.")
     public boolean betterRedstoneRelayEvent = true;
 }

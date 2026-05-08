@@ -2,24 +2,23 @@ package me.alexdevs.classicPeripherals.block;
 
 import dan200.computercraft.api.ComputerCraftTags;
 import dan200.computercraft.shared.pocket.core.PocketServerComputer;
-import dan200.computercraft.shared.pocket.items.PocketComputerItem;
 import me.alexdevs.classicPeripherals.item.IDataItem;
 import me.alexdevs.classicPeripherals.tiles.NfcReaderBlockEntity;
 import me.alexdevs.classicPeripherals.utils.PocketUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -33,6 +32,7 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
         NONE("none"),
         READING("reading"),
         WRITING("writing"),
+        SIGNING("signing"),
         ;
 
         public final String name;

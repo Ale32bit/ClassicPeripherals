@@ -68,4 +68,9 @@ public class RfidBadgeItem extends Item implements IDataItem {
         var stack = badge.get().getB();
         return IDataItem.getData(stack);
     }
+
+    @Override
+    public boolean supportsPrivateKey() {
+        return false;
+    }
 }

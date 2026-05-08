@@ -85,6 +85,7 @@ public class ModelGenerator extends FabricModelProvider {
                         case NONE -> "";
                         case READING -> "_reading";
                         case WRITING -> "_writing";
+                        case SIGNING -> "_signing";
                     };
 
                     return ModelTemplates.CUBE_ORIENTABLE.createWithSuffix(

@@ -1,9 +1,11 @@
 package me.alexdevs.classicPeripherals.luaApi;
 
 import dan200.computercraft.api.lua.ILuaAPI;
+import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.pocket.IPocketAccess;
 import dan200.computercraft.shared.pocket.core.PocketBrain;
+import me.alexdevs.classicPeripherals.utils.LuaUtils;
 import org.jetbrains.annotations.Nullable;
 
 public class PocketNfcAPI implements ILuaAPI {
@@ -31,12 +33,21 @@ public class PocketNfcAPI implements ILuaAPI {
     public void shutdown() {
         var id = getBrain().computer().getID();
         PocketNfcAccess.set(id, null);
+        PocketNfcAccess.setPrivateKey(id, null);
     }
 
     @LuaFunction
     public final void write(@Nullable String data) {
         var id = getBrain().computer().getID();
         PocketNfcAccess.set(id, data);
+    }
+
+    @LuaFunction
+    public final void setPrivateKey(@Nullable String privateKey) throws LuaException {
+        var id = getBrain().computer().getID();
+        LuaUtils.validateKey(privateKey);
+
+        PocketNfcAccess.setPrivateKey(id, privateKey);
     }
 
     @LuaFunction

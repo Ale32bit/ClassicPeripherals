@@ -40,7 +40,7 @@ public abstract class WirelessNetworkMixin {
                 var receiverPos = receiver.getPosition().multiply(scale, 1d, scale);
                 var distanceSq = receiverPos.distanceToSqr(sender.getPosition());
 
-                if (Math.sqrt(distanceSq) <= 8d) {
+                if (Math.sqrt(distanceSq) <= ClassicPeripherals.CONFIG.enderModemCrossDimensionalRange) {
                     receiver.receiveDifferentDimension(packet);
                 }
             }

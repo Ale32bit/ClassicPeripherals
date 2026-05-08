@@ -1,8 +1,10 @@
 package me.alexdevs.classicPeripherals.item;
 
+import me.alexdevs.classicPeripherals.core.Crypto;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -53,4 +55,28 @@ public interface IDataItem {
 
         return 0xFFFFFF;
     }
+
+    static @Nullable String getPrivateKey(ItemStack stack) {
+        if (stack.getItem() instanceof IDataItem dataItem && dataItem.supportsPrivateKey()) {
+            var tag = stack.getOrCreateTag();
+            if (!tag.contains("privateKey", Tag.TAG_STRING)) {
+                var key = Crypto.generatePrivateKey();
+                setPrivateKey(stack, key);
+                return key;
+            }
+
+            return tag.getString("privateKey");
+        }
+
+        return null;
+    }
+
+    static void setPrivateKey(ItemStack stack, String privateKey) {
+        if (stack.getItem() instanceof IDataItem dataItem && dataItem.supportsPrivateKey()) {
+            var tag = stack.getOrCreateTag();
+            tag.putString("privateKey", privateKey);
+        }
+    }
+
+    boolean supportsPrivateKey();
 }

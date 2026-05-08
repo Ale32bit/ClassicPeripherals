@@ -1,11 +1,13 @@
 package me.alexdevs.classicPeripherals.peripherals;
 
+import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.AttachedComputerSet;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.core.util.StringUtil;
 import me.alexdevs.classicPeripherals.tiles.NfcReaderBlockEntity;
+import me.alexdevs.classicPeripherals.utils.LuaUtils;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
@@ -38,17 +40,31 @@ public class NfcReaderPeripheral implements IPeripheral {
         computers.remove(computer);
     }
 
-    public void read(String data) {
-        computers.forEach(computer -> computer.queueEvent("nfc_data", computer.getAttachmentName(), data));
+    public void read(String data, @Nullable String publicKey) {
+        computers.forEach(computer -> computer.queueEvent("nfc_data", computer.getAttachmentName(), data, publicKey));
     }
 
     public void writeFeedback(boolean success, String message) {
         computers.forEach(computer -> computer.queueEvent("nfc_write", computer.getAttachmentName(), success, message));
     }
 
+    public void signFeedback(String signature, String publicKey) {
+        computers.forEach(computer -> computer.queueEvent("nfc_sign", computer.getAttachmentName(), signature, publicKey));
+    }
+
     @LuaFunction(mainThread = true)
-    public final void write(String data, Optional<String> label, Optional<Boolean> flagReadOnly) {
-        nfcReader.flagWrite(data, label.map(StringUtil::normaliseLabel).orElse(null), flagReadOnly.orElse(false));
+    public final void write(String data, Optional<String> label, Optional<Boolean> flagReadOnly, Optional<String> privateKey) throws LuaException {
+
+        if (privateKey.isPresent()) {
+            LuaUtils.validateKey(privateKey.get());
+        }
+
+        nfcReader.flagWrite(
+                data,
+                label.map(StringUtil::normaliseLabel).orElse(null),
+                flagReadOnly.orElse(false),
+                privateKey.orElse(null)
+        );
     }
 
     @LuaFunction(mainThread = true)
@@ -56,5 +72,17 @@ public class NfcReaderPeripheral implements IPeripheral {
         var inWriteMode = nfcReader.isWriteMode();
         nfcReader.cancelWrite();
         return inWriteMode;
+    }
+
+    @LuaFunction(mainThread = true)
+    public final void sign(String data) {
+        nfcReader.flagSign(data);
+    }
+
+    @LuaFunction(mainThread = true)
+    public final boolean cancelSign() {
+        var inSignMode = nfcReader.isSigningMode();
+        nfcReader.cancelSign();
+        return inSignMode;
     }
 }
