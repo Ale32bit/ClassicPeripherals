@@ -35,6 +35,7 @@ public class NfcReaderBlock extends HorizontalDirectionalBlock implements Entity
         NONE("none"),
         READING("reading"),
         WRITING("writing"),
+        SIGNING("signing"),
         ;
 
         public final String name;

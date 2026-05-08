@@ -1,6 +1,7 @@
 package me.alexdevs.classicPeripherals.item;
 
 import dev.emi.trinkets.api.TrinketsApi;
+import me.alexdevs.classicPeripherals.core.ItemDataHandler;
 import me.alexdevs.classicPeripherals.integrations.TrinketsIntegration;
 import me.alexdevs.classicPeripherals.mixinInterface.ILivingEntityMixin;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,7 +26,7 @@ public class RfidBadgeItem extends Item implements IDataItem {
             return InteractionResult.PASS;
         }
 
-        var data = IDataItem.getData(stack);
+        var data = ItemDataHandler.getData(stack);
         if (data.isEmpty()) {
             return InteractionResult.PASS;
         }
@@ -66,6 +67,11 @@ public class RfidBadgeItem extends Item implements IDataItem {
         }
 
         var stack = badge.get().getB();
-        return IDataItem.getData(stack);
+        return ItemDataHandler.getData(stack);
+    }
+
+    @Override
+    public boolean supportsPrivateKey() {
+        return false;
     }
 }

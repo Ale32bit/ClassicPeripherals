@@ -5,6 +5,7 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.core.Crypto;
+import me.alexdevs.classicPeripherals.utils.LuaUtils;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -18,8 +19,6 @@ import java.util.Optional;
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public abstract class AbstractCryptographicAcceleratorPeripheral implements IPeripheral {
 
-    private final Crypto crypto = new Crypto();
-
     @Override
     public String getType() {
         return "cryptographic_accelerator";
@@ -27,47 +26,47 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
 
     @LuaFunction
     public final String md5(String data, Optional<Boolean> hex) {
-        return crypto.md5(data, hex.orElse(true));
+        return Crypto.md5(data, hex.orElse(true));
     }
 
     @LuaFunction
     public final String sha1(String data, Optional<Boolean> hex) {
-        return crypto.sha1(data, hex.orElse(true));
+        return Crypto.sha1(data, hex.orElse(true));
     }
 
     @LuaFunction
     public final String sha256(String data, Optional<Boolean> hex) {
-        return crypto.sha256(data, hex.orElse(true));
+        return Crypto.sha256(data, hex.orElse(true));
     }
 
     @LuaFunction
     public final String sha512(String data, Optional<Boolean> hex) {
-        return crypto.sha512(data, hex.orElse(true));
+        return Crypto.sha512(data, hex.orElse(true));
     }
 
     @LuaFunction
     public final String hmacMd5(String key, String data, Optional<Boolean> hex) {
-        return crypto.md5Hmac(key, data, hex.orElse(true));
+        return Crypto.md5Hmac(key, data, hex.orElse(true));
     }
 
     @LuaFunction
     public final String hmacSha1(String key, String data, Optional<Boolean> hex) {
-        return crypto.sha1Hmac(key, data, hex.orElse(true));
+        return Crypto.sha1Hmac(key, data, hex.orElse(true));
     }
 
     @LuaFunction
     public final String hmacSha256(String key, String data, Optional<Boolean> hex) {
-        return crypto.sha256Hmac(key, data, hex.orElse(true));
+        return Crypto.sha256Hmac(key, data, hex.orElse(true));
     }
 
     @LuaFunction
     public final String hmacSha512(String key, String data, Optional<Boolean> hex) {
-        return crypto.sha512Hmac(key, data, hex.orElse(true));
+        return Crypto.sha512Hmac(key, data, hex.orElse(true));
     }
 
     @LuaFunction
     public final double random(IArguments args) throws LuaException {
-        var value = crypto.secureRandom();
+        var value = Crypto.secureRandom();
 
         if (args.count() == 0) { // 0.0 - 1.0
             return value;
@@ -87,25 +86,25 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
             throw new LuaException("buffer size limit exceeded");
         }
 
-        var bytes = crypto.secureRandomBuffer(length);
+        var bytes = Crypto.secureRandomBuffer(length);
 
         return new String(bytes, StandardCharsets.ISO_8859_1);
     }
 
     @LuaFunction
     public final String encodeBase64(String data) {
-        return crypto.encodeBase64(data);
+        return Crypto.encodeBase64(data);
     }
 
     @LuaFunction
     public final String decodeBase64(String data) {
-        return crypto.decodeBase64(data);
+        return Crypto.decodeBase64(data);
     }
 
     @LuaFunction
     public final String encryptAes(String data, String key, String iv) throws LuaException {
         try {
-            return crypto.encryptAes(data, key, iv);
+            return Crypto.encryptAes(data, key, iv);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
                  InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
             throw new LuaException(e.getMessage());
@@ -115,7 +114,7 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
     @LuaFunction
     public final String decryptAes(String data, String key, String iv) throws LuaException {
         try {
-            return crypto.decryptAes(data, key, iv);
+            return Crypto.decryptAes(data, key, iv);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
                  InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
             throw new LuaException(e.getMessage());
@@ -124,21 +123,24 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
 
     @LuaFunction
     public final String generatePrivateKey() {
-        return crypto.generatePrivateKey();
+        return Crypto.generatePrivateKey();
     }
 
     @LuaFunction
-    public final String derivePublicKey(String privateKey) {
-        return crypto.derivePublicKey(privateKey);
+    public final String derivePublicKey(String privateKey) throws LuaException {
+        LuaUtils.validateKey(privateKey);
+        return Crypto.derivePublicKey(privateKey);
     }
 
     @LuaFunction
-    public final String sign(String message, String privateKey) {
-        return crypto.sign(message, privateKey);
+    public final String sign(String message, String privateKey) throws LuaException {
+        LuaUtils.validateKey(privateKey);
+        return Crypto.sign(message, privateKey);
     }
 
     @LuaFunction
-    public final boolean verify(String message, String signature, String publicKey) {
-        return crypto.verify(message, signature, publicKey);
+    public final boolean verify(String message, String signature, String publicKey) throws LuaException {
+        LuaUtils.validateKey(publicKey);
+        return Crypto.verify(message, signature, publicKey);
     }
 }

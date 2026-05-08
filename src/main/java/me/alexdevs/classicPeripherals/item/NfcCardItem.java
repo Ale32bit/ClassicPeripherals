@@ -1,9 +1,7 @@
 package me.alexdevs.classicPeripherals.item;
 
 import dan200.computercraft.api.ComputerCraftTags;
-import dan200.computercraft.shared.computer.core.ServerComputer;
-import dan200.computercraft.shared.pocket.items.PocketComputerItem;
-import me.alexdevs.classicPeripherals.ModComponents;
+import me.alexdevs.classicPeripherals.core.ItemDataHandler;
 import me.alexdevs.classicPeripherals.utils.PocketUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -30,7 +28,7 @@ public class NfcCardItem extends Item implements IDataItem {
             return InteractionResult.PASS;
         }
 
-        var data = IDataItem.getData(stack);
+        var data = ItemDataHandler.getData(stack);
         if (data.isEmpty()) {
             return InteractionResult.PASS;
         }
@@ -48,4 +46,8 @@ public class NfcCardItem extends Item implements IDataItem {
         return InteractionResult.CONSUME;
     }
 
+    @Override
+    public boolean supportsPrivateKey() {
+        return true;
+    }
 }

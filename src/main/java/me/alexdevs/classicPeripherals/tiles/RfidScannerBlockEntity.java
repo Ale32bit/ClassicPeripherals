@@ -2,7 +2,7 @@ package me.alexdevs.classicPeripherals.tiles;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.RfidScannerBlock;
-import me.alexdevs.classicPeripherals.item.IDataItem;
+import me.alexdevs.classicPeripherals.core.ItemDataHandler;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.mixinInterface.ILivingEntityMixin;
 import me.alexdevs.classicPeripherals.peripherals.RfidScannerPeripheral;
@@ -100,7 +100,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
                     continue;
                 }
 
-                var data = IDataItem.getData(stack);
+                var data = ItemDataHandler.getData(stack);
                 if (data.isEmpty()) {
                     continue;
                 }
@@ -133,7 +133,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
                 var handSlots = livingEntity.getHandSlots();
                 for (var handStack : handSlots) {
                     if (handStack.is(ModItems.RFID_BADGE)) {
-                        var data = IDataItem.getData(handStack);
+                        var data = ItemDataHandler.getData(handStack);
                         data.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
                     }
                 }
@@ -149,7 +149,7 @@ public class RfidScannerBlockEntity extends BlockEntity {
             }
 
             var distance = droppedItem.position().distanceTo(origin);
-            var badgeData = IDataItem.getData(stack);
+            var badgeData = ItemDataHandler.getData(stack);
             badgeData.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
         }
 

@@ -23,6 +23,9 @@ public class ModBlockTiles {
     public static final BlockEntityType<CryptographicAcceleratorBlockEntity> CRYPTOGRAPHIC_ACCELERATOR = register("cryptographic_accelerator",
             BlockEntityType.Builder.of(CryptographicAcceleratorBlockEntity::new, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR).build());
 
+    public static final BlockEntityType<ScannerBlockEntity> SCANNER = register("scanner",
+            BlockEntityType.Builder.of(ScannerBlockEntity::new, ModBlocks.SCANNER).build());
+
     public static <T extends BlockEntityType<?>> T register(String path, T blockEntityType) {
         return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, path), blockEntityType);
     }

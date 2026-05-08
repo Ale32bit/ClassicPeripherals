@@ -1,11 +1,13 @@
 package me.alexdevs.classicPeripherals;
 
 import me.alexdevs.classicPeripherals.block.ModBlocks;
+import me.alexdevs.classicPeripherals.core.StateSaverAndLoader;
 import me.alexdevs.classicPeripherals.luaApi.ModLuaApiProvider;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
+import me.alexdevs.classicPeripherals.screen.ModScreenHandlers;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.fabricmc.api.ModInitializer;
@@ -14,6 +16,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -22,6 +25,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class ClassicPeripherals implements ModInitializer {
     public static final String MOD_ID = "classicperipherals";
@@ -38,6 +42,8 @@ public class ClassicPeripherals implements ModInitializer {
             .title(Component.translatable("itemGroup.classicperipherals"))
             .build();
 
+    private static @Nullable StateSaverAndLoader stateSaverAndLoader;
+
     @Override
     public void onInitialize() {
         ModComponents.initialize();
@@ -48,6 +54,7 @@ public class ClassicPeripherals implements ModInitializer {
         ModRecipes.initialize();
         ModUpgrades.initialize();
         ModLuaApiProvider.initialize();
+        ModScreenHandlers.initialize();
 
         ServerLifecycleEvents.SERVER_STARTED.register(this::serverStartHook);
 
@@ -65,11 +72,17 @@ public class ClassicPeripherals implements ModInitializer {
                 entries.accept(ModBlocks.RFID_SCANNER);
                 entries.accept(ModItems.RFID_BADGE);
                 entries.accept(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR);
+                entries.accept(ModBlocks.SCANNER);
             }
         });
     }
 
     private void serverStartHook(MinecraftServer server) {
         PocketNfcAccess.clear();
+        stateSaverAndLoader = StateSaverAndLoader.getServerState(server);
+    }
+
+    public static @Nullable StateSaverAndLoader getState() {
+        return stateSaverAndLoader;
     }
 }

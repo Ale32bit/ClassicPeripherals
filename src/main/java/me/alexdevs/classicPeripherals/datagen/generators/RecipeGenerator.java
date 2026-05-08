@@ -129,5 +129,15 @@ public class RecipeGenerator extends FabricRecipeProvider {
                 .unlockedBy("has_advanced_computer", has(ModRegistry.Items.COMPUTER_ADVANCED.get()))
                 .unlockedBy("has_comparator", has(Items.COMPARATOR))
                 .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.SCANNER)
+                .pattern("sss")
+                .pattern("sos")
+                .pattern("srs")
+                .define('s', Items.STONE)
+                .define('o', Items.OBSERVER)
+                .define('r', Items.REDSTONE)
+                .unlockedBy("has_observer", has(Items.OBSERVER))
+                .save(output);
     }
 }

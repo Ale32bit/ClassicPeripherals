@@ -27,7 +27,7 @@ public abstract class WirelessModemPeripheralMixin {
             )
     )
     private boolean classicperipherals$overrideGetRangeAdvanced(WirelessModemPeripheral instance) {
-        if(ClassicPeripherals.CONFIG.enderModemNerf) {
+        if (ClassicPeripherals.CONFIG.enderModemNerf) {
             return false;
         }
 
@@ -36,14 +36,14 @@ public abstract class WirelessModemPeripheralMixin {
 
     @Inject(method = "getRange", at = @At("RETURN"), cancellable = true)
     private void classicperipherals$getRangeValue(CallbackInfoReturnable<Double> cir) {
-        if(!ClassicPeripherals.CONFIG.enderModemNerf) {
+        if (!ClassicPeripherals.CONFIG.enderModemNerf) {
             return;
         }
 
         if (!advanced)
             return;
 
-        var self = (WirelessModemPeripheral)(Object)this;
+        var self = (WirelessModemPeripheral) (Object) this;
         var world = self.getLevel();
         if (world != null) {
             var position = self.getPosition();
