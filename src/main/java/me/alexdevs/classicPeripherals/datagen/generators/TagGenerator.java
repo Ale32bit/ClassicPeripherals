@@ -19,10 +19,6 @@ public class TagGenerator extends FabricTagProvider<Block> {
     protected void addTags(HolderLookup.Provider provider) {
         getOrCreateTagBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.TOWER_BASE, ModBlocks.TOWER_SEGMENT, ModBlocks.TOWER_HEAD, ModBlocks.ANTENNA)
-                .add(ModBlocks.NFC_READER, ModBlocks.RFID_SCANNER, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR);
-
-        getOrCreateTagBuilder(BlockTags.NEEDS_IRON_TOOL)
-                .add(ModBlocks.TOWER_BASE, ModBlocks.TOWER_SEGMENT, ModBlocks.TOWER_HEAD, ModBlocks.ANTENNA)
-                .add(ModBlocks.NFC_READER, ModBlocks.RFID_SCANNER, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR);
+                .add(ModBlocks.NFC_READER, ModBlocks.RFID_SCANNER, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR, ModBlocks.SCANNER);
     }
 }

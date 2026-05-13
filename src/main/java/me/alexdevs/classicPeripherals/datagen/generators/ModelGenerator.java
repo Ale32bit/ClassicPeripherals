@@ -5,6 +5,7 @@ import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.block.NfcReaderBlock;
 import me.alexdevs.classicPeripherals.block.RfidScannerBlock;
+import me.alexdevs.classicPeripherals.block.ScannerBlock;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
@@ -54,6 +55,7 @@ public class ModelGenerator extends FabricModelProvider {
 
         createNfcReaderModel(generators, ModBlocks.NFC_READER);
         createRfidScannerModel(generators, ModBlocks.RFID_SCANNER);
+        createScannerModel(generators, ModBlocks.SCANNER);
 
         generators.createHorizontallyRotatedBlock(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR, TexturedModel.ORIENTABLE);
         generators.delegateItemModel(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR, getModelLocation(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR));
@@ -113,6 +115,23 @@ public class ModelGenerator extends FabricModelProvider {
                 })));
 
         generators.delegateItemModel(block, getModelLocation(block));
+    }
+
+    private void createScannerModel(BlockModelGenerators generators, ScannerBlock block) {
+        generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block)
+                .with(BlockModelGenerators.createHorizontalFacingDispatch())
+                .with(createModelDispatch(ScannerBlock.TRAY, value -> {
+                    var suffix = "_front" + (value ? "_tray" : "");
+
+                    return ModelTemplates.CUBE_ORIENTABLE.createWithSuffix(
+                            block, suffix,
+                            TextureMapping.orientableCube(block).put(TextureSlot.FRONT, TextureMapping.getBlockTexture(block, suffix)),
+                            generators.modelOutput
+                    );
+                }))
+        );
+
+        generators.delegateItemModel(block, getModelLocation(block, "_front"));
     }
 
     private static void registerTurtleUpgrade(BlockModelGenerators generators, String name, String texture) {

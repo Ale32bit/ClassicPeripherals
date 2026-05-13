@@ -1,8 +1,6 @@
 package me.alexdevs.classicPeripherals.datagen.generators;
 
-import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.ComputerCraftTags;
-import dan200.computercraft.shared.ComputerCraft;
 import dan200.computercraft.shared.ModRegistry;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.item.ModItems;
@@ -127,6 +125,16 @@ public class RecipeGenerator extends FabricRecipeProvider {
                 .unlockedBy("has_diamond", has(Items.DIAMOND))
                 .unlockedBy("has_advanced_computer", has(ModRegistry.Items.COMPUTER_ADVANCED.get()))
                 .unlockedBy("has_comparator", has(Items.COMPARATOR))
+                .save(builder);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.SCANNER)
+                .pattern("sss")
+                .pattern("sos")
+                .pattern("srs")
+                .define('s', Items.STONE)
+                .define('o', Items.OBSERVER)
+                .define('r', Items.REDSTONE)
+                .unlockedBy("has_observer", has(Items.OBSERVER))
                 .save(builder);
     }
 }

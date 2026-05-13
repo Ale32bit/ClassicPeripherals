@@ -3,6 +3,7 @@
   "block.classicperipherals.cryptographic_accelerator": "Cryptographic Accelerator",
   "block.classicperipherals.nfc_reader": "NFC Reader",
   "block.classicperipherals.rfid_scanner": "RFID Scanner",
+  "block.classicperipherals.scanner": "Scanner",
   "block.classicperipherals.tower_base": "Radio Tower Controller",
   "block.classicperipherals.tower_head": "Radio Tower Antenna",
   "block.classicperipherals.tower_segment": "Radio Tower Pole",

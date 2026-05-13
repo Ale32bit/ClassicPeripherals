@@ -14,6 +14,7 @@ public class ModBlockTiles {
     public static final BlockEntityType<NfcReaderBlockEntity> NFC_READER = register("nfc_reader", FabricBlockEntityTypeBuilder.create(NfcReaderBlockEntity::new, ModBlocks.NFC_READER).build());
     public static final BlockEntityType<RfidScannerBlockEntity> RFID_SCANNER = register("rfid_scanner", FabricBlockEntityTypeBuilder.create(RfidScannerBlockEntity::new, ModBlocks.RFID_SCANNER).build());
     public static final BlockEntityType<CryptographicAcceleratorBlockEntity> CRYPTOGRAPHIC_ACCELERATOR = register("cryptographic_accelerator", FabricBlockEntityTypeBuilder.create(CryptographicAcceleratorBlockEntity::new, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR).build());
+    public static final BlockEntityType<ScannerBlockEntity> SCANNER = register("scanner", FabricBlockEntityTypeBuilder.create(ScannerBlockEntity::new, ModBlocks.SCANNER).build());
 
     public static <T extends BlockEntityType<?>> T register(String path, T blockEntityType) {
         return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(ClassicPeripherals.MOD_ID, path), blockEntityType);

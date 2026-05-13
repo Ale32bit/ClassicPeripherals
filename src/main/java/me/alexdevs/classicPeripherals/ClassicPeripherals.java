@@ -7,6 +7,7 @@ import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
+import me.alexdevs.classicPeripherals.screen.ModScreenHandlers;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.fabricmc.api.ModInitializer;
@@ -52,6 +53,7 @@ public class ClassicPeripherals implements ModInitializer {
         ModRecipes.initialize();
         ModUpgrades.initialize();
         ModLuaApiProvider.initialize();
+        ModScreenHandlers.initialize();
 
         ServerLifecycleEvents.SERVER_STARTED.register(this::serverStartHook);
 
@@ -69,6 +71,7 @@ public class ClassicPeripherals implements ModInitializer {
                 entries.accept(ModBlocks.RFID_SCANNER);
                 entries.accept(ModItems.RFID_BADGE);
                 entries.accept(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR);
+                entries.accept(ModBlocks.SCANNER);
             }
         });
     }
