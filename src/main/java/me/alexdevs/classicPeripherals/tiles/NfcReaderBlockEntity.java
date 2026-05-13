@@ -5,7 +5,7 @@ import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.block.NfcReaderBlock;
 import me.alexdevs.classicPeripherals.core.Crypto;
-import me.alexdevs.classicPeripherals.item.IDataItem;
+import me.alexdevs.classicPeripherals.core.ItemDataHandler;
 import me.alexdevs.classicPeripherals.item.NfcCardItem;
 import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.peripherals.NfcReaderPeripheral;
@@ -119,7 +119,7 @@ public class NfcReaderBlockEntity extends BlockEntity {
 
     public void onUse(ItemStack stack) {
         if (isWriteMode() && pendingWrite != null) {
-            var readOnly = IDataItem.isReadOnly(stack);
+            var readOnly = ItemDataHandler.isReadOnly(stack);
             if (readOnly) {
                 peripheral.writeFeedback(false, "read_only");
                 cancelWrite();
@@ -127,32 +127,32 @@ public class NfcReaderBlockEntity extends BlockEntity {
             }
 
             if (pendingWrite.label != null) {
-                IDataItem.setLabel(stack, pendingWrite.label);
+                ItemDataHandler.setLabel(stack, pendingWrite.label);
             } else {
-                IDataItem.clearLabel(stack);
+                ItemDataHandler.clearLabel(stack);
             }
 
             // setting/clearing name overwrites the tag precedently created.
-            IDataItem.setData(stack, pendingWrite.data);
-            IDataItem.setReadOnly(stack, pendingWrite.readOnly);
+            ItemDataHandler.setData(stack, pendingWrite.data);
+            ItemDataHandler.setReadOnly(stack, pendingWrite.readOnly);
 
             if (pendingWrite.privateKey != null) {
-                IDataItem.setPrivateKey(stack, pendingWrite.privateKey);
+                ItemDataHandler.setPrivateKey(stack, pendingWrite.privateKey);
             }
 
             peripheral.writeFeedback(true, "success");
             cancelWrite();
 
         } else if (isSigningMode()) {
-            var privateKey = IDataItem.getPrivateKey(stack);
-            doSigning(privateKey);
+            var privateKey = ItemDataHandler.getPrivateKey(stack);
+            privateKey.ifPresent(this::doSigning);
 
         } else {
-            var data = IDataItem.getData(stack);
-            var privateKey = IDataItem.getPrivateKey(stack);
+            var data = ItemDataHandler.getData(stack);
+            var privateKey = ItemDataHandler.getPrivateKey(stack);
             String publicKey = null;
-            if (privateKey != null) {
-                publicKey = Crypto.derivePublicKey(privateKey);
+            if (privateKey.isPresent()) {
+                publicKey = Crypto.derivePublicKey(privateKey.get());
             }
 
             if (data.isPresent()) {

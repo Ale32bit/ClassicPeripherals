@@ -1,6 +1,7 @@
 package me.alexdevs.classicPeripherals;
 
 import me.alexdevs.classicPeripherals.block.ModBlocks;
+import me.alexdevs.classicPeripherals.core.StateSaverAndLoader;
 import me.alexdevs.classicPeripherals.luaApi.ModLuaApiProvider;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
@@ -22,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class ClassicPeripherals implements ModInitializer {
     public static final String MOD_ID = "classicperipherals";
@@ -38,6 +40,8 @@ public class ClassicPeripherals implements ModInitializer {
             .icon(() -> new ItemStack(ModBlocks.TOWER_HEAD))
             .title(Component.translatable("itemGroup.classicperipherals"))
             .build();
+
+    private static @Nullable StateSaverAndLoader stateSaverAndLoader;
 
     @Override
     public void onInitialize() {
@@ -71,5 +75,10 @@ public class ClassicPeripherals implements ModInitializer {
 
     private void serverStartHook(MinecraftServer server) {
         PocketNfcAccess.clear();
+        stateSaverAndLoader = StateSaverAndLoader.getServerState(server);
+    }
+
+    public static @Nullable StateSaverAndLoader getState() {
+        return stateSaverAndLoader;
     }
 }

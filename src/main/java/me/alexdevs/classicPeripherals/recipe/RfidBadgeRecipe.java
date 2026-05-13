@@ -1,7 +1,7 @@
 package me.alexdevs.classicPeripherals.recipe;
 
 import dan200.computercraft.shared.util.ColourTracker;
-import me.alexdevs.classicPeripherals.item.IDataItem;
+import me.alexdevs.classicPeripherals.core.ItemDataHandler;
 import me.alexdevs.classicPeripherals.item.ModItems;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -69,7 +69,7 @@ public class RfidBadgeRecipe extends CustomRecipe {
         }
 
         if (item != null && tracker.hasColour()) {
-            IDataItem.setColor(item, tracker.getColour());
+            ItemDataHandler.setColor(item, tracker.getColour());
             return item;
         }
 
