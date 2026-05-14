@@ -15,7 +15,7 @@ public class ItemDataHandler {
     public static Optional<String> getData(ItemStack stack) {
         tryMigrate(stack);
 
-        var data = stack.getComponents().get(ModComponents.NFC_DATA);
+        var data = stack.getComponents().get(ModComponents.DATAHOLDER_DATA);
         if (data == null || data.isEmpty()) {
             return Optional.empty();
         }
@@ -24,15 +24,15 @@ public class ItemDataHandler {
     }
 
     public static void setData(ItemStack stack, String data) {
-        stack.set(ModComponents.NFC_DATA, data);
+        stack.set(ModComponents.DATAHOLDER_DATA, data);
     }
 
     public static boolean isReadOnly(ItemStack stack) {
-        return stack.getComponents().getOrDefault(ModComponents.NFC_READONLY, false);
+        return stack.getComponents().getOrDefault(ModComponents.DATAHOLDER_READONLY, false);
     }
 
     public static void setReadOnly(ItemStack stack, boolean readOnly) {
-        stack.set(ModComponents.NFC_READONLY, readOnly);
+        stack.set(ModComponents.DATAHOLDER_READONLY, readOnly);
     }
 
     public static void setLabel(ItemStack stack, String title) {
@@ -44,11 +44,11 @@ public class ItemDataHandler {
     }
 
     public static void setColor(ItemStack stack, int color) {
-        stack.set(ModComponents.NFC_COLOR, color & 0x00_FFFFFF);
+        stack.set(ModComponents.DATAHOLDER_COLOR, color & 0x00_FFFFFF);
     }
 
     public static int getColor(ItemStack stack) {
-        return 0xFF_000000 | stack.getComponents().getOrDefault(ModComponents.NFC_COLOR, 0xFFFFFF);
+        return 0xFF_000000 | stack.getComponents().getOrDefault(ModComponents.DATAHOLDER_COLOR, 0xFFFFFF);
     }
 
     public static Optional<String> getPrivateKey(ItemStack stack) {
@@ -57,7 +57,7 @@ public class ItemDataHandler {
                 return Optional.empty();
             }
 
-            return Optional.of(stack.getComponents().getOrDefault(ModComponents.NFC_PRIVATEKEY, Crypto.generatePrivateKey()));
+            return Optional.of(stack.getComponents().getOrDefault(ModComponents.DATAHOLDER_PRIVATEKEY, Crypto.generatePrivateKey()));
         }
 
         return Optional.empty();
@@ -69,12 +69,12 @@ public class ItemDataHandler {
                 return;
             }
 
-            stack.set(ModComponents.NFC_PRIVATEKEY, privateKey);
+            stack.set(ModComponents.DATAHOLDER_PRIVATEKEY, privateKey);
         }
     }
 
     static boolean tryMigrate(ItemStack stack) {
-        if (stack.has(ModComponents.NFC_DATA)) {
+        if (stack.has(ModComponents.DATAHOLDER_DATA)) {
             return false;
         }
 

@@ -52,8 +52,8 @@ public class RfidBadgeRecipe extends CustomRecipe {
                     item = stack.copy();
                     item.setCount(1);
                     var tag = item.getComponents();
-                    if (tag.has(ModComponents.NFC_COLOR)) {
-                        int value = tag.getOrDefault(ModComponents.NFC_COLOR, 0xFFFFFF);
+                    if (tag.has(ModComponents.DATAHOLDER_COLOR)) {
+                        int value = tag.getOrDefault(ModComponents.DATAHOLDER_COLOR, 0xFFFFFF);
                         var r = value >> 16 & 0xFF;
                         var g = value >> 8 & 0xFF;
                         var b = value & 0xFF;
