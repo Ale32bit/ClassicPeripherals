@@ -6,9 +6,7 @@ import org.bouncycastle.crypto.digests.SHA1Digest;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.digests.SHA512Digest;
 import org.bouncycastle.crypto.macs.HMac;
-import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
-import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
-import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.params.*;
 import org.bouncycastle.crypto.signers.Ed25519Signer;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
@@ -172,6 +170,28 @@ public class Crypto {
         verifier.update(msg, 0, msg.length);
 
         return verifier.verifySignature(sig);
+    }
+
+    public static String deriveECDHPublicKey(String privateKey) {
+        byte[] seed = privateKey.getBytes(CHARSET);
+
+        var privKey = new X25519PrivateKeyParameters(seed, 0);
+        var pubKey = privKey.generatePublicKey();
+
+        return toStr(pubKey.getEncoded(), false);
+    }
+
+    public static String computeSharedSecret(String privateKey, String peerPublicKey) {
+        byte[] privBytes = privateKey.getBytes(CHARSET);
+        byte[] pubBytes = peerPublicKey.getBytes(CHARSET);
+
+        var priv = new X25519PrivateKeyParameters(privBytes, 0);
+        var pub = new X25519PublicKeyParameters(pubBytes, 0);
+
+        byte[] secret = new byte[32];
+        priv.generateSecret(pub, secret, 0);
+
+        return toStr(secret, false);
     }
 
     public static String encodeBase64(String data) {
