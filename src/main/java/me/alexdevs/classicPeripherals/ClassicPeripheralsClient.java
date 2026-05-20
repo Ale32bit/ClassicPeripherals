@@ -2,9 +2,12 @@ package me.alexdevs.classicPeripherals;
 
 import dan200.computercraft.api.client.turtle.RegisterTurtleModellersEvent;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
-import me.alexdevs.classicPeripherals.item.IDataItem;
+import me.alexdevs.classicPeripherals.client.screen.ScannerScreen;
+import me.alexdevs.classicPeripherals.core.ItemDataHandler;
 import me.alexdevs.classicPeripherals.item.ModItems;
+import me.alexdevs.classicPeripherals.screen.ModScreenHandlers;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -13,6 +16,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 @Mod(value = ClassicPeripherals.MOD_ID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = ClassicPeripherals.MOD_ID, value = Dist.CLIENT)
@@ -33,11 +37,16 @@ public class ClassicPeripheralsClient {
     static void onClientSetup(FMLClientSetupEvent event) {
     }
 
+    @SubscribeEvent // on the mod event bus only on the physical client
+    public static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(ModScreenHandlers.SCANNER.get(), ScannerScreen::new);
+    }
+
     @SubscribeEvent
     static void onItemColorHandler(RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> {
             if (tintIndex == 0) {
-                return IDataItem.getColor(stack);
+                return ItemDataHandler.getColor(stack);
             }
 
             return 0xFF_FFFFFF;
@@ -45,7 +54,7 @@ public class ClassicPeripheralsClient {
 
         event.register((stack, tintIndex) -> {
             if (tintIndex == 1) {
-                return IDataItem.getColor(stack);
+                return ItemDataHandler.getColor(stack);
             }
 
             return 0xFF_FFFFFF;

@@ -24,6 +24,9 @@ public class ModBlockTiles {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CryptographicAcceleratorBlockEntity>> CRYPTOGRAPHIC_ACCELERATOR = register("cryptographic_accelerator",
             () -> BlockEntityType.Builder.of(CryptographicAcceleratorBlockEntity::new, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ScannerBlockEntity>> SCANNER = register("scanner",
+            () -> BlockEntityType.Builder.of(ScannerBlockEntity::new, ModBlocks.SCANNER.get()).build(null));
+
     public static <T extends BlockEntityType<?>> DeferredHolder<BlockEntityType<?>, T> register(String path, Supplier<T> blockEntityType) {
         return ClassicPeripherals.BLOCK_ENTITIES.register(path, blockEntityType);
     }

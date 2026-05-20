@@ -62,6 +62,8 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
         }
     }
 
+    public static final double RANGE_COEFFICIENT = 1.0375;
+
     protected int towerHeight = 1;
     protected boolean isValid = true;
     protected final RadioPeripheral peripheral = new RadioPeripheral(this);
@@ -170,12 +172,12 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     public int getEffectiveMaxRange() {
         var y = this.getAntennaPos().getY();
 
-        var range = getMaximumRange();
+        var maxRange = getMaximumRange();
 
         if (y >= 96) {
-            return range;
+            return maxRange;
         }
 
-        return Math.max(8, (int) (96 * (1 - Math.pow(Math.E, -0.05 * y)) / 100d * range));
+        return (int)(maxRange * Math.pow(RANGE_COEFFICIENT, (y - 96)));
     }
 }

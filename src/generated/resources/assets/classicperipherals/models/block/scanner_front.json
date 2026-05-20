@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "classicperipherals:block/scanner_front",
+    "side": "classicperipherals:block/scanner_side",
+    "top": "classicperipherals:block/scanner_top"
+  }
+}

@@ -4,6 +4,10 @@ import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.crypto.digests.*;
 import org.bouncycastle.crypto.engines.AESEngine;
+import org.bouncycastle.crypto.digests.MD5Digest;
+import org.bouncycastle.crypto.digests.SHA1Digest;
+import org.bouncycastle.crypto.digests.SHA256Digest;
+import org.bouncycastle.crypto.digests.SHA512Digest;
 import org.bouncycastle.crypto.macs.HMac;
 import org.bouncycastle.crypto.modes.CBCBlockCipher;
 import org.bouncycastle.crypto.paddings.PKCS7Padding;
@@ -36,42 +40,42 @@ public class Crypto {
         return toStr(bytes, true);
     }
 
-    private String digest(Digest digest, String data, boolean hex) {
+    private static String digest(Digest digest, String data, boolean hex) {
         digest.update(data.getBytes(CHARSET), 0, data.length());
         byte[] hash = new byte[digest.getDigestSize()];
         digest.doFinal(hash, 0);
         return toStr(hash, hex);
     }
 
-    public String md5(String data, boolean hex) {
+    public static String md5(String data, boolean hex) {
         return digest(
                 new MD5Digest(),
                 data, hex
         );
     }
 
-    public String sha1(String data, boolean hex) {
+    public static String sha1(String data, boolean hex) {
         return digest(
                 new SHA1Digest(),
                 data, hex
         );
     }
 
-    public String sha256(String data, boolean hex) {
+    public static String sha256(String data, boolean hex) {
         return digest(
                 new SHA256Digest(),
                 data, hex
         );
     }
 
-    public String sha512(String data, boolean hex) {
+    public static String sha512(String data, boolean hex) {
         return digest(
                 new SHA512Digest(),
                 data, hex
         );
     }
 
-    private String hmac(Digest digest, String key, String data, boolean hex) {
+    private static String hmac(Digest digest, String key, String data, boolean hex) {
         var hmac = new HMac(digest);
         hmac.init(new KeyParameter(key.getBytes(CHARSET)));
         hmac.update(data.getBytes(CHARSET), 0, key.length());
@@ -80,63 +84,62 @@ public class Crypto {
         return toStr(hash, hex);
     }
 
-    public String md5Hmac(String key, String data, boolean hex) {
+    public static String md5Hmac(String key, String data, boolean hex) {
         return hmac(
                 new MD5Digest(),
                 key, data, hex
         );
     }
 
-    public String sha1Hmac(String key, String data, boolean hex) {
+    public static String sha1Hmac(String key, String data, boolean hex) {
         return hmac(
                 new SHA1Digest(),
                 key, data, hex
         );
     }
 
-    public String sha256Hmac(String key, String data, boolean hex) {
+    public static String sha256Hmac(String key, String data, boolean hex) {
         return hmac(
                 new SHA256Digest(),
                 key, data, hex
         );
     }
 
-    public String sha512Hmac(String key, String data, boolean hex) {
+    public static String sha512Hmac(String key, String data, boolean hex) {
         return hmac(
                 new SHA512Digest(),
                 key, data, hex
         );
     }
 
-    public double secureRandom() {
+    public static double secureRandom() {
         var random = new SecureRandom();
         return random.nextDouble();
     }
 
-    public byte[] secureRandomBuffer(int length) {
+    public static byte[] secureRandomBuffer(int length) {
         var random = new SecureRandom();
         var bytes = new byte[length];
         random.nextBytes(bytes);
         return bytes;
     }
 
-    public String generatePrivateKey() {
+    public static String generatePrivateKey() {
         var seed = secureRandomBuffer(32);
         return toStr(seed, false);
     }
 
-    public String derivePublicKey(String key) {
+    public static String derivePublicKey(String key) {
         byte[] seed = key.getBytes(CHARSET);
 
         var privateKey = new Ed25519PrivateKeyParameters(seed, 0);
 
-        Ed25519PublicKeyParameters publicKey =
-                privateKey.generatePublicKey();
+        Ed25519PublicKeyParameters publicKey = privateKey.generatePublicKey();
 
         return toStr(publicKey.getEncoded(), false);
     }
 
-    public String sign(String message, String key) {
+    public static String sign(String message, String key) {
         byte[] seed = key.getBytes(CHARSET);
         byte[] msg = message.getBytes(CHARSET);
 
@@ -150,7 +153,7 @@ public class Crypto {
         return toStr(signature, false);
     }
 
-    public boolean verify(
+    public static boolean verify(
             String message,
             String signature,
             String publicKey) {
@@ -168,15 +171,15 @@ public class Crypto {
         return verifier.verifySignature(sig);
     }
 
-    public String encodeBase64(String data) {
+    public static String encodeBase64(String data) {
         return Base64.getEncoder().encodeToString(data.getBytes(CHARSET));
     }
 
-    public String decodeBase64(String data) {
+    public static String decodeBase64(String data) {
         return new String(Base64.getDecoder().decode(data), CHARSET);
     }
 
-    public String encryptAes(String data, String key, String iv) throws BadPaddingException {
+    public static String encryptAes(String data, String key, String iv) throws BadPaddingException {
         var keyBytes = key.getBytes(CHARSET);
         var ivBytes = iv.getBytes(CHARSET);
         var dataBytes = data.getBytes(CHARSET);
@@ -195,7 +198,7 @@ public class Crypto {
         return new String(output, 0, len, CHARSET);
     }
 
-    public String decryptAes(String data, String key, String iv) throws BadPaddingException {
+    public static String decryptAes(String data, String key, String iv) throws BadPaddingException {
         var keyBytes = key.getBytes(CHARSET);
         var ivBytes = iv.getBytes(CHARSET);
         var dataBytes = data.getBytes(CHARSET);
@@ -212,5 +215,8 @@ public class Crypto {
         }
 
         return new String(output, 0, len, CHARSET);
+    }
+
+    private Crypto() {
     }
 }

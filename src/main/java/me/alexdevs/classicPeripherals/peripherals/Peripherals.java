@@ -23,6 +23,8 @@ public class Peripherals {
             event.registerBlockEntity(PeripheralCapability.get(), ModBlockTiles.RFID_SCANNER.get(), RfidScannerBlockEntity::peripheral);
 
             event.registerBlockEntity(PeripheralCapability.get(), ModBlockTiles.CRYPTOGRAPHIC_ACCELERATOR.get(), (o, direction) -> o.peripheral());
+
+            event.registerBlockEntity(PeripheralCapability.get(), ModBlockTiles.SCANNER.get(), (o, direction) -> o.peripheral());
         });
     }
 }

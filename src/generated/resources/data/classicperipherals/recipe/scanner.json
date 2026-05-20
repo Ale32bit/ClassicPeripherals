@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "o": {
+      "item": "minecraft:observer"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "s": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "sss",
+    "sos",
+    "srs"
+  ],
+  "result": {
+    "count": 1,
+    "id": "classicperipherals:scanner"
+  }
+}
