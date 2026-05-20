@@ -9,6 +9,7 @@ import me.alexdevs.classicPeripherals.item.ModItems;
 import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.recipe.ModRecipes;
+import me.alexdevs.classicPeripherals.screen.ModScreenHandlers;
 import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
 import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -85,6 +86,7 @@ public class ClassicPeripherals {
         BLOCK_ENTITIES.register(modEventBus);
         RECIPES.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
+        MENUS.register(modEventBus);
 
         ModComponents.initialize();
         ModBlocks.initialize();
@@ -93,6 +95,7 @@ public class ClassicPeripherals {
         ModRecipes.initialize();
         Peripherals.register(modEventBus);
         ModLuaApiProvider.initialize();
+        ModScreenHandlers.initialize();
         NeoForge.EVENT_BUS.addListener(this::onServerStart);
     }
 

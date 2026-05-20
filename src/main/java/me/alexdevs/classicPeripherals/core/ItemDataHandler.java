@@ -179,7 +179,7 @@ public class ItemDataHandler {
             if (customData != null) {
                 var tag = customData.copyTag();
 
-                if (!tag.contains("data", Tag.TAG_STRING)) {
+                if (!tag.contains("data", Tag.TAG_STRING) && !tag.hasUUID("uuid")) {
                     return Optional.empty();
                 }
 

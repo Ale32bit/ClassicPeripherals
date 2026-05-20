@@ -134,6 +134,20 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
     @LuaFunction
     public final boolean verify(String message, String signature, String publicKey) throws LuaException {
         LuaUtils.validateKey(publicKey);
+        LuaUtils.validateSignature(signature);
         return Crypto.verify(message, signature, publicKey);
+    }
+
+    @LuaFunction
+    public final String deriveEcdhPublicKey(String privateKey) throws LuaException {
+        LuaUtils.validateKey(privateKey);
+        return Crypto.deriveECDHPublicKey(privateKey);
+    }
+
+    @LuaFunction
+    public final String computeSharedSecret(String privateKey, String peerPublicKey) throws LuaException {
+        LuaUtils.validateKey(privateKey);
+        LuaUtils.validateKey(peerPublicKey);
+        return Crypto.computeSharedSecret(privateKey, peerPublicKey);
     }
 }
