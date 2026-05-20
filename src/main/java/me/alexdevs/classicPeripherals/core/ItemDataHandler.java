@@ -52,20 +52,23 @@ public class ItemDataHandler {
         var tag = stack.getOrCreateTag();
         var uuid = getId(stack);
 
+        ItemData data;
         if (uuid.isEmpty()) {
-            return Optional.empty();
+            if (tag.contains("data", Tag.TAG_STRING)) {
+                var dataContent = tag.getString("data");
+                uuid = Optional.of(getOrCreateId(stack));
+                data = getData(uuid.get());
+                data.data = dataContent;
+                setData(uuid.get(), data);
+                tag.remove("data");
+            } else {
+                return Optional.empty();
+            }
+        } else {
+            data = getData(uuid.get());
         }
 
-        String dataContent;
-        var data = getData(uuid.get());
-        if (tag.contains("data", Tag.TAG_STRING)) {
-            dataContent = tag.getString("data");
-            data.data = dataContent;
-            setData(uuid.get(), data);
-            tag.remove("data");
-        }
-
-        dataContent = data.data;
+        var dataContent = data.data;
 
         if (dataContent.isEmpty()) {
             return Optional.empty();
