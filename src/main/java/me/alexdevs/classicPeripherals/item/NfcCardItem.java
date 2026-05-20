@@ -3,6 +3,8 @@ package me.alexdevs.classicPeripherals.item;
 import dan200.computercraft.api.ComputerCraftTags;
 import me.alexdevs.classicPeripherals.core.ItemDataHandler;
 import me.alexdevs.classicPeripherals.utils.PocketUtils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -10,7 +12,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class NfcCardItem extends Item implements IDataItem {
     public static final String INTERNAL_SIDE = "internal";
@@ -50,4 +55,13 @@ public class NfcCardItem extends Item implements IDataItem {
     public boolean supportsPrivateKey() {
         return true;
     }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
+        if (tooltipFlag.isAdvanced()) {
+            var id = ItemDataHandler.getId(stack);
+            id.ifPresent(uuid -> components.add(Component.literal(uuid.toString()).withStyle(ChatFormatting.GRAY)));
+        }
+    }
+}
 }
