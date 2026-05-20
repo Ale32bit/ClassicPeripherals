@@ -64,4 +64,3 @@ public class NfcCardItem extends Item implements IDataItem {
         }
     }
 }
-}
