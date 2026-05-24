@@ -2,8 +2,11 @@ package me.alexdevs.classicPeripherals.core;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.peripherals.AbstractRadioPeripheral;
+import net.minecraft.core.Direction;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TowerNetwork {
@@ -52,12 +55,14 @@ public class TowerNetwork {
             return;
         }
 
-        if(sender.getChannel() != receiver.getChannel()) {
+        if (sender.getChannel() != receiver.getChannel()) {
             return;
         }
 
         var receiveRange = Math.max(range, receiver.getRange());
-        var distanceSquared = receiver.getPosition().distanceToSqr(sender.getPosition());
+        var senderPosition = sender.getPosition().with(Direction.Axis.Y, 0);
+        var receiverPosition = receiver.getPosition().with(Direction.Axis.Y, 0);
+        var distanceSquared = senderPosition.distanceToSqr(receiverPosition);
         if (distanceSquared <= receiveRange * receiveRange) {
             receiver.receive(data, Math.sqrt(distanceSquared), receiveRange);
         }
