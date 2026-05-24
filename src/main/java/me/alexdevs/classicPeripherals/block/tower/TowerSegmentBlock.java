@@ -58,12 +58,12 @@ public class TowerSegmentBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     private void triggerBase(Level level, BlockPos blockPos) {
-        for(int i = 1; i < 32; i++) {
+        for (int i = 1; i < 32; i++) {
             BlockPos below = blockPos.below(i);
             var blockBelow = level.getBlockState(below);
-            if(blockBelow.is(ModBlocks.TOWER_BASE)) {
+            if (blockBelow.is(ModBlocks.TOWER_BASE)) {
                 var be = level.getBlockEntity(below);
-                if(be instanceof TowerBlockEntity base)
+                if (be instanceof TowerBlockEntity base)
                     base.validate();
                 break;
             }
@@ -71,17 +71,21 @@ public class TowerSegmentBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
-        super.onPlace(blockState, level, blockPos, blockState2, bl);
+    public void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState oldState, boolean bl) {
+        super.onPlace(blockState, level, blockPos, oldState, bl);
 
-        triggerBase(level, blockPos);
+        if (!blockState.is(oldState.getBlock())) {
+            triggerBase(level, blockPos);
+        }
     }
 
     @Override
     public void onRemove(BlockState state, Level level, BlockPos blockPos, BlockState newState, boolean moved) {
         super.onRemove(state, level, blockPos, newState, moved);
 
-        triggerBase(level, blockPos);
+        if (!state.is(newState.getBlock())) {
+            triggerBase(level, blockPos);
+        }
     }
 
     @Override
