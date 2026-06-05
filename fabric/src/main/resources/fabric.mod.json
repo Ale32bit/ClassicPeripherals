@@ -17,6 +17,9 @@
         ],
         "client": [
             "me.alexdevs.classicPeripherals.client.ClassicPeripheralsClientFabric"
+        ],
+        "fabric-datagen": [
+            "me.alexdevs.classicPeripherals.datagen.ClassicPeripheralsDataGenerator"
         ]
     },
     "mixins": [
