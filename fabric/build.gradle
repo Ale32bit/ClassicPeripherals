@@ -1,0 +1,71 @@
+plugins {
+    id 'multiloader-loader'
+    id 'fabric-loom'
+}
+
+repositories {
+    exclusiveContent {
+        forRepository { maven { name = 'SquidDev'; url = 'https://maven.squiddev.cc' } }
+        filter { includeGroup('cc.tweaked') }
+    }
+    maven { name = 'Sleeping Town'; url = 'https://repo.sleeping.town/' }
+    maven { name = 'TerraformersMC'; url = 'https://maven.terraformersmc.com/' }
+    maven { name = 'Ladysnake Libs'; url = 'https://maven.ladysnake.org/releases' }
+    exclusiveContent {
+        forRepository { maven { name = 'RyanHCode'; url = 'https://maven.ryanhcode.dev/releases' } }
+        filter {
+            includeGroup('dev.ryanhcode.sable')
+            includeGroup('dev.ryanhcode.sable-companion')
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
+    }
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+
+    // CC: Tweaked
+    modCompileOnly "cc.tweaked:cc-tweaked-${minecraft_version}-fabric-api:${cct_version}"
+    modImplementation "cc.tweaked:cc-tweaked-${minecraft_version}-fabric:${cct_version}"
+
+    // Trinkets (optional equipment integration)
+    modCompileOnly "dev.emi:trinkets:${trinkets_version}"
+
+    // Bundled libraries (jar-in-jar)
+    modImplementation "folk.sisby:kaleido-config:${kaleido_version}"
+    include "folk.sisby:kaleido-config:${kaleido_version}"
+
+    include(modApi("dev.ryanhcode.sable-companion:sable-companion-fabric-${minecraft_version}:${sable_companion_version}"))
+
+    implementation "org.bouncycastle:bcprov-jdk18on:${bouncycastle_version}"
+    include "org.bouncycastle:bcprov-jdk18on:${bouncycastle_version}"
+}
+
+loom {
+    def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+    }
+    mixin {
+        defaultRefmapName.set("${mod_id}.refmap.json")
+    }
+    runs {
+        client {
+            client()
+            setConfigName('Fabric Client')
+            ideConfigGenerated(true)
+            runDir('runs/client')
+        }
+        server {
+            server()
+            setConfigName('Fabric Server')
+            ideConfigGenerated(true)
+            runDir('runs/server')
+        }
+    }
+}

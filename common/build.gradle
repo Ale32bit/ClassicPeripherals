@@ -1,0 +1,72 @@
+plugins {
+    id 'multiloader-common'
+    id 'net.neoforged.moddev'
+}
+
+neoForge {
+    neoFormVersion = neo_form_version
+    // Automatically enable AccessTransformers if the file exists
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers.from(at.absolutePath)
+    }
+    parchment {
+        minecraftVersion = parchment_minecraft
+        mappingsVersion = parchment_version
+    }
+}
+
+repositories {
+    // CC: Tweaked
+    exclusiveContent {
+        forRepository { maven { name = 'SquidDev'; url = 'https://maven.squiddev.cc' } }
+        filter { includeGroup('cc.tweaked') }
+    }
+    // Kaleido config
+    maven { name = 'Sleeping Town'; url = 'https://repo.sleeping.town/' }
+    // Sable / Sable companion
+    exclusiveContent {
+        forRepository { maven { name = 'RyanHCode'; url = 'https://maven.ryanhcode.dev/releases' } }
+        filter {
+            includeGroup('dev.ryanhcode.sable')
+            includeGroup('dev.ryanhcode.sable-companion')
+        }
+    }
+}
+
+dependencies {
+    compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
+    // fabric and neoforge both bundle mixinextras, so it is safe to use it in common
+    compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
+    annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
+
+    // CC: Tweaked - loader-agnostic API + common implementation (carries dan200.computercraft.shared/core
+    // classes referenced by our mixins and peripherals). compileOnly: each loader supplies the runtime jar.
+    compileOnly "cc.tweaked:cc-tweaked-${minecraft_version}-core-api:${cct_version}"
+    compileOnly "cc.tweaked:cc-tweaked-${minecraft_version}-common-api:${cct_version}"
+    compileOnly "cc.tweaked:cc-tweaked-${minecraft_version}-common:${cct_version}"
+
+    // Config library, bundled by each loader at runtime
+    compileOnly "folk.sisby:kaleido-config:${kaleido_version}"
+    // Crypto, bundled by each loader at runtime
+    compileOnly "org.bouncycastle:bcprov-jdk18on:${bouncycastle_version}"
+    // Sable companion (sub-level distance), common artifact
+    compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:${sable_companion_version}"
+}
+
+configurations {
+    commonJava {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonResources {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+}
+
+artifacts {
+    commonJava sourceSets.main.java.sourceDirectories.singleFile
+    commonResources sourceSets.main.resources.sourceDirectories.singleFile
+}
+

@@ -1,0 +1,85 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.neoforged.moddev'
+}
+
+neoForge {
+    version = neoforge_version
+    // Automatically enable neoforge AccessTransformers if the file exists
+    def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers.from(at.absolutePath)
+    }
+    parchment {
+        minecraftVersion = parchment_minecraft
+        mappingsVersion = parchment_version
+    }
+    runs {
+        configureEach {
+            systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
+            ideName = "NeoForge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
+        }
+        client {
+            client()
+        }
+        data {
+            data()
+
+            // DataGen can be run by - "./gradlew :neoforge:runData" in Terminal.
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+
+        }
+        server {
+            server()
+        }
+    }
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    exclusiveContent {
+        forRepository { maven { name = 'SquidDev'; url = 'https://maven.squiddev.cc' } }
+        filter { includeGroup('cc.tweaked') }
+    }
+    maven { name = 'Sleeping Town'; url = 'https://repo.sleeping.town/' }
+    maven { name = 'Illusive Soulworks'; url = 'https://maven.theillusivec4.top/' }
+    exclusiveContent {
+        forRepository { maven { name = 'RyanHCode'; url = 'https://maven.ryanhcode.dev/releases' } }
+        filter {
+            includeGroup('dev.ryanhcode.sable')
+            includeGroup('dev.ryanhcode.sable-companion')
+        }
+    }
+}
+
+dependencies {
+    // CC: Tweaked
+    compileOnly "cc.tweaked:cc-tweaked-${minecraft_version}-core-api:${cct_version}"
+    compileOnly "cc.tweaked:cc-tweaked-${minecraft_version}-forge-api:${cct_version}"
+    implementation "cc.tweaked:cc-tweaked-${minecraft_version}-forge:${cct_version}"
+
+    // Config library (jar-in-jar)
+    implementation "folk.sisby:kaleido-config:${kaleido_version}"
+    jarJar(group: 'folk.sisby', name: 'kaleido-config', version: "[${kaleido_version},)")
+    additionalRuntimeClasspath "folk.sisby:kaleido-config:${kaleido_version}"
+
+    // Curios (optional equipment integration)
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
+    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+
+    // Sable companion (jar-in-jar)
+    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:[${sable_companion_version},)")) {
+        version { prefer sable_companion_version }
+    }
+
+    // BouncyCastle crypto (jar-in-jar)
+    jarJar(implementation("org.bouncycastle:bcprov-jdk18on:${bouncycastle_version}"))
+    additionalRuntimeClasspath "org.bouncycastle:bcprov-jdk18on:${bouncycastle_version}"
+}
