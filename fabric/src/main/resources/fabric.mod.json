@@ -7,9 +7,13 @@
     "authors": [
         "${mod_author}"
     ],
-    "contact": {},
+    "contact": {
+        "homepage": "https://github.com/AlexDevsMC/ClassicPeripherals",
+        "issues": "https://github.com/AlexDevsMC/ClassicPeripherals/issues",
+        "sources": "https://github.com/AlexDevsMC/ClassicPeripherals"
+    },
     "license": "${license}",
-    "icon": "${mod_id}.png",
+    "icon": "icon.png",
     "environment": "*",
     "entrypoints": {
         "main": [
