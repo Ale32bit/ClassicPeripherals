@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=east,state=none": {
+      "model": "classicperipherals:block/nfc_reader_none",
+      "y": 90
+    },
+    "facing=east,state=reading": {
+      "model": "classicperipherals:block/nfc_reader_reading",
+      "y": 90
+    },
+    "facing=east,state=signing": {
+      "model": "classicperipherals:block/nfc_reader_signing",
+      "y": 90
+    },
+    "facing=east,state=writing": {
+      "model": "classicperipherals:block/nfc_reader_writing",
+      "y": 90
+    },
+    "facing=north,state=none": {
+      "model": "classicperipherals:block/nfc_reader_none"
+    },
+    "facing=north,state=reading": {
+      "model": "classicperipherals:block/nfc_reader_reading"
+    },
+    "facing=north,state=signing": {
+      "model": "classicperipherals:block/nfc_reader_signing"
+    },
+    "facing=north,state=writing": {
+      "model": "classicperipherals:block/nfc_reader_writing"
+    },
+    "facing=south,state=none": {
+      "model": "classicperipherals:block/nfc_reader_none",
+      "y": 180
+    },
+    "facing=south,state=reading": {
+      "model": "classicperipherals:block/nfc_reader_reading",
+      "y": 180
+    },
+    "facing=south,state=signing": {
+      "model": "classicperipherals:block/nfc_reader_signing",
+      "y": 180
+    },
+    "facing=south,state=writing": {
+      "model": "classicperipherals:block/nfc_reader_writing",
+      "y": 180
+    },
+    "facing=west,state=none": {
+      "model": "classicperipherals:block/nfc_reader_none",
+      "y": 270
+    },
+    "facing=west,state=reading": {
+      "model": "classicperipherals:block/nfc_reader_reading",
+      "y": 270
+    },
+    "facing=west,state=signing": {
+      "model": "classicperipherals:block/nfc_reader_signing",
+      "y": 270
+    },
+    "facing=west,state=writing": {
+      "model": "classicperipherals:block/nfc_reader_writing",
+      "y": 270
+    }
+  }
+}

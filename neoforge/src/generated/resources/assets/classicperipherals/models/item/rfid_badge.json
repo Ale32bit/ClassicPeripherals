@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "classicperipherals:item/rfid_badge",
+    "layer1": "classicperipherals:item/rfid_badge_color"
+  }
+}

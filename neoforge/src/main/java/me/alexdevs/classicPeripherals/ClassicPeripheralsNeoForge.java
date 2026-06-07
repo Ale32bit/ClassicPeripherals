@@ -18,6 +18,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
@@ -29,6 +30,7 @@ public class ClassicPeripheralsNeoForge {
 
         modBus.addListener(this::registerCapabilities);
         modBus.addListener(this::registerUpgrades);
+        modBus.addListener(this::onGatherData);
 
         NeoForge.EVENT_BUS.addListener(this::onServerStarted);
 
@@ -62,6 +64,10 @@ public class ClassicPeripheralsNeoForge {
                 event.register(ITurtleUpgrade.typeRegistry(), id, () -> type);
             }
         });
+    }
+
+    private void onGatherData(GatherDataEvent event) {
+        ClassicPeripheralsDataGenerator.gatherData(event);
     }
 
     private void onServerStarted(ServerStartedEvent event) {

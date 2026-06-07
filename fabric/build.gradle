@@ -67,5 +67,16 @@ loom {
             ideConfigGenerated(true)
             runDir('runs/server')
         }
+        datagen {
+            inherit client
+            name 'Fabric Datagen'
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file('src/generated/resources')}"
+            vmArg "-Dfabric-api.datagen.modid=${project.mod_id}"
+            runDir 'build/datagen'
+            ideConfigGenerated true
+        }
     }
 }
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }

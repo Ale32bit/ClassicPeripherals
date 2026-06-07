@@ -7,7 +7,6 @@
 		"2": "classicperipherals:block/tower_head_off",
 		"particle": "classicperipherals:block/tower_segment"
 	},
-    "render_type": "minecraft:cutout_mipped",
 	"elements": [
 		{
 			"name": "pole",
