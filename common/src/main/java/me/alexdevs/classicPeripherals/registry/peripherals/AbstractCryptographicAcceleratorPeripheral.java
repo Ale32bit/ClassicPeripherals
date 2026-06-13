@@ -6,6 +6,7 @@ import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.core.Crypto;
 import me.alexdevs.classicPeripherals.utils.LuaUtils;
+import org.jspecify.annotations.NonNull;
 
 import javax.crypto.BadPaddingException;
 import java.nio.charset.StandardCharsets;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public abstract class AbstractCryptographicAcceleratorPeripheral implements IPeripheral {
 
     @Override
-    public String getType() {
+    public @NonNull String getType() {
         return "cryptographic_accelerator";
     }
 

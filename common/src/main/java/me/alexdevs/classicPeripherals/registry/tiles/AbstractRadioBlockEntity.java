@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public abstract class AbstractRadioBlockEntity extends BlockEntity {
@@ -79,7 +80,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
 
     @Override
-    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+    protected void loadAdditional(@NonNull CompoundTag nbt, HolderLookup.@NonNull Provider registries) {
         super.loadAdditional(nbt, registries);
 
         if (nbt.contains("radio_channel")) {
@@ -88,7 +89,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+    protected void saveAdditional(@NonNull CompoundTag nbt, HolderLookup.@NonNull Provider registries) {
         super.saveAdditional(nbt, registries);
 
         nbt.putInt("radio_channel", peripheral.getChannel());

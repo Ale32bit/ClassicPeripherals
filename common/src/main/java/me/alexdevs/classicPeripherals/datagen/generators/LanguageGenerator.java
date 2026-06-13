@@ -9,6 +9,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import org.jspecify.annotations.NonNull;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class LanguageGenerator implements DataProvider {
     }
 
     @Override
-    public CompletableFuture<?> run(CachedOutput cache) {
+    public @NonNull CompletableFuture<?> run(@NonNull CachedOutput cache) {
         var json = new JsonObject();
         translations.forEach(json::addProperty);
         return DataProvider.saveStable(cache, json,
@@ -63,7 +64,7 @@ public class LanguageGenerator implements DataProvider {
     }
 
     @Override
-    public String getName() {
+    public @NonNull String getName() {
         return "Languages";
     }
 }

@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class CryptographicAcceleratorBlock extends HorizontalDirectionalBlock implements EntityBlock {
     public CryptographicAcceleratorBlock(Properties properties) {
@@ -20,12 +21,12 @@ public class CryptographicAcceleratorBlock extends HorizontalDirectionalBlock im
     }
 
     @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+    protected @NonNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return simpleCodec(CryptographicAcceleratorBlock::new);
     }
 
     @Override
-    public @NotNull RenderShape getRenderShape(BlockState state) {
+    public @NotNull RenderShape getRenderShape(@NonNull BlockState state) {
         return RenderShape.MODEL;
     }
 
@@ -40,7 +41,7 @@ public class CryptographicAcceleratorBlock extends HorizontalDirectionalBlock im
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos pos, @NonNull BlockState state) {
         return new CryptographicAcceleratorBlockEntity(pos, state);
     }
 }

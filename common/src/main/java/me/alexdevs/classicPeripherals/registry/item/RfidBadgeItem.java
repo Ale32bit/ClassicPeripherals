@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class RfidBadgeItem extends Item implements IDataItem {
     }
 
     @Override
-    public @NotNull InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity interactionTarget, InteractionHand usedHand) {
+    public @NotNull InteractionResult interactLivingEntity(@NonNull ItemStack stack, @NonNull Player player, @NonNull LivingEntity interactionTarget, @NonNull InteractionHand usedHand) {
         if (interactionTarget instanceof Player) {
             return InteractionResult.PASS;
         }
@@ -63,7 +64,7 @@ public class RfidBadgeItem extends Item implements IDataItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
+    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull List<Component> components, TooltipFlag tooltipFlag) {
         if (tooltipFlag.isAdvanced()) {
             var id = ItemDataHandler.getId(stack);
             id.ifPresent(uuid -> components.add(Component.literal(uuid.toString()).withStyle(ChatFormatting.GRAY)));

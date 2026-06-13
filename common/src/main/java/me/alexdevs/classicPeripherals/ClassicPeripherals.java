@@ -11,12 +11,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTab;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ClassicPeripherals {
     public static final String MOD_ID = "classicperipherals";
-    public static final Logger LOG = LoggerFactory.getLogger("Classic Peripherals");
 
     public static final ClassicPeripheralsConfig CONFIG = ClassicPeripheralsConfig.createToml(
             Services.PLATFORM.getConfigDir(),

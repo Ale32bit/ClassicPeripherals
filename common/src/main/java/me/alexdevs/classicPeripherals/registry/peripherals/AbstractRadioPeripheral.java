@@ -8,6 +8,7 @@ import me.alexdevs.classicPeripherals.core.RadioNetwork;
 import me.alexdevs.classicPeripherals.registry.tiles.AbstractRadioBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.NonNull;
 import oshi.annotation.concurrent.GuardedBy;
 
 import java.nio.charset.StandardCharsets;
@@ -19,19 +20,19 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
     protected final Random random = new Random();
 
     @Override
-    public String getType() {
+    public @NonNull String getType() {
         return "radio_tower";
     }
 
     @Override
-    public void attach(IComputerAccess computer) {
+    public void attach(@NonNull IComputerAccess computer) {
         computers.add(computer);
 
         RadioNetwork.addReceiver(this);
     }
 
     @Override
-    public void detach(IComputerAccess computer) {
+    public void detach(@NonNull IComputerAccess computer) {
         computers.remove(computer);
 
         if (!computers.hasComputers()) {

@@ -25,7 +25,7 @@ public class ScannerPeripheral implements IPeripheral {
     }
 
     @Override
-    public String getType() {
+    public @NonNull String getType() {
         return "scanner";
     }
 
@@ -35,12 +35,12 @@ public class ScannerPeripheral implements IPeripheral {
     }
 
     @Override
-    public void attach(IComputerAccess computer) {
+    public void attach(@NonNull IComputerAccess computer) {
         computers.add(computer);
     }
 
     @Override
-    public void detach(IComputerAccess computer) {
+    public void detach(@NonNull IComputerAccess computer) {
         computers.remove(computer);
     }
 
@@ -105,8 +105,7 @@ public class ScannerPeripheral implements IPeripheral {
         //          text[], colors[]
         //      ]
         // ]
-        var table = extractPages(pageCount, lines);
-        return table;
+        return extractPages(pageCount, lines);
     }
 
     private static @NonNull ObjectLuaTable extractPages(int pageCount, List<PrintoutData.Line> lines) {

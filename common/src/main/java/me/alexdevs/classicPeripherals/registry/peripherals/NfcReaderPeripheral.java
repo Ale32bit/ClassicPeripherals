@@ -8,6 +8,7 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.core.util.StringUtil;
 import me.alexdevs.classicPeripherals.registry.tiles.NfcReaderBlockEntity;
 import me.alexdevs.classicPeripherals.utils.LuaUtils;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
@@ -21,7 +22,7 @@ public class NfcReaderPeripheral implements IPeripheral {
     }
 
     @Override
-    public String getType() {
+    public @NonNull String getType() {
         return "nfc_reader";
     }
 
@@ -31,12 +32,12 @@ public class NfcReaderPeripheral implements IPeripheral {
     }
 
     @Override
-    public void attach(IComputerAccess computer) {
+    public void attach(@NonNull IComputerAccess computer) {
         computers.add(computer);
     }
 
     @Override
-    public void detach(IComputerAccess computer) {
+    public void detach(@NonNull IComputerAccess computer) {
         computers.remove(computer);
     }
 

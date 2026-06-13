@@ -30,9 +30,7 @@ public class PocketUpgradeGenerator {
     }
 
     public static CompletableFuture<RegistrySetBuilder.PatchedRegistries> makeUpgradeRegistry(CompletableFuture<HolderLookup.Provider> registries) {
-        return RegistryPatchGenerator.createLookup(registries, Util.make(new RegistrySetBuilder(), builder -> {
-            builder.add(IPocketUpgrade.REGISTRY, PocketUpgradeGenerator::addUpgrades);
-        }));
+        return RegistryPatchGenerator.createLookup(registries, Util.make(new RegistrySetBuilder(), builder -> builder.add(IPocketUpgrade.REGISTRY, PocketUpgradeGenerator::addUpgrades)));
     }
 
     public static ResourceKey<IPocketUpgrade> id(ResourceLocation id) {

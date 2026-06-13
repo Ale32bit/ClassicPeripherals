@@ -32,19 +32,18 @@ public class ItemDataHandler {
     }
 
     public static Optional<UUID> getId(ItemStack stack) {
-        var uuid = stack.getOrDefault(ModRegistry.DataComponents.DATAHOLDER_UUID.get(), null);
+        var uuid = stack.get(ModRegistry.DataComponents.DATAHOLDER_UUID.get());
         return Optional.ofNullable(uuid);
 
     }
 
     public static UUID getOrCreateId(ItemStack stack) {
-        var uuid = getId(stack).orElseGet(() -> {
+
+        return getId(stack).orElseGet(() -> {
             var id = UUID.randomUUID();
             stack.set(ModRegistry.DataComponents.DATAHOLDER_UUID.get(), id);
             return id;
         });
-
-        return uuid;
     }
 
     public static Optional<String> getData(ItemStack stack) {
@@ -130,14 +129,14 @@ public class ItemDataHandler {
         }
     }
 
-    static boolean tryMigrate(ItemStack stack) {
+    static void tryMigrate(ItemStack stack) {
         if (stack.has(ModRegistry.DataComponents.DATAHOLDER_UUID.get())) {
-            return false;
+            return;
         }
 
         var legacyData = DataItemData.migrate(stack);
         if (legacyData.isEmpty()) {
-            return false;
+            return;
         }
 
         var data = getData(legacyData.get().uuid());
@@ -151,7 +150,6 @@ public class ItemDataHandler {
         ItemDataHandler.setReadOnly(stack, legacyData.get().readonly());
         ItemDataHandler.setColor(stack, legacyData.get().color());
 
-        return true;
     }
 
     record DataItemData(UUID uuid, String data, boolean readonly, int color, @Nullable String privateKey) {

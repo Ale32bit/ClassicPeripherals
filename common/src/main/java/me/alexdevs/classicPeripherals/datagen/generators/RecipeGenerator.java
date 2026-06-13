@@ -9,6 +9,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
+import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -19,7 +20,7 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     @Override
-    public void buildRecipes(RecipeOutput output) {
+    public void buildRecipes(@NonNull RecipeOutput output) {
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.TOWER_BASE.get())
                 .pattern("ici")

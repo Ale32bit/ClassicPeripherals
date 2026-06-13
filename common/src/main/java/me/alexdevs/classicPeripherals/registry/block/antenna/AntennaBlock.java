@@ -28,6 +28,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 
 public class AntennaBlock extends AbstractRadioBlock implements SimpleWaterloggedBlock {
@@ -43,7 +44,7 @@ public class AntennaBlock extends AbstractRadioBlock implements SimpleWaterlogge
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected @NonNull MapCodec<? extends BaseEntityBlock> codec() {
         return simpleCodec(AntennaBlock::new);
     }
 
@@ -53,12 +54,12 @@ public class AntennaBlock extends AbstractRadioBlock implements SimpleWaterlogge
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+    public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos blockPos, @NonNull BlockState blockState) {
         return new AntennaBlockEntity(blockPos, blockState);
     }
 
     @Override
-    public void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
+    public void onPlace(@NonNull BlockState blockState, @NonNull Level level, @NonNull BlockPos blockPos, @NonNull BlockState blockState2, boolean bl) {
         super.onPlace(blockState, level, blockPos, blockState2, bl);
 
         var be = level.getBlockEntity(blockPos);
@@ -68,7 +69,7 @@ public class AntennaBlock extends AbstractRadioBlock implements SimpleWaterlogge
     }
 
     @Override
-    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
+    public void onRemove(@NonNull BlockState blockState, Level level, @NonNull BlockPos blockPos, @NonNull BlockState blockState2, boolean bl) {
         var be = level.getBlockEntity(blockPos);
         if (be instanceof AntennaBlockEntity base) {
             base.invalidate();
@@ -77,12 +78,12 @@ public class AntennaBlock extends AbstractRadioBlock implements SimpleWaterlogge
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    public void tick(BlockState state, ServerLevel level, @NonNull BlockPos pos, @NonNull RandomSource random) {
         level.setBlockAndUpdate(pos, state.setValue(ACTIVE, false));
     }
 
     @Override
-    public @NotNull VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public @NotNull VoxelShape getShape(@NonNull BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @NonNull CollisionContext context) {
         return Shapes.box(0.125, 0.0, 0.125, 0.875, 0.1875, 0.875);
     }
 
@@ -92,7 +93,7 @@ public class AntennaBlock extends AbstractRadioBlock implements SimpleWaterlogge
     }
 
     @Override
-    public @NotNull BlockState updateShape(BlockState state, Direction side, BlockState otherState, LevelAccessor world, BlockPos pos, BlockPos otherPos) {
+    public @NotNull BlockState updateShape(BlockState state, @NonNull Direction side, @NonNull BlockState otherState, @NonNull LevelAccessor world, @NonNull BlockPos pos, @NonNull BlockPos otherPos) {
         if (state.getValue(WATERLOGGED)) {
             world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
@@ -109,7 +110,7 @@ public class AntennaBlock extends AbstractRadioBlock implements SimpleWaterlogge
     }
 
     @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @NonNull BlockState state, @NonNull BlockEntityType<T> blockEntityType) {
         return level.isClientSide() ? null : createTickerHelper(blockEntityType, ModRegistry.TileEntities.ANTENNA.get(), AbstractRadioBlockEntity::tick);
     }
 }

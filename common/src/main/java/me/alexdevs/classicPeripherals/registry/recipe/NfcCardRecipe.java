@@ -12,6 +12,7 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class NfcCardRecipe extends CustomRecipe {
 
@@ -21,7 +22,7 @@ public class NfcCardRecipe extends CustomRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInput container, Level level) {
+    public boolean matches(CraftingInput container, @NonNull Level level) {
         var hasItem = false;
         var tracker = new ColourTracker();
 
@@ -42,7 +43,7 @@ public class NfcCardRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(CraftingInput container, HolderLookup.Provider registries) {
+    public @NotNull ItemStack assemble(CraftingInput container, HolderLookup.@NonNull Provider registries) {
         ItemStack item = null;
         var tracker = new ColourTracker();
 

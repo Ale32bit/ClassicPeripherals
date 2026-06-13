@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -124,12 +125,12 @@ public class ScannerBlockEntity extends BlockEntity implements MenuProvider, Con
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NonNull Component getDisplayName() {
         return Component.translatable("block.classicperipherals.scanner");
     }
 
     @Override
-    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+    protected void saveAdditional(@NonNull CompoundTag nbt, HolderLookup.@NonNull Provider registries) {
         super.saveAdditional(nbt, registries);
         if (!storedItem.isEmpty()) {
             nbt.put("StoredItem", storedItem.save(registries));
@@ -137,7 +138,7 @@ public class ScannerBlockEntity extends BlockEntity implements MenuProvider, Con
     }
 
     @Override
-    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+    protected void loadAdditional(@NonNull CompoundTag nbt, HolderLookup.@NonNull Provider registries) {
         super.loadAdditional(nbt, registries);
         var parsedStack = ItemStack.parse(registries, nbt.getCompound("StoredItem"));
         setPrintoutStack(parsedStack.orElse(ItemStack.EMPTY));
@@ -154,12 +155,12 @@ public class ScannerBlockEntity extends BlockEntity implements MenuProvider, Con
     }
 
     @Override
-    public ItemStack getItem(int slot) {
+    public @NonNull ItemStack getItem(int slot) {
         return storedItem;
     }
 
     @Override
-    public ItemStack removeItem(int slot, int amount) {
+    public @NonNull ItemStack removeItem(int slot, int amount) {
         if (slot == 0 && !storedItem.isEmpty()) {
             ItemStack result = storedItem.split(amount);
             if (storedItem.isEmpty()) {
@@ -172,7 +173,7 @@ public class ScannerBlockEntity extends BlockEntity implements MenuProvider, Con
     }
 
     @Override
-    public ItemStack removeItemNoUpdate(int slot) {
+    public @NonNull ItemStack removeItemNoUpdate(int slot) {
         if (slot == 0) {
             ItemStack result = storedItem;
             storedItem = ItemStack.EMPTY;
@@ -182,7 +183,7 @@ public class ScannerBlockEntity extends BlockEntity implements MenuProvider, Con
     }
 
     @Override
-    public void setItem(int slot, ItemStack stack) {
+    public void setItem(int slot, @NonNull ItemStack stack) {
         if (slot == 0) {
             storedItem = stack;
             if (stack.getCount() > getMaxStackSize()) {
@@ -193,7 +194,7 @@ public class ScannerBlockEntity extends BlockEntity implements MenuProvider, Con
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NonNull Player player) {
         return Container.stillValidBlockEntity(this, player);
     }
 
@@ -209,7 +210,7 @@ public class ScannerBlockEntity extends BlockEntity implements MenuProvider, Con
     }
 
     @Override
-    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+    public @Nullable AbstractContainerMenu createMenu(int i, @NonNull Inventory inventory, @NonNull Player player) {
         return new ScannerMenu(i, inventory, this);
     }
 }

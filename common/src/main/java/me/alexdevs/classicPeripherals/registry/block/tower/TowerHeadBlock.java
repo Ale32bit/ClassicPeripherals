@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class TowerHeadBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
@@ -37,7 +38,7 @@ public class TowerHeadBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+    public @NonNull BlockState updateShape(BlockState state, @NonNull Direction direction, @NonNull BlockState neighborState, @NonNull LevelAccessor level, @NonNull BlockPos pos, @NonNull BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
@@ -45,7 +46,7 @@ public class TowerHeadBlock extends Block implements SimpleWaterloggedBlock {
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
-    public FluidState getFluidState(BlockState state) {
+    public @NonNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
     }
 
@@ -70,12 +71,12 @@ public class TowerHeadBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    public void tick(BlockState state, ServerLevel level, @NonNull BlockPos pos, @NonNull RandomSource random) {
         level.setBlockAndUpdate(pos, state.setValue(ACTIVE, false));
     }
 
     @Override
-    public void onPlace(BlockState blockState, Level level, BlockPos blockPos, BlockState oldState, boolean bl) {
+    public void onPlace(@NonNull BlockState blockState, @NonNull Level level, @NonNull BlockPos blockPos, @NonNull BlockState oldState, boolean bl) {
         super.onPlace(blockState, level, blockPos, oldState, bl);
 
         if (!blockState.is(oldState.getBlock())) {
@@ -84,7 +85,7 @@ public class TowerHeadBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos blockPos, BlockState newState, boolean moved) {
+    public void onRemove(@NonNull BlockState state, @NonNull Level level, @NonNull BlockPos blockPos, @NonNull BlockState newState, boolean moved) {
         super.onRemove(state, level, blockPos, newState, moved);
 
         if (!state.is(newState.getBlock())) {

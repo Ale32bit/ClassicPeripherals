@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class NfcCardItem extends Item implements IDataItem {
     }
 
     @Override
-    public @NotNull InteractionResult interactLivingEntity(ItemStack stack, Player source, LivingEntity target, InteractionHand usedHand) {
+    public @NotNull InteractionResult interactLivingEntity(@NonNull ItemStack stack, Player source, @NonNull LivingEntity target, @NonNull InteractionHand usedHand) {
         if (source.level().isClientSide()) {
             if (target instanceof Player) {
                 return InteractionResult.SUCCESS;
@@ -57,7 +58,7 @@ public class NfcCardItem extends Item implements IDataItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
+    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull List<Component> components, TooltipFlag tooltipFlag) {
         if (tooltipFlag.isAdvanced()) {
             var id = ItemDataHandler.getId(stack);
             id.ifPresent(uuid -> components.add(Component.literal(uuid.toString()).withStyle(ChatFormatting.GRAY)));

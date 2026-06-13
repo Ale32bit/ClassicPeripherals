@@ -24,6 +24,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class RfidScannerBlock extends DirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
@@ -40,7 +41,7 @@ public class RfidScannerBlock extends DirectionalBlock implements EntityBlock, S
     }
 
     @Override
-    protected MapCodec<? extends DirectionalBlock> codec() {
+    protected @NonNull MapCodec<? extends DirectionalBlock> codec() {
         return simpleCodec(RfidScannerBlock::new);
     }
 
@@ -50,12 +51,12 @@ public class RfidScannerBlock extends DirectionalBlock implements EntityBlock, S
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public @NonNull VoxelShape getShape(BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @NonNull CollisionContext context) {
         return ModemShapes.getBounds(state.getValue(FACING));
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+    public @NonNull BlockState updateShape(BlockState state, @NonNull Direction direction, @NonNull BlockState neighborState, @NonNull LevelAccessor level, @NonNull BlockPos pos, @NonNull BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
@@ -63,12 +64,12 @@ public class RfidScannerBlock extends DirectionalBlock implements EntityBlock, S
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
-    public FluidState getFluidState(BlockState state) {
+    public @NonNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
     }
 
     @Override
-    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+    public boolean canSurvive(BlockState state, @NonNull LevelReader level, BlockPos pos) {
         var facing = state.getValue(FACING);
         return ModemShapes.canSupport(level, pos.relative(facing), facing.getOpposite());
     }
@@ -83,23 +84,23 @@ public class RfidScannerBlock extends DirectionalBlock implements EntityBlock, S
 
     @Override
     @Deprecated
-    public BlockState mirror(BlockState state, Mirror mirrorIn) {
+    public @NonNull BlockState mirror(BlockState state, Mirror mirrorIn) {
         return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
     }
 
     @Override
     @Deprecated
-    public BlockState rotate(BlockState state, Rotation rot) {
+    public @NonNull BlockState rotate(BlockState state, Rotation rot) {
         return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos pos, @NonNull BlockState state) {
         return new RfidScannerBlockEntity(pos, state);
     }
 
     @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @NonNull BlockState state, @NonNull BlockEntityType<T> type) {
         if (!level.isClientSide) {
             return createTickerHelper(type, ModRegistry.TileEntities.RFID_SCANNER.get(), RfidScannerBlockEntity::tick);
         }

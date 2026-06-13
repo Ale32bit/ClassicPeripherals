@@ -12,19 +12,17 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.BiConsumer;
 
 public class LootTableGenerator implements LootTableSubProvider {
-    @SuppressWarnings("unused")
-    private final HolderLookup.Provider registries;
 
-    public LootTableGenerator(HolderLookup.Provider registries) {
-        this.registries = registries;
+    public LootTableGenerator(HolderLookup.Provider ignoredRegistries) {
     }
 
     @Override
-    public void generate(BiConsumer<ResourceKey<net.minecraft.world.level.storage.loot.LootTable>, LootTable.Builder> output) {
+    public void generate(@NonNull BiConsumer<ResourceKey<net.minecraft.world.level.storage.loot.LootTable>, LootTable.Builder> output) {
         dropSelf(output, ModRegistry.Blocks.TOWER_BASE);
         dropSelf(output, ModRegistry.Blocks.TOWER_SEGMENT);
         dropSelf(output, ModRegistry.Blocks.TOWER_HEAD);

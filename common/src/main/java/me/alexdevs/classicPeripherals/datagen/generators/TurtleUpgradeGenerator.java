@@ -31,9 +31,7 @@ public class TurtleUpgradeGenerator {
 
     // Set up the dynamic registries to contain our turtle upgrades.
     public static CompletableFuture<RegistrySetBuilder.PatchedRegistries> makeUpgradeRegistry(CompletableFuture<HolderLookup.Provider> registries) {
-        return RegistryPatchGenerator.createLookup(registries, Util.make(new RegistrySetBuilder(), builder -> {
-            builder.add(ITurtleUpgrade.REGISTRY, TurtleUpgradeGenerator::addUpgrades);
-        }));
+        return RegistryPatchGenerator.createLookup(registries, Util.make(new RegistrySetBuilder(), builder -> builder.add(ITurtleUpgrade.REGISTRY, TurtleUpgradeGenerator::addUpgrades)));
     }
 
     private static ResourceLocation id(String path) {

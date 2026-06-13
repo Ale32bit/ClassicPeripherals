@@ -9,6 +9,7 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
+import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -18,7 +19,7 @@ public class TagGenerator extends TagsProvider<Block> {
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider provider) {
+    protected void addTags(HolderLookup.@NonNull Provider provider) {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(key(ModRegistry.Blocks.TOWER_BASE), key(ModRegistry.Blocks.TOWER_SEGMENT), key(ModRegistry.Blocks.TOWER_HEAD), key(ModRegistry.Blocks.ANTENNA))
                 .add(key(ModRegistry.Blocks.NFC_READER), key(ModRegistry.Blocks.RFID_SCANNER), key(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR), key(ModRegistry.Blocks.SCANNER));
