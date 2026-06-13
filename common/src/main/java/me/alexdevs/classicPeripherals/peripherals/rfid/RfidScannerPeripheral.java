@@ -7,6 +7,7 @@ import dan200.computercraft.api.peripheral.AttachedComputerSet;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class RfidScannerPeripheral implements IPeripheral {
     }
 
     @Override
-    public String getType() {
+    public @NonNull String getType() {
         return "rfid_scanner";
     }
 
@@ -32,12 +33,12 @@ public class RfidScannerPeripheral implements IPeripheral {
     }
 
     @Override
-    public void attach(IComputerAccess computer) {
+    public void attach(@NonNull IComputerAccess computer) {
         computers.add(computer);
     }
 
     @Override
-    public void detach(IComputerAccess computer) {
+    public void detach(@NonNull IComputerAccess computer) {
         computers.remove(computer);
     }
 

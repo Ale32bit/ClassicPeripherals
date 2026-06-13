@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.Optional;
@@ -62,7 +63,7 @@ public class StateSaverAndLoader extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag nbt, HolderLookup.Provider registries) {
+    public @NonNull CompoundTag save(@NonNull CompoundTag nbt, HolderLookup.@NonNull Provider registries) {
         var cardDataMap = new CompoundTag();
         for (var entry : data.entrySet()) {
             CompoundTag cardDataItem = new CompoundTag();
@@ -86,11 +87,6 @@ public class StateSaverAndLoader extends SavedData {
 
     public void setData(UUID id, DataHolderHandler.ItemData data) {
         this.data.put(id, data);
-        this.setDirty(true);
-    }
-
-    public void removeData(UUID id) {
-        this.data.remove(id);
         this.setDirty(true);
     }
 }

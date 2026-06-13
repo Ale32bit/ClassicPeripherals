@@ -23,7 +23,7 @@ public abstract class ItemMixin {
     @Inject(method = "interactLivingEntity", at = @At("HEAD"), cancellable = true)
     private void classicperipherals$pocketInteractPlayer(ItemStack stack, Player source, LivingEntity target, InteractionHand usedHand, CallbackInfoReturnable<InteractionResult> cir) {
         var self = (Item) (Object) this;
-        if (!(self instanceof PocketComputerItem pocketItem)) {
+        if (!(self instanceof PocketComputerItem)) {
             return;
         }
 
