@@ -1,9 +1,8 @@
 package me.alexdevs.classicPeripherals.datagen.generators;
 
-import me.alexdevs.classicPeripherals.block.ModBlocks;
+import me.alexdevs.classicPeripherals.registry.ModRegistry;
 import me.alexdevs.classicPeripherals.platform.RegistrySupplier;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagsProvider;
@@ -21,8 +20,8 @@ public class TagGenerator extends TagsProvider<Block> {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .add(key(ModBlocks.TOWER_BASE), key(ModBlocks.TOWER_SEGMENT), key(ModBlocks.TOWER_HEAD), key(ModBlocks.ANTENNA))
-                .add(key(ModBlocks.NFC_READER), key(ModBlocks.RFID_SCANNER), key(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR), key(ModBlocks.SCANNER));
+                .add(key(ModRegistry.Blocks.TOWER_BASE), key(ModRegistry.Blocks.TOWER_SEGMENT), key(ModRegistry.Blocks.TOWER_HEAD), key(ModRegistry.Blocks.ANTENNA))
+                .add(key(ModRegistry.Blocks.NFC_READER), key(ModRegistry.Blocks.RFID_SCANNER), key(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR), key(ModRegistry.Blocks.SCANNER));
     }
 
     private static ResourceKey<Block> key(RegistrySupplier<? extends Block> supplier) {

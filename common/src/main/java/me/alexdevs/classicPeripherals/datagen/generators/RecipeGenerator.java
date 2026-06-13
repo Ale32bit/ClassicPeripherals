@@ -2,10 +2,8 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 
 import dan200.computercraft.api.ComputerCraftTags;
 import dan200.computercraft.shared.ModRegistry;
-import me.alexdevs.classicPeripherals.block.ModBlocks;
-import me.alexdevs.classicPeripherals.item.ModItems;
-import me.alexdevs.classicPeripherals.recipe.NfcCardRecipe;
-import me.alexdevs.classicPeripherals.recipe.RfidBadgeRecipe;
+import me.alexdevs.classicPeripherals.registry.recipe.NfcCardRecipe;
+import me.alexdevs.classicPeripherals.registry.recipe.RfidBadgeRecipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -23,7 +21,7 @@ public class RecipeGenerator extends RecipeProvider {
     @Override
     public void buildRecipes(RecipeOutput output) {
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.TOWER_BASE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.TOWER_BASE.get())
                 .pattern("ici")
                 .pattern("iai")
                 .pattern("ImI")
@@ -35,27 +33,27 @@ public class RecipeGenerator extends RecipeProvider {
                 .unlockedBy("has_modem", has(ComputerCraftTags.Items.WIRED_MODEM))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.TOWER_SEGMENT.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.TOWER_SEGMENT.get())
                 .pattern("ici")
                 .pattern("ici")
                 .pattern("ici")
                 .define('i', Items.IRON_BARS)
                 .define('c', ModRegistry.Items.CABLE.get())
-                .unlockedBy("has_tower_base", has(ModBlocks.TOWER_BASE.get()))
+                .unlockedBy("has_tower_base", has(me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.TOWER_BASE.get()))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.TOWER_HEAD.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.TOWER_HEAD.get())
                 .pattern("cmc")
                 .pattern("msm")
                 .pattern("cmc")
-                .define('s', ModBlocks.TOWER_SEGMENT.get())
+                .define('s', me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.TOWER_SEGMENT.get())
                 .define('m', ModRegistry.Items.WIRELESS_MODEM_ADVANCED.get())
-                .define('c', ModItems.COPPER_COIL.get())
-                .unlockedBy("has_tower_segment", has(ModBlocks.TOWER_SEGMENT.get()))
-                .unlockedBy("has_copper_coil", has(ModItems.COPPER_COIL.get()))
+                .define('c', me.alexdevs.classicPeripherals.registry.ModRegistry.Items.COPPER_COIL.get())
+                .unlockedBy("has_tower_segment", has(me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.TOWER_SEGMENT.get()))
+                .unlockedBy("has_copper_coil", has(me.alexdevs.classicPeripherals.registry.ModRegistry.Items.COPPER_COIL.get()))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.ANTENNA.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.ANTENNA.get())
                 .pattern(" m ")
                 .pattern("mcm")
                 .pattern(" M ")
@@ -65,7 +63,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .unlockedBy("has_modem", has(ComputerCraftTags.Items.WIRED_MODEM))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModItems.COPPER_COIL.get(), 2)
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Items.COPPER_COIL.get(), 2)
                 .pattern("ccc")
                 .pattern("cwc")
                 .pattern("ccc")
@@ -74,17 +72,17 @@ public class RecipeGenerator extends RecipeProvider {
                 .unlockedBy("has_copper", has(Items.COPPER_INGOT))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.NFC_READER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.NFC_READER.get())
                 .pattern("sss")
                 .pattern("srs")
                 .pattern("scs")
                 .define('s', Items.STONE)
                 .define('r', Items.REDSTONE)
-                .define('c', ModItems.COPPER_COIL.get())
+                .define('c', me.alexdevs.classicPeripherals.registry.ModRegistry.Items.COPPER_COIL.get())
                 .unlockedBy("has_copper", has(Items.COPPER_INGOT))
                 .save(output);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, ModItems.NFC_CARD.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Items.NFC_CARD.get())
                 .requires(Items.PAPER)
                 .requires(Items.REDSTONE)
                 .requires(Items.COPPER_INGOT)
@@ -94,28 +92,28 @@ public class RecipeGenerator extends RecipeProvider {
         SpecialRecipeBuilder.special(NfcCardRecipe::new)
                 .save(output, "nfc_card_dye");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModItems.RFID_BADGE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Items.RFID_BADGE.get())
                 .pattern(" n ")
                 .pattern("ncn")
                 .pattern(" n ")
                 .define('n', Items.IRON_NUGGET)
-                .define('c', ModItems.COPPER_COIL.get())
+                .define('c', me.alexdevs.classicPeripherals.registry.ModRegistry.Items.COPPER_COIL.get())
                 .unlockedBy("has_copper", has(Items.COPPER_INGOT))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.RFID_SCANNER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.RFID_SCANNER.get())
                 .pattern("sss")
                 .pattern("scs")
                 .pattern("sss")
                 .define('s', Items.STONE)
-                .define('c', ModItems.COPPER_COIL.get())
+                .define('c', me.alexdevs.classicPeripherals.registry.ModRegistry.Items.COPPER_COIL.get())
                 .unlockedBy("has_copper", has(Items.COPPER_INGOT))
                 .save(output);
 
         SpecialRecipeBuilder.special(RfidBadgeRecipe::new)
                 .save(output, "rfid_badge_dye");
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get())
                 .pattern("did")
                 .pattern("cac")
                 .pattern("iri")
@@ -129,7 +127,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .unlockedBy("has_comparator", has(Items.COMPARATOR))
                 .save(output);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.SCANNER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.registry.ModRegistry.Blocks.SCANNER.get())
                 .pattern("sss")
                 .pattern("sos")
                 .pattern("srs")

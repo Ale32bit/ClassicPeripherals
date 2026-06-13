@@ -2,11 +2,8 @@ package me.alexdevs.classicPeripherals;
 
 import dan200.computercraft.api.client.turtle.RegisterTurtleModellersEvent;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
-import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.core.ItemDataHandler;
-import me.alexdevs.classicPeripherals.item.ModItems;
-import me.alexdevs.classicPeripherals.screen.ModScreenHandlers;
-import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
+import me.alexdevs.classicPeripherals.registry.ModRegistry;
 import me.alexdevs.classicPeripherals.client.screen.ScannerScreen;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -26,29 +23,29 @@ public class ClassicPeripheralsClientNeoForge {
 
     private void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.TOWER_BASE.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.TOWER_SEGMENT.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.TOWER_HEAD.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.ANTENNA.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModRegistry.Blocks.TOWER_BASE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModRegistry.Blocks.TOWER_SEGMENT.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModRegistry.Blocks.TOWER_HEAD.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModRegistry.Blocks.ANTENNA.get(), RenderType.cutout());
         });
     }
 
     private void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
-        event.register(ModScreenHandlers.SCANNER.get(), ScannerScreen::new);
+        event.register(ModRegistry.Screens.SCANNER.get(), ScannerScreen::new);
     }
 
     private void onRegisterTurtleModellers(RegisterTurtleModellersEvent event) {
-        event.register(ModUpgrades.TURTLE_RADIO,
+        event.register(ModRegistry.Upgrades.TURTLE_RADIO,
                 TurtleUpgradeModeller.sided(model("turtle_radio_left"), model("turtle_radio_right")));
-        event.register(ModUpgrades.TURTLE_CRYPTO,
+        event.register(ModRegistry.Upgrades.TURTLE_CRYPTO,
                 TurtleUpgradeModeller.sided(model("turtle_crypto_left"), model("turtle_crypto_right")));
     }
 
     private void onRegisterItemColors(RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> tintIndex == 0 ? ItemDataHandler.getColor(stack) : 0xFF_FFFFFF,
-                ModItems.NFC_CARD.get());
+                ModRegistry.Items.NFC_CARD.get());
         event.register((stack, tintIndex) -> tintIndex == 1 ? ItemDataHandler.getColor(stack) : 0xFF_FFFFFF,
-                ModItems.RFID_BADGE.get());
+                ModRegistry.Items.RFID_BADGE.get());
     }
 
     private static ResourceLocation model(String path) {

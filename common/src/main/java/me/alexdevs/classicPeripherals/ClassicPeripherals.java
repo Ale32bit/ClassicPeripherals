@@ -1,16 +1,11 @@
 package me.alexdevs.classicPeripherals;
 
-import me.alexdevs.classicPeripherals.block.ModBlocks;
 import me.alexdevs.classicPeripherals.core.StateSaverAndLoader;
-import me.alexdevs.classicPeripherals.item.ModItems;
-import me.alexdevs.classicPeripherals.luaApi.ModLuaApiProvider;
-import me.alexdevs.classicPeripherals.luaApi.PocketNfcAccess;
+import me.alexdevs.classicPeripherals.registry.ModRegistry;
+import me.alexdevs.classicPeripherals.registry.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.platform.Registrar;
 import me.alexdevs.classicPeripherals.platform.RegistrySupplier;
 import me.alexdevs.classicPeripherals.platform.Services;
-import me.alexdevs.classicPeripherals.recipe.ModRecipes;
-import me.alexdevs.classicPeripherals.screen.ModScreenHandlers;
-import me.alexdevs.classicPeripherals.tiles.ModBlockTiles;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -35,32 +30,26 @@ public class ClassicPeripherals {
     public static final RegistrySupplier<CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("classicperipherals",
             () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
                     .title(Component.translatable("itemGroup.classicperipherals"))
-                    .icon(() -> ModBlocks.TOWER_HEAD.get().asItem().getDefaultInstance())
+                    .icon(() -> ModRegistry.Blocks.TOWER_HEAD.get().asItem().getDefaultInstance())
                     .displayItems((parameters, entries) -> {
-                        entries.accept(ModBlocks.TOWER_BASE.get());
-                        entries.accept(ModBlocks.TOWER_SEGMENT.get());
-                        entries.accept(ModBlocks.TOWER_HEAD.get());
-                        entries.accept(ModBlocks.ANTENNA.get());
-                        entries.accept(ModItems.COPPER_COIL.get());
-                        entries.accept(ModBlocks.NFC_READER.get());
-                        entries.accept(ModItems.NFC_CARD.get());
-                        entries.accept(ModBlocks.RFID_SCANNER.get());
-                        entries.accept(ModItems.RFID_BADGE.get());
-                        entries.accept(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.get());
-                        entries.accept(ModBlocks.SCANNER.get());
+                        entries.accept(ModRegistry.Blocks.TOWER_BASE.get());
+                        entries.accept(ModRegistry.Blocks.TOWER_SEGMENT.get());
+                        entries.accept(ModRegistry.Blocks.TOWER_HEAD.get());
+                        entries.accept(ModRegistry.Blocks.ANTENNA.get());
+                        entries.accept(ModRegistry.Items.COPPER_COIL.get());
+                        entries.accept(ModRegistry.Blocks.NFC_READER.get());
+                        entries.accept(ModRegistry.Items.NFC_CARD.get());
+                        entries.accept(ModRegistry.Blocks.RFID_SCANNER.get());
+                        entries.accept(ModRegistry.Items.RFID_BADGE.get());
+                        entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get());
+                        entries.accept(ModRegistry.Blocks.SCANNER.get());
                     })
                     .build());
 
     private static @Nullable StateSaverAndLoader stateSaverAndLoader;
 
     public static void init() {
-        ModComponents.initialize();
-        ModBlocks.initialize();
-        ModItems.initialize();
-        ModBlockTiles.initialize();
-        ModRecipes.initialize();
-        ModScreenHandlers.initialize();
-        ModLuaApiProvider.initialize();
+        ModRegistry.initialize();
     }
 
     public static void onServerStarted(MinecraftServer server) {

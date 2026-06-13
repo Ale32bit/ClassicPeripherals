@@ -4,16 +4,15 @@ import dan200.computercraft.api.peripheral.PeripheralLookup;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import dan200.computercraft.api.upgrades.UpgradeType;
-import me.alexdevs.classicPeripherals.peripherals.Peripherals;
+import me.alexdevs.classicPeripherals.registry.ModRegistry;
+import me.alexdevs.classicPeripherals.registry.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.platform.PeripheralProvider;
 import me.alexdevs.classicPeripherals.platform.PeripheralRegistrar;
 import me.alexdevs.classicPeripherals.platform.UpgradeRegistrar;
-import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
@@ -29,19 +28,19 @@ public class ClassicPeripheralsFabric implements ModInitializer {
             }
         });
 
-        ModUpgrades.register(new UpgradeRegistrar() {
+        ModRegistry.Upgrades.register(new UpgradeRegistrar() {
             @Override
             @SuppressWarnings("unchecked")
-            public void registerPocketUpgrade(ResourceLocation id, UpgradeType<? extends IPocketUpgrade> type) {
+            public void registerPocketUpgrade(String id, UpgradeType<? extends IPocketUpgrade> type) {
                 var registry = (Registry<UpgradeType<? extends IPocketUpgrade>>) BuiltInRegistries.REGISTRY.get(IPocketUpgrade.typeRegistry().location());
-                Registry.register(registry, id, type);
+                Registry.register(registry, withPath(id), type);
             }
 
             @Override
             @SuppressWarnings("unchecked")
-            public void registerTurtleUpgrade(ResourceLocation id, UpgradeType<? extends ITurtleUpgrade> type) {
+            public void registerTurtleUpgrade(String id, UpgradeType<? extends ITurtleUpgrade> type) {
                 var registry = (Registry<UpgradeType<? extends ITurtleUpgrade>>) BuiltInRegistries.REGISTRY.get(ITurtleUpgrade.typeRegistry().location());
-                Registry.register(registry, id, type);
+                Registry.register(registry, withPath(id), type);
             }
         });
 

@@ -2,8 +2,7 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 
 import com.google.gson.JsonObject;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.block.ModBlocks;
-import me.alexdevs.classicPeripherals.item.ModItems;
+import me.alexdevs.classicPeripherals.registry.ModRegistry;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -26,18 +25,18 @@ public class LanguageGenerator implements DataProvider {
 
     private void addTranslations() {
         add("itemGroup.classicperipherals", "Classic Peripherals");
-        add(ModBlocks.TOWER_BASE.get(), "Radio Tower Controller");
-        add(ModBlocks.TOWER_SEGMENT.get(), "Radio Tower Pole");
-        add(ModBlocks.TOWER_HEAD.get(), "Radio Tower Antenna");
-        add(ModBlocks.ANTENNA.get(), "Radio Antenna");
-        add(ModItems.COPPER_COIL.get(), "Copper Coil");
+        add(ModRegistry.Blocks.TOWER_BASE.get(), "Radio Tower Controller");
+        add(ModRegistry.Blocks.TOWER_SEGMENT.get(), "Radio Tower Pole");
+        add(ModRegistry.Blocks.TOWER_HEAD.get(), "Radio Tower Antenna");
+        add(ModRegistry.Blocks.ANTENNA.get(), "Radio Antenna");
+        add(ModRegistry.Items.COPPER_COIL.get(), "Copper Coil");
 
-        add(ModBlocks.NFC_READER.get(), "NFC Reader");
-        add(ModItems.NFC_CARD.get(), "NFC Card");
-        add(ModItems.RFID_BADGE.get(), "RFID Badge");
-        add(ModBlocks.RFID_SCANNER.get(), "RFID Scanner");
-        add(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.get(), "Cryptographic Accelerator");
-        add(ModBlocks.SCANNER.get(), "Scanner");
+        add(ModRegistry.Blocks.NFC_READER.get(), "NFC Reader");
+        add(ModRegistry.Items.NFC_CARD.get(), "NFC Card");
+        add(ModRegistry.Items.RFID_BADGE.get(), "RFID Badge");
+        add(ModRegistry.Blocks.RFID_SCANNER.get(), "RFID Scanner");
+        add(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), "Cryptographic Accelerator");
+        add(ModRegistry.Blocks.SCANNER.get(), "Scanner");
 
         add("upgrade.radio.adjective", "Radio");
         add("upgrade.crypto.adjective", "Crypto");

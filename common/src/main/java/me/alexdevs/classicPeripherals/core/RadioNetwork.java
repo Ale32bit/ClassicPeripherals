@@ -2,7 +2,7 @@ package me.alexdevs.classicPeripherals.core;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.integrations.SableIntegration;
-import me.alexdevs.classicPeripherals.peripherals.AbstractRadioPeripheral;
+import me.alexdevs.classicPeripherals.registry.peripherals.AbstractRadioPeripheral;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,7 +1,7 @@
 package me.alexdevs.classicPeripherals.client.screen;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.screen.ScannerMenu;
+import me.alexdevs.classicPeripherals.registry.screen.ScannerMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;

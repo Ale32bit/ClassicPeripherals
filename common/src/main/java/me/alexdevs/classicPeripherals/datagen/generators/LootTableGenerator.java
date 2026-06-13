@@ -1,6 +1,6 @@
 package me.alexdevs.classicPeripherals.datagen.generators;
 
-import me.alexdevs.classicPeripherals.block.ModBlocks;
+import me.alexdevs.classicPeripherals.registry.ModRegistry;
 import me.alexdevs.classicPeripherals.platform.RegistrySupplier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -25,14 +25,14 @@ public class LootTableGenerator implements LootTableSubProvider {
 
     @Override
     public void generate(BiConsumer<ResourceKey<net.minecraft.world.level.storage.loot.LootTable>, LootTable.Builder> output) {
-        dropSelf(output, ModBlocks.TOWER_BASE);
-        dropSelf(output, ModBlocks.TOWER_SEGMENT);
-        dropSelf(output, ModBlocks.TOWER_HEAD);
-        dropSelf(output, ModBlocks.ANTENNA);
-        dropSelf(output, ModBlocks.NFC_READER);
-        dropSelf(output, ModBlocks.RFID_SCANNER);
-        dropSelf(output, ModBlocks.CRYPTOGRAPHIC_ACCELERATOR);
-        dropSelf(output, ModBlocks.SCANNER);
+        dropSelf(output, ModRegistry.Blocks.TOWER_BASE);
+        dropSelf(output, ModRegistry.Blocks.TOWER_SEGMENT);
+        dropSelf(output, ModRegistry.Blocks.TOWER_HEAD);
+        dropSelf(output, ModRegistry.Blocks.ANTENNA);
+        dropSelf(output, ModRegistry.Blocks.NFC_READER);
+        dropSelf(output, ModRegistry.Blocks.RFID_SCANNER);
+        dropSelf(output, ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR);
+        dropSelf(output, ModRegistry.Blocks.SCANNER);
     }
 
     private static void dropSelf(BiConsumer<ResourceKey<net.minecraft.world.level.storage.loot.LootTable>, LootTable.Builder> output,

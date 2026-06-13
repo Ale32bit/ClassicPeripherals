@@ -2,10 +2,10 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 
 import dan200.computercraft.api.ComputerCraftAPI;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.block.ModBlocks;
-import me.alexdevs.classicPeripherals.block.NfcReaderBlock;
-import me.alexdevs.classicPeripherals.block.RfidScannerBlock;
-import me.alexdevs.classicPeripherals.block.ScannerBlock;
+import me.alexdevs.classicPeripherals.registry.ModRegistry;
+import me.alexdevs.classicPeripherals.registry.block.NfcReaderBlock;
+import me.alexdevs.classicPeripherals.registry.block.RfidScannerBlock;
+import me.alexdevs.classicPeripherals.registry.block.ScannerBlock;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.blockstates.*;
 import net.minecraft.data.models.model.*;
@@ -38,17 +38,17 @@ public class BlockModelProvider {
     );
 
     public static void addBlockModels(BlockModelGenerators generators) {
-        generators.delegateItemModel(ModBlocks.TOWER_BASE.get(), getModelLocation(ModBlocks.TOWER_BASE.get()));
-        generators.delegateItemModel(ModBlocks.TOWER_SEGMENT.get(), getModelLocation(ModBlocks.TOWER_SEGMENT.get()));
-        generators.delegateItemModel(ModBlocks.TOWER_HEAD.get(), getModelLocation(ModBlocks.TOWER_HEAD.get(), "_off"));
-        generators.delegateItemModel(ModBlocks.ANTENNA.get(), getModelLocation(ModBlocks.ANTENNA.get(), "_off"));
+        generators.delegateItemModel(ModRegistry.Blocks.TOWER_BASE.get(), getModelLocation(ModRegistry.Blocks.TOWER_BASE.get()));
+        generators.delegateItemModel(ModRegistry.Blocks.TOWER_SEGMENT.get(), getModelLocation(ModRegistry.Blocks.TOWER_SEGMENT.get()));
+        generators.delegateItemModel(ModRegistry.Blocks.TOWER_HEAD.get(), getModelLocation(ModRegistry.Blocks.TOWER_HEAD.get(), "_off"));
+        generators.delegateItemModel(ModRegistry.Blocks.ANTENNA.get(), getModelLocation(ModRegistry.Blocks.ANTENNA.get(), "_off"));
 
-        createNfcReaderModel(generators, ModBlocks.NFC_READER.get());
-        createRfidScannerModel(generators, ModBlocks.RFID_SCANNER.get());
-        createScannerModel(generators, ModBlocks.SCANNER.get());
+        createNfcReaderModel(generators, ModRegistry.Blocks.NFC_READER.get());
+        createRfidScannerModel(generators, ModRegistry.Blocks.RFID_SCANNER.get());
+        createScannerModel(generators, ModRegistry.Blocks.SCANNER.get());
 
-        generators.createHorizontallyRotatedBlock(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.get(), TexturedModel.ORIENTABLE);
-        generators.delegateItemModel(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.get(), getModelLocation(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.get()));
+        generators.createHorizontallyRotatedBlock(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), TexturedModel.ORIENTABLE);
+        generators.delegateItemModel(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), getModelLocation(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get()));
 
         registerTurtleUpgrade(generators, "block/turtle_radio", "block/turtle_radio_face");
         registerTurtleUpgrade(generators, "block/turtle_crypto", "block/turtle_crypto_face");

@@ -2,9 +2,9 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.block.ModBlocks;
-import me.alexdevs.classicPeripherals.upgrades.crypto.PocketCrypto;
-import me.alexdevs.classicPeripherals.upgrades.radio.PocketRadio;
+import me.alexdevs.classicPeripherals.registry.ModRegistry;
+import me.alexdevs.classicPeripherals.registry.upgrades.crypto.PocketCrypto;
+import me.alexdevs.classicPeripherals.registry.upgrades.radio.PocketRadio;
 import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
@@ -20,12 +20,12 @@ public class PocketUpgradeGenerator {
     public static void addUpgrades(BootstrapContext<IPocketUpgrade> upgrades) {
         upgrades.register(
                 id(id("radio")),
-                new PocketRadio(new ItemStack(ModBlocks.ANTENNA.get().asItem()))
+                new PocketRadio(new ItemStack(ModRegistry.Blocks.ANTENNA.get().asItem()))
         );
 
         upgrades.register(
                 id(id("crypto")),
-                new PocketCrypto(new ItemStack(ModBlocks.CRYPTOGRAPHIC_ACCELERATOR.get().asItem()))
+                new PocketCrypto(new ItemStack(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get().asItem()))
         );
     }
 

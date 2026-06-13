@@ -1,8 +1,8 @@
 package me.alexdevs.classicPeripherals.core;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.ModComponents;
-import me.alexdevs.classicPeripherals.item.IDataItem;
+import me.alexdevs.classicPeripherals.registry.ModRegistry;
+import me.alexdevs.classicPeripherals.registry.item.IDataItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -32,7 +32,7 @@ public class ItemDataHandler {
     }
 
     public static Optional<UUID> getId(ItemStack stack) {
-        var uuid = stack.getOrDefault(ModComponents.DATAHOLDER_UUID.get(), null);
+        var uuid = stack.getOrDefault(ModRegistry.DataComponents.DATAHOLDER_UUID.get(), null);
         return Optional.ofNullable(uuid);
 
     }
@@ -40,7 +40,7 @@ public class ItemDataHandler {
     public static UUID getOrCreateId(ItemStack stack) {
         var uuid = getId(stack).orElseGet(() -> {
             var id = UUID.randomUUID();
-            stack.set(ModComponents.DATAHOLDER_UUID.get(), id);
+            stack.set(ModRegistry.DataComponents.DATAHOLDER_UUID.get(), id);
             return id;
         });
 
@@ -71,11 +71,11 @@ public class ItemDataHandler {
     }
 
     public static boolean isReadOnly(ItemStack stack) {
-        return stack.getComponents().getOrDefault(ModComponents.DATAHOLDER_READONLY.get(), false);
+        return stack.getComponents().getOrDefault(ModRegistry.DataComponents.DATAHOLDER_READONLY.get(), false);
     }
 
     public static void setReadOnly(ItemStack stack, boolean readOnly) {
-        stack.set(ModComponents.DATAHOLDER_READONLY.get(), readOnly);
+        stack.set(ModRegistry.DataComponents.DATAHOLDER_READONLY.get(), readOnly);
     }
 
     public static void setLabel(ItemStack stack, String title) {
@@ -87,11 +87,11 @@ public class ItemDataHandler {
     }
 
     public static void setColor(ItemStack stack, int color) {
-        stack.set(ModComponents.DATAHOLDER_COLOR.get(), color & 0x00_FFFFFF);
+        stack.set(ModRegistry.DataComponents.DATAHOLDER_COLOR.get(), color & 0x00_FFFFFF);
     }
 
     public static int getColor(ItemStack stack) {
-        return 0xFF_000000 | stack.getComponents().getOrDefault(ModComponents.DATAHOLDER_COLOR.get(), 0xFFFFFF);
+        return 0xFF_000000 | stack.getComponents().getOrDefault(ModRegistry.DataComponents.DATAHOLDER_COLOR.get(), 0xFFFFFF);
     }
 
     public static Optional<String> getPrivateKey(ItemStack stack) {
@@ -131,7 +131,7 @@ public class ItemDataHandler {
     }
 
     static boolean tryMigrate(ItemStack stack) {
-        if (stack.has(ModComponents.DATAHOLDER_UUID.get())) {
+        if (stack.has(ModRegistry.DataComponents.DATAHOLDER_UUID.get())) {
             return false;
         }
 
@@ -146,7 +146,7 @@ public class ItemDataHandler {
 
         setData(legacyData.get().uuid(), data);
 
-        stack.set(ModComponents.DATAHOLDER_UUID.get(), legacyData.get().uuid());
+        stack.set(ModRegistry.DataComponents.DATAHOLDER_UUID.get(), legacyData.get().uuid());
 
         ItemDataHandler.setReadOnly(stack, legacyData.get().readonly());
         ItemDataHandler.setColor(stack, legacyData.get().color());
@@ -160,12 +160,12 @@ public class ItemDataHandler {
                 return Optional.empty();
             }
 
-            if (stack.has(ModComponents.DATAHOLDER_UUID.get())) {
+            if (stack.has(ModRegistry.DataComponents.DATAHOLDER_UUID.get())) {
                 return Optional.empty();
             }
 
             var customData = stack.get(DataComponents.CUSTOM_DATA);
-            if ((customData == null || customData.isEmpty()) && !stack.has(ModComponents.DATAHOLDER_DATA.get())) {
+            if ((customData == null || customData.isEmpty()) && !stack.has(ModRegistry.DataComponents.DATAHOLDER_DATA.get())) {
                 return Optional.empty();
             }
 
@@ -211,9 +211,9 @@ public class ItemDataHandler {
                 }
             } else {
                 uuid = UUID.randomUUID();
-                if (stack.has(ModComponents.DATAHOLDER_DATA.get())) {
-                    data = stack.get(ModComponents.DATAHOLDER_DATA.get());
-                    stack.remove(ModComponents.DATAHOLDER_DATA.get());
+                if (stack.has(ModRegistry.DataComponents.DATAHOLDER_DATA.get())) {
+                    data = stack.get(ModRegistry.DataComponents.DATAHOLDER_DATA.get());
+                    stack.remove(ModRegistry.DataComponents.DATAHOLDER_DATA.get());
                 } else {
                     return Optional.empty();
                 }

@@ -4,13 +4,12 @@ import dan200.computercraft.api.peripheral.PeripheralCapability;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import dan200.computercraft.api.upgrades.UpgradeType;
-import me.alexdevs.classicPeripherals.peripherals.Peripherals;
+import me.alexdevs.classicPeripherals.registry.ModRegistry;
+import me.alexdevs.classicPeripherals.registry.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.platform.NeoForgeRegistrationHelper;
 import me.alexdevs.classicPeripherals.platform.PeripheralProvider;
 import me.alexdevs.classicPeripherals.platform.PeripheralRegistrar;
 import me.alexdevs.classicPeripherals.platform.UpgradeRegistrar;
-import me.alexdevs.classicPeripherals.upgrades.ModUpgrades;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -53,15 +52,15 @@ public class ClassicPeripheralsNeoForge {
     }
 
     private void registerUpgrades(RegisterEvent event) {
-        ModUpgrades.register(new UpgradeRegistrar() {
+        ModRegistry.Upgrades.register(new UpgradeRegistrar() {
             @Override
-            public void registerPocketUpgrade(ResourceLocation id, UpgradeType<? extends IPocketUpgrade> type) {
-                event.register(IPocketUpgrade.typeRegistry(), id, () -> type);
+            public void registerPocketUpgrade(String id, UpgradeType<? extends IPocketUpgrade> type) {
+                event.register(IPocketUpgrade.typeRegistry(), withPath(id), () -> type);
             }
 
             @Override
-            public void registerTurtleUpgrade(ResourceLocation id, UpgradeType<? extends ITurtleUpgrade> type) {
-                event.register(ITurtleUpgrade.typeRegistry(), id, () -> type);
+            public void registerTurtleUpgrade(String id, UpgradeType<? extends ITurtleUpgrade> type) {
+                event.register(ITurtleUpgrade.typeRegistry(), withPath(id), () -> type);
             }
         });
     }
