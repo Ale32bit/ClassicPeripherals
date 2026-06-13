@@ -4,8 +4,6 @@ import dan200.computercraft.api.peripheral.PeripheralCapability;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import dan200.computercraft.api.upgrades.UpgradeType;
-import me.alexdevs.classicPeripherals.registry.ModRegistry;
-import me.alexdevs.classicPeripherals.registry.peripherals.Peripherals;
 import me.alexdevs.classicPeripherals.platform.NeoForgeRegistrationHelper;
 import me.alexdevs.classicPeripherals.platform.PeripheralProvider;
 import me.alexdevs.classicPeripherals.platform.PeripheralRegistrar;
@@ -39,7 +37,7 @@ public class ClassicPeripheralsNeoForge {
     }
 
     private void registerCapabilities(RegisterCapabilitiesEvent event) {
-        Peripherals.register(new PeripheralRegistrar() {
+        ModRegistry.Peripherals.register(new PeripheralRegistrar() {
             @Override
             public <B extends BlockEntity> void register(BlockEntityType<B> type, PeripheralProvider<B> provider) {
                 event.registerBlockEntity(

@@ -1,10 +1,10 @@
 package me.alexdevs.classicPeripherals.core;
 
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
+import me.alexdevs.classicPeripherals.core.dataHolder.DataHolderHandler;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.RegistryLayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 
@@ -21,7 +21,7 @@ public class StateSaverAndLoader extends SavedData {
             null
     );
 
-    private Map<UUID, ItemDataHandler.ItemData> data = new ConcurrentHashMap<>();
+    private Map<UUID, DataHolderHandler.ItemData> data = new ConcurrentHashMap<>();
 
     public static StateSaverAndLoader loadData(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         var state = new StateSaverAndLoader();
@@ -38,7 +38,7 @@ public class StateSaverAndLoader extends SavedData {
                 privateKey = null;
             }
 
-            state.data.put(dataId, new ItemDataHandler.ItemData(data, privateKey));
+            state.data.put(dataId, new DataHolderHandler.ItemData(data, privateKey));
         }
 
         return state;
@@ -80,11 +80,11 @@ public class StateSaverAndLoader extends SavedData {
 
         return nbt;
     }
-    public Optional<ItemDataHandler.ItemData> getData(UUID id) {
+    public Optional<DataHolderHandler.ItemData> getData(UUID id) {
         return Optional.ofNullable(data.getOrDefault(id, null));
     }
 
-    public void setData(UUID id, ItemDataHandler.ItemData data) {
+    public void setData(UUID id, DataHolderHandler.ItemData data) {
         this.data.put(id, data);
         this.setDirty(true);
     }

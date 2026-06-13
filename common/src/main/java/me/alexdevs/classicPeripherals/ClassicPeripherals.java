@@ -1,8 +1,7 @@
 package me.alexdevs.classicPeripherals;
 
 import me.alexdevs.classicPeripherals.core.StateSaverAndLoader;
-import me.alexdevs.classicPeripherals.registry.ModRegistry;
-import me.alexdevs.classicPeripherals.registry.luaApi.PocketNfcAccess;
+import me.alexdevs.classicPeripherals.peripherals.nfc.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.platform.Registrar;
 import me.alexdevs.classicPeripherals.platform.RegistrySupplier;
 import me.alexdevs.classicPeripherals.platform.Services;

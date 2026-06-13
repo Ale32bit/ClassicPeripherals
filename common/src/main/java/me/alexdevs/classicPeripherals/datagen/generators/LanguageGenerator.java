@@ -2,7 +2,7 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 
 import com.google.gson.JsonObject;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.registry.ModRegistry;
+import me.alexdevs.classicPeripherals.ModRegistry;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;

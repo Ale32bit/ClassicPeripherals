@@ -3,9 +3,9 @@ package me.alexdevs.classicPeripherals.client;
 import dan200.computercraft.api.client.FabricComputerCraftAPIClient;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.registry.ModRegistry;
-import me.alexdevs.classicPeripherals.client.screen.ScannerScreen;
-import me.alexdevs.classicPeripherals.core.ItemDataHandler;
+import me.alexdevs.classicPeripherals.ModRegistry;
+import me.alexdevs.classicPeripherals.peripherals.scanner.screen.ScannerScreen;
+import me.alexdevs.classicPeripherals.core.dataHolder.DataHolderHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -29,12 +29,12 @@ public class ClassicPeripheralsClientFabric implements ClientModInitializer {
                 TurtleUpgradeModeller.sided(model("turtle_crypto_left"), model("turtle_crypto_right")));
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (tintIndex == 0) return ItemDataHandler.getColor(stack);
+            if (tintIndex == 0) return DataHolderHandler.getColor(stack);
             return 0xFF_FFFFFF;
         }, ModRegistry.Items.NFC_CARD.get());
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (tintIndex == 1) return ItemDataHandler.getColor(stack);
+            if (tintIndex == 1) return DataHolderHandler.getColor(stack);
             return 0xFF_FFFFFF;
         }, ModRegistry.Items.RFID_BADGE.get());
     }

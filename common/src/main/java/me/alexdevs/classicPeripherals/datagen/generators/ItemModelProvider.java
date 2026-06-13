@@ -1,6 +1,6 @@
 package me.alexdevs.classicPeripherals.datagen.generators;
 
-import me.alexdevs.classicPeripherals.registry.ModRegistry;
+import me.alexdevs.classicPeripherals.ModRegistry;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.data.models.model.ModelTemplates;

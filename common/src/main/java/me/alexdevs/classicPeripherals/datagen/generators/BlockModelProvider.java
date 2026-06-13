@@ -2,10 +2,10 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 
 import dan200.computercraft.api.ComputerCraftAPI;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.registry.ModRegistry;
-import me.alexdevs.classicPeripherals.registry.block.NfcReaderBlock;
-import me.alexdevs.classicPeripherals.registry.block.RfidScannerBlock;
-import me.alexdevs.classicPeripherals.registry.block.ScannerBlock;
+import me.alexdevs.classicPeripherals.ModRegistry;
+import me.alexdevs.classicPeripherals.peripherals.nfc.NfcReaderBlock;
+import me.alexdevs.classicPeripherals.peripherals.rfid.RfidScannerBlock;
+import me.alexdevs.classicPeripherals.peripherals.scanner.ScannerBlock;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.blockstates.*;
 import net.minecraft.data.models.model.*;

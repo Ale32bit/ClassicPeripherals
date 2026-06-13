@@ -2,9 +2,9 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.registry.ModRegistry;
-import me.alexdevs.classicPeripherals.registry.upgrades.crypto.PocketCrypto;
-import me.alexdevs.classicPeripherals.registry.upgrades.radio.PocketRadio;
+import me.alexdevs.classicPeripherals.ModRegistry;
+import me.alexdevs.classicPeripherals.peripherals.crypto.upgrades.PocketCrypto;
+import me.alexdevs.classicPeripherals.peripherals.radio.upgrades.PocketRadio;
 import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;

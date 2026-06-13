@@ -1,6 +1,6 @@
 package me.alexdevs.classicPeripherals.datagen.generators;
 
-import me.alexdevs.classicPeripherals.registry.ModRegistry;
+import me.alexdevs.classicPeripherals.ModRegistry;
 import me.alexdevs.classicPeripherals.platform.RegistrySupplier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;

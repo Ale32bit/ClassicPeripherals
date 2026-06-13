@@ -2,8 +2,8 @@ package me.alexdevs.classicPeripherals.mixin;
 
 import dan200.computercraft.api.ComputerCraftTags;
 import dan200.computercraft.shared.pocket.items.PocketComputerItem;
-import me.alexdevs.classicPeripherals.registry.item.NfcCardItem;
-import me.alexdevs.classicPeripherals.registry.luaApi.PocketNfcAccess;
+import me.alexdevs.classicPeripherals.peripherals.nfc.item.NfcCardItem;
+import me.alexdevs.classicPeripherals.peripherals.nfc.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.utils.PocketUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

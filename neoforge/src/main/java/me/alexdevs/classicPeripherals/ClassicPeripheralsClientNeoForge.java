@@ -2,9 +2,8 @@ package me.alexdevs.classicPeripherals;
 
 import dan200.computercraft.api.client.turtle.RegisterTurtleModellersEvent;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
-import me.alexdevs.classicPeripherals.core.ItemDataHandler;
-import me.alexdevs.classicPeripherals.registry.ModRegistry;
-import me.alexdevs.classicPeripherals.client.screen.ScannerScreen;
+import me.alexdevs.classicPeripherals.core.dataHolder.DataHolderHandler;
+import me.alexdevs.classicPeripherals.peripherals.scanner.screen.ScannerScreen;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -42,9 +41,9 @@ public class ClassicPeripheralsClientNeoForge {
     }
 
     private void onRegisterItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register((stack, tintIndex) -> tintIndex == 0 ? ItemDataHandler.getColor(stack) : 0xFF_FFFFFF,
+        event.register((stack, tintIndex) -> tintIndex == 0 ? DataHolderHandler.getColor(stack) : 0xFF_FFFFFF,
                 ModRegistry.Items.NFC_CARD.get());
-        event.register((stack, tintIndex) -> tintIndex == 1 ? ItemDataHandler.getColor(stack) : 0xFF_FFFFFF,
+        event.register((stack, tintIndex) -> tintIndex == 1 ? DataHolderHandler.getColor(stack) : 0xFF_FFFFFF,
                 ModRegistry.Items.RFID_BADGE.get());
     }
 

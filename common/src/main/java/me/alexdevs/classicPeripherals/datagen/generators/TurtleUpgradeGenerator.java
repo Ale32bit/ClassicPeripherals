@@ -2,9 +2,9 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.registry.ModRegistry;
-import me.alexdevs.classicPeripherals.registry.upgrades.crypto.TurtleCrypto;
-import me.alexdevs.classicPeripherals.registry.upgrades.radio.TurtleRadio;
+import me.alexdevs.classicPeripherals.ModRegistry;
+import me.alexdevs.classicPeripherals.peripherals.crypto.upgrades.TurtleCrypto;
+import me.alexdevs.classicPeripherals.peripherals.radio.upgrades.TurtleRadio;
 import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
