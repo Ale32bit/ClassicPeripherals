@@ -2,7 +2,6 @@ package me.alexdevs.classicPeripherals.core;
 
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.bouncycastle.crypto.digests.*;
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.bouncycastle.crypto.digests.MD5Digest;
 import org.bouncycastle.crypto.digests.SHA1Digest;
@@ -14,6 +13,7 @@ import org.bouncycastle.crypto.paddings.PKCS7Padding;
 import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import org.bouncycastle.crypto.params.*;
 import org.bouncycastle.crypto.signers.Ed25519Signer;
+import org.jspecify.annotations.NonNull;
 
 import javax.crypto.BadPaddingException;
 import java.nio.charset.Charset;
@@ -31,10 +31,6 @@ public class Crypto {
         }
 
         return new String(bytes, CHARSET);
-    }
-
-    public static String toStr(byte[] bytes) {
-        return toStr(bytes, true);
     }
 
     private static String digest(Digest digest, String data, boolean hex) {
@@ -217,18 +213,10 @@ public class Crypto {
         var ivBytes = iv.getBytes(CHARSET);
         var dataBytes = data.getBytes(CHARSET);
 
-        var cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(new AESEngine()), new PKCS7Padding());
+        var cipher = new PaddedBufferedBlockCipher(CBCBlockCipher.newInstance(AESEngine.newInstance()), new PKCS7Padding());
         cipher.init(true, new ParametersWithIV(new KeyParameter(keyBytes), ivBytes));
 
-        var output = new byte[cipher.getOutputSize(dataBytes.length)];
-        int len = cipher.processBytes(dataBytes, 0, dataBytes.length, output, 0);
-        try {
-            len += cipher.doFinal(output, len);
-        } catch (InvalidCipherTextException e) {
-            throw new BadPaddingException(e.getMessage());
-        }
-
-        return new String(output, 0, len, CHARSET);
+        return getString(dataBytes, cipher);
     }
 
     public static String decryptAes(String data, String key, String iv) throws BadPaddingException {
@@ -236,9 +224,14 @@ public class Crypto {
         var ivBytes = iv.getBytes(CHARSET);
         var dataBytes = data.getBytes(CHARSET);
 
-        var cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(new AESEngine()), new PKCS7Padding());
+        var cipher = new PaddedBufferedBlockCipher(CBCBlockCipher.newInstance(AESEngine.newInstance()), new PKCS7Padding());
         cipher.init(false, new ParametersWithIV(new KeyParameter(keyBytes), ivBytes));
 
+        return getString(dataBytes, cipher);
+    }
+
+    @NonNull
+    private static String getString(byte[] dataBytes, PaddedBufferedBlockCipher cipher) throws BadPaddingException {
         var output = new byte[cipher.getOutputSize(dataBytes.length)];
         int len = cipher.processBytes(dataBytes, 0, dataBytes.length, output, 0);
         try {

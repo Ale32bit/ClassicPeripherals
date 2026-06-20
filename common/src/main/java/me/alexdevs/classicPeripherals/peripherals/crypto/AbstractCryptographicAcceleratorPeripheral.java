@@ -107,6 +107,9 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
 
     @LuaFunction
     public final String encryptAes(String data, String key, String iv) throws LuaException {
+        CryptoUtils.validateLength(1, key.length(), 16, 24, 32);
+        CryptoUtils.validateLength(2, iv.length(), 16);
+
         try {
             return Crypto.encryptAes(data, key, iv);
         } catch (BadPaddingException e) {
@@ -116,6 +119,9 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
 
     @LuaFunction
     public final String decryptAes(String data, String key, String iv) throws LuaException {
+        CryptoUtils.validateLength(1, key.length(), 16, 24, 32);
+        CryptoUtils.validateLength(2, iv.length(), 16);
+        
         try {
             return Crypto.decryptAes(data, key, iv);
         } catch (BadPaddingException e) {
