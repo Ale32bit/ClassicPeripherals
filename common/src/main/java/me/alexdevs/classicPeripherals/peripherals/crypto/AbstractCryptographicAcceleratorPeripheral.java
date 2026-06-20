@@ -3,7 +3,6 @@ package me.alexdevs.classicPeripherals.peripherals.crypto;
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
-import dan200.computercraft.api.lua.LuaValues;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.core.Crypto;
 import me.alexdevs.classicPeripherals.utils.CryptoUtils;
