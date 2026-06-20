@@ -114,6 +114,20 @@ public class Crypto {
         return random.nextDouble();
     }
 
+    public static double secureRandom(double max) {
+        var random = new SecureRandom();
+        if (max == 0d) {
+            // mimics the behavior of the Lua random function
+            return random.nextDouble(Long.MIN_VALUE, Long.MAX_VALUE);
+        }
+        return random.nextDouble(max);
+    }
+
+    public static double secureRandom(double min, double max) {
+        var random = new SecureRandom();
+        return random.nextDouble(min, max);
+    }
+
     public static byte[] secureRandomBuffer(int length) {
         var random = new SecureRandom();
         var bytes = new byte[length];

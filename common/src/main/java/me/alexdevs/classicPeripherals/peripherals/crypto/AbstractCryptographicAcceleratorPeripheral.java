@@ -3,6 +3,7 @@ package me.alexdevs.classicPeripherals.peripherals.crypto;
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.lua.LuaValues;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.core.Crypto;
 import me.alexdevs.classicPeripherals.utils.CryptoUtils;
@@ -62,17 +63,25 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
 
     @LuaFunction
     public final double random(IArguments args) throws LuaException {
-        var value = Crypto.secureRandom();
-
         if (args.count() == 0) { // 0.0 - 1.0
-            return value;
+            return Crypto.secureRandom();
         } else if (args.count() == 1) { // 0.0 - max
-            var max = args.getInt(0);
-            return Math.floor(value * max);
+            var max = args.getFiniteDouble(0);
+
+            if (max < 0) {
+                throw new LuaException("bad argument #1 (interval is empty)");
+            }
+
+            return Crypto.secureRandom(max);
         } else { // min - max
-            var min = args.getInt(0);
-            var max = args.getInt(1);
-            return Math.floor(value * max) + min;
+            var min = args.getFiniteDouble(0);
+            var max = args.getFiniteDouble(1);
+
+            if (max - min <= 0) {
+                throw new LuaException("bad argument #1 (interval is empty)");
+            }
+
+            return Crypto.secureRandom(min, max);
         }
     }
 
