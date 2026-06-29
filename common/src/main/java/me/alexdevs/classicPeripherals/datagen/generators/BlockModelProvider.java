@@ -3,6 +3,7 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 import dan200.computercraft.api.ComputerCraftAPI;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.ModRegistry;
+import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlock;
 import me.alexdevs.classicPeripherals.peripherals.nfc.NfcReaderBlock;
 import me.alexdevs.classicPeripherals.peripherals.rfid.RfidScannerBlock;
 import me.alexdevs.classicPeripherals.peripherals.scanner.ScannerBlock;
@@ -46,6 +47,7 @@ public class BlockModelProvider {
         createNfcReaderModel(generators, ModRegistry.Blocks.NFC_READER.get());
         createRfidScannerModel(generators, ModRegistry.Blocks.RFID_SCANNER.get());
         createScannerModel(generators, ModRegistry.Blocks.SCANNER.get());
+        createCryptographicAcceleratorSmallModel(generators, ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get());
 
         generators.createHorizontallyRotatedBlock(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), TexturedModel.ORIENTABLE);
         generators.delegateItemModel(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), getModelLocation(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get()));
@@ -85,6 +87,13 @@ public class BlockModelProvider {
                             generators.modelOutput
                     );
                 }))
+        );
+        generators.delegateItemModel(block, getModelLocation(block));
+    }
+
+    private static void createCryptographicAcceleratorSmallModel(BlockModelGenerators generators, CryptographicAcceleratorSlimBlock block) {
+        generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block)
+                .with(BlockModelGenerators.createFacingDispatch())
         );
         generators.delegateItemModel(block, getModelLocation(block));
     }

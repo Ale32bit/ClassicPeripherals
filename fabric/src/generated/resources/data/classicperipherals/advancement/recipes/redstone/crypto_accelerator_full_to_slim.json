@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_crypto_accelerator": {
+      "conditions": {
+        "items": [
+          {
+            "items": "classicperipherals:cryptographic_accelerator"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "classicperipherals:crypto_accelerator_full_to_slim"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_crypto_accelerator"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "classicperipherals:crypto_accelerator_full_to_slim"
+    ]
+  }
+}

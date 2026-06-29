@@ -4,9 +4,11 @@ import com.mojang.serialization.Codec;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.component.ComputerComponents;
 import dan200.computercraft.api.upgrades.UpgradeType;
+import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlock;
+import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlockEntity;
 import me.alexdevs.classicPeripherals.platform.*;
-import me.alexdevs.classicPeripherals.peripherals.crypto.CryptographicAcceleratorBlock;
-import me.alexdevs.classicPeripherals.peripherals.crypto.CryptographicAcceleratorBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.crypto.full.CryptographicAcceleratorBlock;
+import me.alexdevs.classicPeripherals.peripherals.crypto.full.CryptographicAcceleratorBlockEntity;
 import me.alexdevs.classicPeripherals.peripherals.nfc.NfcReaderBlock;
 import me.alexdevs.classicPeripherals.peripherals.radio.antenna.RadioAntennaBlockEntity;
 import me.alexdevs.classicPeripherals.peripherals.radio.tower.RadioTowerControllerBlockEntity;
@@ -114,6 +116,12 @@ public class ModRegistry {
                 .isValidSpawn(Blocks::never)
                 .isRedstoneConductor(Blocks::never)
         ));
+        public static final RegistrySupplier<CryptographicAcceleratorSlimBlock> CRYPTOGRAPHIC_ACCELERATOR_SLIM = register("cryptographic_accelerator_slim", () -> new CryptographicAcceleratorSlimBlock(BlockBehaviour.Properties.of()
+                .strength(2.0F)
+                .mapColor(MapColor.STONE)
+                .isValidSpawn(Blocks::never)
+                .isRedstoneConductor(Blocks::never)
+        ));
         public static final RegistrySupplier<ScannerBlock> SCANNER = register("scanner", () -> new ScannerBlock(BlockBehaviour.Properties.of()
                 .strength(2.0F)
                 .mapColor(MapColor.STONE)
@@ -159,14 +167,22 @@ public class ModRegistry {
     public static class TileEntities {
         public static final RegistrySupplier<BlockEntityType<RadioTowerControllerBlockEntity>> TOWER_BASE = register("tower_base",
                 () -> BlockEntityType.Builder.of(RadioTowerControllerBlockEntity::new, Blocks.TOWER_BASE.get()).build(null));
+
         public static final RegistrySupplier<BlockEntityType<RadioAntennaBlockEntity>> ANTENNA = register("antenna",
                 () -> BlockEntityType.Builder.of(RadioAntennaBlockEntity::new, Blocks.ANTENNA.get()).build(null));
+
         public static final RegistrySupplier<BlockEntityType<NfcReaderBlockEntity>> NFC_READER = register("nfc_reader",
                 () -> BlockEntityType.Builder.of(NfcReaderBlockEntity::new, Blocks.NFC_READER.get()).build(null));
+
         public static final RegistrySupplier<BlockEntityType<RfidScannerBlockEntity>> RFID_SCANNER = register("rfid_scanner",
                 () -> BlockEntityType.Builder.of(RfidScannerBlockEntity::new, Blocks.RFID_SCANNER.get()).build(null));
+
         public static final RegistrySupplier<BlockEntityType<CryptographicAcceleratorBlockEntity>> CRYPTOGRAPHIC_ACCELERATOR = register("cryptographic_accelerator",
                 () -> BlockEntityType.Builder.of(CryptographicAcceleratorBlockEntity::new, Blocks.CRYPTOGRAPHIC_ACCELERATOR.get()).build(null));
+
+        public static final RegistrySupplier<BlockEntityType<CryptographicAcceleratorSlimBlockEntity>> CRYPTOGRAPHIC_ACCELERATOR_SLIM = register("cryptographic_accelerator_slim",
+                () -> BlockEntityType.Builder.of(CryptographicAcceleratorSlimBlockEntity::new, Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get()).build(null));
+        
         public static final RegistrySupplier<BlockEntityType<ScannerBlockEntity>> SCANNER = register("scanner",
                 () -> BlockEntityType.Builder.of(ScannerBlockEntity::new, Blocks.SCANNER.get()).build(null));
 
@@ -185,6 +201,7 @@ public class ModRegistry {
             registrar.register(TileEntities.NFC_READER.get(), (block, dir) -> block.peripheral());
             registrar.register(TileEntities.RFID_SCANNER.get(), RfidScannerBlockEntity::peripheral);
             registrar.register(TileEntities.CRYPTOGRAPHIC_ACCELERATOR.get(), (block, dir) -> block.peripheral());
+            registrar.register(TileEntities.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get(), CryptographicAcceleratorSlimBlockEntity::peripheral);
             registrar.register(TileEntities.SCANNER.get(), (block, dir) -> block.peripheral());
         }
     }

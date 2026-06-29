@@ -30,6 +30,7 @@ public class LootTableGenerator implements LootTableSubProvider {
         dropSelf(output, ModRegistry.Blocks.NFC_READER);
         dropSelf(output, ModRegistry.Blocks.RFID_SCANNER);
         dropSelf(output, ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR);
+        dropSelf(output, ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM);
         dropSelf(output, ModRegistry.Blocks.SCANNER);
     }
 

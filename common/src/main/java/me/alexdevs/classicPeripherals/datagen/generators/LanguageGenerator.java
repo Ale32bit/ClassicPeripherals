@@ -37,6 +37,7 @@ public class LanguageGenerator implements DataProvider {
         add(ModRegistry.Items.RFID_BADGE.get(), "RFID Badge");
         add(ModRegistry.Blocks.RFID_SCANNER.get(), "RFID Scanner");
         add(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), "Cryptographic Accelerator");
+        add(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get(), "Cryptographic Accelerator");
         add(ModRegistry.Blocks.SCANNER.get(), "Scanner");
 
         add("upgrade.radio.adjective", "Radio");

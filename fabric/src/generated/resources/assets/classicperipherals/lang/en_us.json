@@ -1,6 +1,7 @@
 {
   "block.classicperipherals.antenna": "Radio Antenna",
   "block.classicperipherals.cryptographic_accelerator": "Cryptographic Accelerator",
+  "block.classicperipherals.cryptographic_accelerator_slim": "Cryptographic Accelerator",
   "block.classicperipherals.nfc_reader": "NFC Reader",
   "block.classicperipherals.rfid_scanner": "RFID Scanner",
   "block.classicperipherals.scanner": "Scanner",

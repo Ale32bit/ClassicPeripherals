@@ -1,4 +1,4 @@
-package me.alexdevs.classicPeripherals.peripherals.crypto;
+package me.alexdevs.classicPeripherals.peripherals.crypto.full;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;

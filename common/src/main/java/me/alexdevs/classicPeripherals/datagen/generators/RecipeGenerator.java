@@ -2,11 +2,14 @@ package me.alexdevs.classicPeripherals.datagen.generators;
 
 import dan200.computercraft.api.ComputerCraftTags;
 import dan200.computercraft.shared.ModRegistry;
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.peripherals.nfc.item.NfcCardRecipe;
 import me.alexdevs.classicPeripherals.peripherals.rfid.item.RfidBadgeRecipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import org.jspecify.annotations.NonNull;
@@ -137,5 +140,19 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('r', Items.REDSTONE)
                 .unlockedBy("has_observer", has(Items.OBSERVER))
                 .save(output);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get())
+                .requires(me.alexdevs.classicPeripherals.ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get())
+                .unlockedBy("has_crypto_accelerator", has(me.alexdevs.classicPeripherals.ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get()))
+                .save(output, id("crypto_accelerator_full_to_slim"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get())
+                .requires(me.alexdevs.classicPeripherals.ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get())
+                .unlockedBy("has_crypto_accelerator_slim", has(me.alexdevs.classicPeripherals.ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get()))
+                .save(output, id("crypto_accelerator_slim_to_full"));
+    }
+
+    private static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, path);
     }
 }
