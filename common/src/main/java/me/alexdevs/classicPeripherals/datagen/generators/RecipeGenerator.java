@@ -8,7 +8,6 @@ import me.alexdevs.classicPeripherals.peripherals.rfid.item.RfidBadgeRecipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
@@ -118,16 +117,13 @@ public class RecipeGenerator extends RecipeProvider {
                 .save(output, "rfid_badge_dye");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get())
-                .pattern("did")
-                .pattern("cac")
-                .pattern("iri")
+                .pattern("ici")
+                .pattern("cdc")
+                .pattern("ici")
                 .define('d', Items.DIAMOND)
                 .define('i', Items.IRON_INGOT)
                 .define('c', Items.COMPARATOR)
-                .define('a', ModRegistry.Items.COMPUTER_ADVANCED.get())
-                .define('r', Items.REDSTONE_TORCH)
                 .unlockedBy("has_diamond", has(Items.DIAMOND))
-                .unlockedBy("has_advanced_computer", has(ModRegistry.Items.COMPUTER_ADVANCED.get()))
                 .unlockedBy("has_comparator", has(Items.COMPARATOR))
                 .save(output);
 

@@ -1,16 +1,6 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_advanced_computer": {
-      "conditions": {
-        "items": [
-          {
-            "items": "computercraft:computer_advanced"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_comparator": {
       "conditions": {
         "items": [
@@ -42,7 +32,6 @@
     [
       "has_the_recipe",
       "has_diamond",
-      "has_advanced_computer",
       "has_comparator"
     ]
   ],
