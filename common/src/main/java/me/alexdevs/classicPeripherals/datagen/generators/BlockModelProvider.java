@@ -8,7 +8,10 @@ import me.alexdevs.classicPeripherals.peripherals.nfc.NfcReaderBlock;
 import me.alexdevs.classicPeripherals.peripherals.rfid.RfidScannerBlock;
 import me.alexdevs.classicPeripherals.peripherals.scanner.ScannerBlock;
 import net.minecraft.data.models.BlockModelGenerators;
-import net.minecraft.data.models.blockstates.*;
+import net.minecraft.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.data.models.blockstates.PropertyDispatch;
+import net.minecraft.data.models.blockstates.Variant;
+import net.minecraft.data.models.blockstates.VariantProperties;
 import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -32,6 +35,7 @@ public class BlockModelProvider {
             Optional.of("_left"),
             TextureSlot.TEXTURE
     );
+
     private static final ModelTemplate TURTLE_UPGRADE_RIGHT = new ModelTemplate(
             Optional.of(ResourceLocation.fromNamespaceAndPath(ComputerCraftAPI.MOD_ID, "block/turtle_upgrade_base_right")),
             Optional.of("_right"),
@@ -47,13 +51,14 @@ public class BlockModelProvider {
         createNfcReaderModel(generators, ModRegistry.Blocks.NFC_READER.get());
         createRfidScannerModel(generators, ModRegistry.Blocks.RFID_SCANNER.get());
         createScannerModel(generators, ModRegistry.Blocks.SCANNER.get());
-        createCryptographicAcceleratorSmallModel(generators, ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get());
+        createCryptographicAcceleratorSlimModel(generators, ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get());
 
         generators.createHorizontallyRotatedBlock(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), TexturedModel.ORIENTABLE);
         generators.delegateItemModel(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), getModelLocation(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get()));
 
         registerTurtleUpgrade(generators, "block/turtle_radio", "block/turtle_radio_face");
         registerTurtleUpgrade(generators, "block/turtle_crypto", "block/turtle_crypto_face");
+        registerTurtleRfidUpgrade(generators, "block/turtle_rfid", "block/turtle_rfid_face");
     }
 
     private static void createNfcReaderModel(BlockModelGenerators generators, NfcReaderBlock block) {
@@ -91,8 +96,9 @@ public class BlockModelProvider {
         generators.delegateItemModel(block, getModelLocation(block));
     }
 
-    private static void createCryptographicAcceleratorSmallModel(BlockModelGenerators generators, CryptographicAcceleratorSlimBlock block) {
-        generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block)
+    private static void createCryptographicAcceleratorSlimModel(BlockModelGenerators generators, CryptographicAcceleratorSlimBlock block) {
+        generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, Variant.variant()
+                        .with(VariantProperties.MODEL, ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "block/cryptographic_accelerator_slim")))
                 .with(BlockModelGenerators.createFacingDispatch())
         );
         generators.delegateItemModel(block, getModelLocation(block));
@@ -124,6 +130,11 @@ public class BlockModelProvider {
                 TextureMapping.defaultTexture(ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, texture)),
                 generators.modelOutput
         );
+    }
+
+    private static void registerTurtleRfidUpgrade(BlockModelGenerators generators, String name, String texture) {
+        registerTurtleUpgrade(generators, name + "_off", texture);
+        registerTurtleUpgrade(generators, name + "_on", texture + "_on");
     }
 
     private static <T extends Comparable<T>> PropertyDispatch createModelDispatch(

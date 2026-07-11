@@ -38,6 +38,7 @@ public class ClassicPeripherals {
                         entries.accept(ModRegistry.Blocks.RFID_SCANNER.get());
                         entries.accept(ModRegistry.Items.RFID_BADGE.get());
                         entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get());
+                        entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get());
                         entries.accept(ModRegistry.Blocks.SCANNER.get());
                     })
                     .build());

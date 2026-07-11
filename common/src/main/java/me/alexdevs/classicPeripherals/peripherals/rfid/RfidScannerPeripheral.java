@@ -1,30 +1,15 @@
 package me.alexdevs.classicPeripherals.peripherals.rfid;
 
-import dan200.computercraft.api.lua.LuaFunction;
-import dan200.computercraft.api.lua.MethodResult;
-import dan200.computercraft.api.lua.ObjectLuaTable;
-import dan200.computercraft.api.peripheral.AttachedComputerSet;
-import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class RfidScannerPeripheral implements IPeripheral {
+public class RfidScannerPeripheral extends AbstractRfidScannerPeripheral {
     private final RfidScannerBlockEntity rfidScanner;
-    private final AttachedComputerSet computers = new AttachedComputerSet();
 
     public RfidScannerPeripheral(RfidScannerBlockEntity rfidScanner) {
         this.rfidScanner = rfidScanner;
-    }
-
-    @Override
-    public @NonNull String getType() {
-        return "rfid_scanner";
     }
 
     @Override
@@ -33,42 +18,19 @@ public class RfidScannerPeripheral implements IPeripheral {
     }
 
     @Override
-    public void attach(@NonNull IComputerAccess computer) {
-        computers.add(computer);
-    }
-
-    @Override
-    public void detach(@NonNull IComputerAccess computer) {
-        computers.remove(computer);
-    }
-
     public Vec3 getPosition() {
         return Vec3.atLowerCornerOf(rfidScanner.getBlockPos().relative(rfidScanner.getDirection()));
     }
 
-    public void emitScanEvent(List<RfidScannerBlockEntity.ScannedRfidBadge> badges) {
-        var map = new HashMap<Integer, ObjectLuaTable>();
-        for (var i = 1; i <= badges.size(); i++) {
-            var badge = badges.get(i - 1);
-            map.put(i, new ObjectLuaTable(Map.of(
-                    "data", badge.data(),
-                    "distance", badge.distance()
-            )));
-        }
-
-        var table = new ObjectLuaTable(map);
-
-        computers.forEach(computer -> computer.queueEvent("rfid_scan", computer.getAttachmentName(), table));
+    @Override
+    public Level getLevel() {
+        return rfidScanner.getLevel();
     }
 
-    @LuaFunction
-    public final MethodResult scan() {
-        rfidScanner.scheduleScan();
-        return MethodResult.pullEvent("rfid_scan", args -> {
-            if (args.length != 3)
-                return null;
-
-            return MethodResult.of(args[2]);
-        });
+    @Override
+    protected void updateState(boolean active) {
+        var state = rfidScanner.getBlockState();
+        var pos = rfidScanner.getBlockPos();
+        rfidScanner.getLevel().setBlockAndUpdate(pos, state.setValue(RfidScannerBlock.ACTIVE, active));
     }
 }

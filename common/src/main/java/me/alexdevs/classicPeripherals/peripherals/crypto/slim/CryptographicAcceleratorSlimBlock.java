@@ -55,7 +55,9 @@ public class CryptographicAcceleratorSlimBlock extends DirectionalBlock implemen
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+        return direction == state.getValue(FACING) && !state.canSurvive(level, pos)
+                ? state.getFluidState().createLegacyBlock()
+                : state;
     }
 
     public @NonNull FluidState getFluidState(BlockState state) {
@@ -90,6 +92,6 @@ public class CryptographicAcceleratorSlimBlock extends DirectionalBlock implemen
 
     @Override
     public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos pos, @NonNull BlockState state) {
-        return new CryptographicAcceleratorBlockEntity(pos, state);
+        return new CryptographicAcceleratorSlimBlockEntity(pos, state);
     }
 }

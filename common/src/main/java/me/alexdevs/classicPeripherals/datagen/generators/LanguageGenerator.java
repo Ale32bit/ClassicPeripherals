@@ -42,6 +42,7 @@ public class LanguageGenerator implements DataProvider {
 
         add("upgrade.radio.adjective", "Radio");
         add("upgrade.crypto.adjective", "Crypto");
+        add("upgrade.rfid.adjective", "RFID");
     }
 
     private void add(String key, String value) {

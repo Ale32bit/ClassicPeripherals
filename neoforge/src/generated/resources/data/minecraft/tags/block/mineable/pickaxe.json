@@ -7,6 +7,7 @@
     "classicperipherals:nfc_reader",
     "classicperipherals:rfid_scanner",
     "classicperipherals:cryptographic_accelerator",
+    "classicperipherals:cryptographic_accelerator_slim",
     "classicperipherals:scanner"
   ]
 }

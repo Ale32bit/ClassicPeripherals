@@ -2,6 +2,8 @@ package me.alexdevs.classicPeripherals.peripherals.rfid;
 
 import com.mojang.serialization.MapCodec;
 import dan200.computercraft.shared.peripheral.modem.ModemShapes;
+import dan200.computercraft.shared.peripheral.modem.wireless.WirelessModemBlock;
+import dan200.computercraft.shared.util.WaterloggableHelpers;
 import me.alexdevs.classicPeripherals.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -60,7 +62,9 @@ public class RfidScannerBlock extends DirectionalBlock implements EntityBlock, S
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+        return direction == state.getValue(FACING) && !state.canSurvive(level, pos)
+                ? state.getFluidState().createLegacyBlock()
+                : state;
     }
 
     public @NonNull FluidState getFluidState(BlockState state) {

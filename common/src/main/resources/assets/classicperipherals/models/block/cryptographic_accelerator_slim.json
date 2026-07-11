@@ -3,8 +3,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"all": "classicperipherals:block/cryptographic_accelerator_small",
-		"particle": "classicperipherals:block/cryptographic_accelerator"
+		"all": "classicperipherals:block/cryptographic_accelerator_slim",
+		"particle": "classicperipherals:block/cryptographic_accelerator_slim"
 	},
 	"elements": [
 		{

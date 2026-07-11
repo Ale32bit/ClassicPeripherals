@@ -2,6 +2,7 @@ package me.alexdevs.classicPeripherals;
 
 import dan200.computercraft.api.client.turtle.RegisterTurtleModellersEvent;
 import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
+import me.alexdevs.classicPeripherals.client.TurtleRfidModeller;
 import me.alexdevs.classicPeripherals.core.dataHolder.DataHolderHandler;
 import me.alexdevs.classicPeripherals.peripherals.scanner.screen.ScannerScreen;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -36,8 +37,11 @@ public class ClassicPeripheralsClientNeoForge {
     private void onRegisterTurtleModellers(RegisterTurtleModellersEvent event) {
         event.register(ModRegistry.Upgrades.TURTLE_RADIO,
                 TurtleUpgradeModeller.sided(model("turtle_radio_left"), model("turtle_radio_right")));
+
         event.register(ModRegistry.Upgrades.TURTLE_CRYPTO,
                 TurtleUpgradeModeller.sided(model("turtle_crypto_left"), model("turtle_crypto_right")));
+
+        event.register(ModRegistry.Upgrades.TURTLE_RFID, new TurtleRfidModeller());
     }
 
     private void onRegisterItemColors(RegisterColorHandlersEvent.Item event) {

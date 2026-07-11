@@ -4,8 +4,11 @@ import com.mojang.serialization.Codec;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.component.ComputerComponents;
 import dan200.computercraft.api.upgrades.UpgradeType;
+import io.netty.buffer.ByteBuf;
 import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlock;
 import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.PocketRfid;
+import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.TurtleRfid;
 import me.alexdevs.classicPeripherals.platform.*;
 import me.alexdevs.classicPeripherals.peripherals.crypto.full.CryptographicAcceleratorBlock;
 import me.alexdevs.classicPeripherals.peripherals.crypto.full.CryptographicAcceleratorBlockEntity;
@@ -213,11 +216,16 @@ public class ModRegistry {
         public static final UpgradeType<PocketCrypto> POCKET_CRYPTO = UpgradeType.simpleWithCustomItem(PocketCrypto::new);
         public static final UpgradeType<TurtleCrypto> TURTLE_CRYPTO = UpgradeType.simpleWithCustomItem(TurtleCrypto::new);
 
+        public static final UpgradeType<PocketRfid> POCKET_RFID = UpgradeType.simpleWithCustomItem(PocketRfid::new);
+        public static final UpgradeType<TurtleRfid> TURTLE_RFID = UpgradeType.simpleWithCustomItem(TurtleRfid::new);
+
         public static void register(UpgradeRegistrar registrar) {
             registrar.registerPocketUpgrade("radio", POCKET_RADIO);
             registrar.registerTurtleUpgrade("radio", TURTLE_RADIO);
             registrar.registerPocketUpgrade("crypto", POCKET_CRYPTO);
             registrar.registerTurtleUpgrade("crypto", TURTLE_CRYPTO);
+            registrar.registerPocketUpgrade("rfid", POCKET_RFID);
+            registrar.registerTurtleUpgrade("rfid", TURTLE_RFID);
         }
 
         static void initialize() {
@@ -248,12 +256,18 @@ public class ModRegistry {
     public static class DataComponents {
         public static final RegistrySupplier<DataComponentType<String>> DATAHOLDER_DATA = register("nfc_data",
                 DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
+
         public static final RegistrySupplier<DataComponentType<Boolean>> DATAHOLDER_READONLY = register("nfc_readonly",
                 DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+
         public static final RegistrySupplier<DataComponentType<Integer>> DATAHOLDER_COLOR = register("nfc_color",
                 DataComponentType.<Integer>builder().persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
+
         public static final RegistrySupplier<DataComponentType<UUID>> DATAHOLDER_UUID = register("data_uuid",
                 DataComponentType.<UUID>builder().persistent(UUIDUtil.CODEC).networkSynchronized(UUIDUtil.STREAM_CODEC).build());
+
+        public static final RegistrySupplier<DataComponentType<Boolean>> ON = register("on",
+                DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
 
         private static <T> RegistrySupplier<DataComponentType<T>> register(String name, DataComponentType<T> type) {
             return COMPONENTS.register(name, () -> type);

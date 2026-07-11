@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "classicperipherals:cryptographic_accelerator_slim"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "classicperipherals:cryptographic_accelerator"
+  }
+}

@@ -1,6 +1,7 @@
 {
   "block.classicperipherals.antenna": "Radio Antenna",
   "block.classicperipherals.cryptographic_accelerator": "Cryptographic Accelerator",
+  "block.classicperipherals.cryptographic_accelerator_slim": "Cryptographic Accelerator",
   "block.classicperipherals.nfc_reader": "NFC Reader",
   "block.classicperipherals.rfid_scanner": "RFID Scanner",
   "block.classicperipherals.scanner": "Scanner",
@@ -12,5 +13,6 @@
   "item.classicperipherals.rfid_badge": "RFID Badge",
   "itemGroup.classicperipherals": "Classic Peripherals",
   "upgrade.crypto.adjective": "Crypto",
-  "upgrade.radio.adjective": "Radio"
+  "upgrade.radio.adjective": "Radio",
+  "upgrade.rfid.adjective": "RFID"
 }

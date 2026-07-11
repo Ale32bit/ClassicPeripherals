@@ -17,4 +17,12 @@ public class SableIntegration {
     public static Vector3d toVector(Vec3 vec3) {
         return new Vector3d(vec3.x, vec3.y, vec3.z);
     }
+
+    public static Vec3 toVec3(Vector3d vector) {
+        return new Vec3(vector.x(), vector.y(), vector.z());
+    }
+
+    public static Vec3 getTranslatedPos(Level level, Vec3 pos) {
+        return toVec3(SableCompanion.INSTANCE.projectOutOfSubLevel(level, toVector(pos)));
+    }
 }
