@@ -4,6 +4,7 @@ import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import me.alexdevs.classicPeripherals.core.Compression;
 import me.alexdevs.classicPeripherals.core.Crypto;
 import me.alexdevs.classicPeripherals.utils.CryptoUtils;
 import org.jspecify.annotations.NonNull;
@@ -11,6 +12,7 @@ import org.jspecify.annotations.NonNull;
 import javax.crypto.BadPaddingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.zip.DataFormatException;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public abstract class AbstractCryptographicAcceleratorPeripheral implements IPeripheral {
@@ -164,5 +166,19 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
         CryptoUtils.validateKey(privateKey);
         CryptoUtils.validateKey(peerPublicKey);
         return Crypto.computeSharedSecret(privateKey, peerPublicKey);
+    }
+
+    @LuaFunction
+    public final String deflate(String data) {
+        return Compression.deflate(data);
+    }
+
+    @LuaFunction
+    public final String inflate(String data) throws LuaException {
+        try {
+            return Compression.inflate(data);
+        } catch (DataFormatException e) {
+            throw new LuaException("invalid compressed data format");
+        }
     }
 }
