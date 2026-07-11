@@ -61,4 +61,13 @@ public class PocketRfid extends AbstractPocketUpgrade {
     public @Nullable IPeripheral createPeripheral(IPocketAccess access) {
         return new RfidPocketPeripheral(access);
     }
+
+    @Override
+    public void update(IPocketAccess pocket, @Nullable IPeripheral peripheral) {
+        if (!pocket.getLevel().isClientSide) {
+            if (peripheral instanceof PocketRfid.RfidPocketPeripheral scanner) {
+                scanner.tick(pocket.getLevel());
+            }
+        }
+    }
 }
