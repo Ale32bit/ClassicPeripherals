@@ -66,9 +66,9 @@ public class RadioTowerControllerBlockEntity extends AbstractRadioBlockEntity {
     @Override
     protected void onPing() {
         if (level != null) {
-            var head = level.getBlockState(getAntennaPos());
+            var head = level.getBlockState(getAntennaBlockPos());
             if(head.is(ModRegistry.Blocks.TOWER_HEAD.get())) {
-                this.level.setBlockAndUpdate(getAntennaPos(), head.setValue(RadioTowerAntennaBlock.ACTIVE, true));
+                this.level.setBlockAndUpdate(getAntennaBlockPos(), head.setValue(RadioTowerAntennaBlock.ACTIVE, true));
             }
         }
     }
@@ -76,15 +76,15 @@ public class RadioTowerControllerBlockEntity extends AbstractRadioBlockEntity {
     @Override
     protected void afterPing() {
         if (level != null) {
-            var head = level.getBlockState(getAntennaPos());
+            var head = level.getBlockState(getAntennaBlockPos());
             if(head.is(ModRegistry.Blocks.TOWER_HEAD.get())) {
-                this.level.setBlockAndUpdate(getAntennaPos(), head.setValue(RadioTowerAntennaBlock.ACTIVE, false));
+                this.level.setBlockAndUpdate(getAntennaBlockPos(), head.setValue(RadioTowerAntennaBlock.ACTIVE, false));
             }
         }
     }
 
     @Override
-    public BlockPos getAntennaPos() {
+    public BlockPos getAntennaBlockPos() {
         return getBlockPos().above(towerHeight - 1);
     }
 }

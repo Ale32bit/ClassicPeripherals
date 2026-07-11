@@ -19,6 +19,10 @@ public class ClassicPeripheralsConfig extends WrappedConfig {
     @IntegerRange(min = 1, max = Integer.MAX_VALUE)
     public int radioTowerSegmentRange = 128;
 
+    @Comment("The minimum Y coordinate of the radio tower for maximum effective range.")
+    @IntegerRange(min = Integer.MIN_VALUE, max = Integer.MAX_VALUE)
+    public int radioTowerMinY = 96;
+
     @Comment("The loss factor of the radio tower.")
     @FloatRange(min = 0d, max = 1d)
     public double radioTowerLossFactor = 0.15;

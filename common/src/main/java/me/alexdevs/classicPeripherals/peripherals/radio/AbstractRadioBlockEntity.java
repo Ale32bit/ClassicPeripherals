@@ -3,6 +3,7 @@ package me.alexdevs.classicPeripherals.peripherals.radio;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.core.RadioNetwork;
+import me.alexdevs.classicPeripherals.integrations.SableIntegration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -33,7 +34,7 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
         @Override
         public Vec3 getPosition() {
-            return Vec3.atLowerCornerOf(be.getAntennaPos());
+            return Vec3.atLowerCornerOf(be.getAntennaBlockPos());
         }
 
         @Override
@@ -147,7 +148,20 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
     protected abstract void afterPing();
 
-    public abstract BlockPos getAntennaPos();
+    /**
+     * Get the position of the antenna block.
+     * @return Physical position of the antenna block
+     */
+    public abstract BlockPos getAntennaBlockPos();
+
+    /**
+     * Get the position of the antenna used for radio communication.
+     * @return Get the logical position of the antenna block.
+     */
+    public Vec3 getAntennaRadioPos() {
+        var vec = getAntennaBlockPos().getCenter();
+        return SableIntegration.getTranslatedPos(this.getLevel(), vec);
+    }
 
     public int getHeight() {
         return towerHeight;
@@ -170,14 +184,14 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     }
 
     public int getEffectiveMaxRange() {
-        var y = this.getAntennaPos().getY();
+        var y = this.getAntennaRadioPos().y();
 
         var maxRange = getMaximumRange();
 
-        if (y >= 96) {
+        if (y >= ClassicPeripherals.CONFIG.radioTowerMinY) {
             return maxRange;
         }
 
-        return (int)(maxRange * Math.pow(RANGE_COEFFICIENT, (y - 96)));
+        return (int)(maxRange * Math.pow(RANGE_COEFFICIENT, (y - ClassicPeripherals.CONFIG.radioTowerMinY)));
     }
 }
