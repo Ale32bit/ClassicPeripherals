@@ -1,6 +1,5 @@
 package me.alexdevs.classicPeripherals.datagen.generators;
 
-import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.ModRegistry;

@@ -16,13 +16,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class StateSaverAndLoader extends SavedData {
 
-    private static SavedData.Factory<StateSaverAndLoader> type = new SavedData.Factory<>(
+    private static final SavedData.Factory<StateSaverAndLoader> type = new SavedData.Factory<>(
             StateSaverAndLoader::createNew,
             StateSaverAndLoader::loadData,
             null
     );
 
-    private Map<UUID, DataHolderHandler.ItemData> data = new ConcurrentHashMap<>();
+    private final Map<UUID, DataHolderHandler.ItemData> data = new ConcurrentHashMap<>();
 
     public static StateSaverAndLoader loadData(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         var state = new StateSaverAndLoader();
