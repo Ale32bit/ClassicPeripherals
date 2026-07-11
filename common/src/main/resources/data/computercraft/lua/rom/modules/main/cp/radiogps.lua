@@ -1,19 +1,7 @@
 -- SPDX-FileCopyrightText: 2017 Daniel Ratcliffe
 --
 -- SPDX-License-Identifier: LicenseRef-CCPL
-
---[[- Use [modems][`modem`] to locate the position of the current turtle or
-computers.
-
-This works by communicating with other computers (called GPS hosts) that already
-know their position, finding the distance to those computers (with
-[`modem_message`]), and using that to derive its position from theirs (with a
-process known as [trilateration](https://en.wikipedia.org/wiki/Trilateration).
-
-@module gps
-@since 1.31
-@see gps_setup
-]]
+-- Adapted from /rom/apis/gps.lua
 
 local expect = dofile("rom/modules/main/cc/expect.lua").expect
 local module = {}

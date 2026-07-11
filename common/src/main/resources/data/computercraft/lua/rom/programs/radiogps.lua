@@ -1,6 +1,7 @@
 -- SPDX-FileCopyrightText: 2017 Daniel Ratcliffe
 --
 -- SPDX-License-Identifier: LicenseRef-CCPL
+-- Adapted from /rom/programs/gps.lua
 
 local gps = require("cp.radiogps")
 
