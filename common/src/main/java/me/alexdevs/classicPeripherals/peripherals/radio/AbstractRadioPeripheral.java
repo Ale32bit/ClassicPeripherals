@@ -12,6 +12,7 @@ import oshi.annotation.concurrent.GuardedBy;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
+import java.util.Set;
 
 public abstract class AbstractRadioPeripheral implements IPeripheral {
     private final @GuardedBy("computers") AttachedComputerSet computers = new AttachedComputerSet();
@@ -21,6 +22,11 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
     @Override
     public @NonNull String getType() {
         return "radio_tower";
+    }
+
+    @Override
+    public @NonNull Set<String> getAdditionalTypes() {
+        return Set.of("radio");
     }
 
     @Override

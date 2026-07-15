@@ -32,6 +32,7 @@ public class LootTableGenerator implements LootTableSubProvider {
         dropSelf(output, ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR);
         dropSelf(output, ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM);
         dropSelf(output, ModRegistry.Blocks.SCANNER);
+        dropSelf(output, ModRegistry.Blocks.HOLOGRAM_PROJECTOR);
     }
 
     private static void dropSelf(BiConsumer<ResourceKey<net.minecraft.world.level.storage.loot.LootTable>, LootTable.Builder> output,

@@ -4,9 +4,10 @@ import com.mojang.serialization.Codec;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.component.ComputerComponents;
 import dan200.computercraft.api.upgrades.UpgradeType;
-import io.netty.buffer.ByteBuf;
 import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlock;
 import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.hologram.HologramProjector;
+import me.alexdevs.classicPeripherals.peripherals.hologram.HologramProjectorBlockEntity;
 import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.PocketRfid;
 import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.TurtleRfid;
 import me.alexdevs.classicPeripherals.platform.*;
@@ -131,6 +132,12 @@ public class ModRegistry {
                 .isValidSpawn(Blocks::never)
                 .isRedstoneConductor(Blocks::never)
         ));
+        public static final RegistrySupplier<HologramProjector> HOLOGRAM_PROJECTOR = register("hologram_projector", () -> new HologramProjector(BlockBehaviour.Properties.of()
+                .strength(2.0F)
+                .mapColor(MapColor.STONE)
+                .isValidSpawn(Blocks::never)
+                .isRedstoneConductor(Blocks::never)
+        ));
 
         private static <T extends Block> RegistrySupplier<T> register(String name, Supplier<T> block) {
             var registered = BLOCKS.register(name, block);
@@ -189,6 +196,9 @@ public class ModRegistry {
         public static final RegistrySupplier<BlockEntityType<ScannerBlockEntity>> SCANNER = register("scanner",
                 () -> BlockEntityType.Builder.of(ScannerBlockEntity::new, Blocks.SCANNER.get()).build(null));
 
+        public static final RegistrySupplier<BlockEntityType<HologramProjectorBlockEntity>> HOLOGRAM_PROJECTOR = register("hologram_projector",
+                () -> BlockEntityType.Builder.of(HologramProjectorBlockEntity::new, Blocks.SCANNER.get()).build(null));
+
         private static <T extends BlockEntityType<?>> RegistrySupplier<T> register(String path, Supplier<T> factory) {
             return BLOCK_ENTITIES.register(path, factory);
         }
@@ -206,6 +216,7 @@ public class ModRegistry {
             registrar.register(TileEntities.CRYPTOGRAPHIC_ACCELERATOR.get(), (block, dir) -> block.peripheral());
             registrar.register(TileEntities.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get(), CryptographicAcceleratorSlimBlockEntity::peripheral);
             registrar.register(TileEntities.SCANNER.get(), (block, dir) -> block.peripheral());
+            registrar.register(TileEntities.HOLOGRAM_PROJECTOR.get(), (block, dir) -> dir != Direction.UP ? block.peripheral() : null);
         }
     }
 

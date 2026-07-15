@@ -48,6 +48,8 @@ public class BlockModelProvider {
         generators.delegateItemModel(ModRegistry.Blocks.TOWER_HEAD.get(), getModelLocation(ModRegistry.Blocks.TOWER_HEAD.get(), "_off"));
         generators.delegateItemModel(ModRegistry.Blocks.ANTENNA.get(), getModelLocation(ModRegistry.Blocks.ANTENNA.get(), "_off"));
 
+        generators.delegateItemModel(ModRegistry.Blocks.HOLOGRAM_PROJECTOR.get(), getModelLocation(ModRegistry.Blocks.HOLOGRAM_PROJECTOR.get()));
+
         createNfcReaderModel(generators, ModRegistry.Blocks.NFC_READER.get());
         createRfidScannerModel(generators, ModRegistry.Blocks.RFID_SCANNER.get());
         createScannerModel(generators, ModRegistry.Blocks.SCANNER.get());

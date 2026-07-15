@@ -39,6 +39,7 @@ public class LanguageGenerator implements DataProvider {
         add(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), "Cryptographic Accelerator");
         add(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get(), "Cryptographic Accelerator");
         add(ModRegistry.Blocks.SCANNER.get(), "Scanner");
+        add(ModRegistry.Blocks.HOLOGRAM_PROJECTOR.get(), "Hologram Projector");
 
         add("upgrade.radio.adjective", "Radio");
         add("upgrade.crypto.adjective", "Crypto");

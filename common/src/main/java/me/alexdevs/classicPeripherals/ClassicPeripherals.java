@@ -40,6 +40,7 @@ public class ClassicPeripherals {
                         entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get());
                         entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get());
                         entries.accept(ModRegistry.Blocks.SCANNER.get());
+                        entries.accept(ModRegistry.Blocks.HOLOGRAM_PROJECTOR.get());
                     })
                     .build());
 
