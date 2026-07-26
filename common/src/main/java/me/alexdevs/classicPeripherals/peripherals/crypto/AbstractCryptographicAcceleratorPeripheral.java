@@ -16,6 +16,11 @@ import java.util.zip.DataFormatException;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public abstract class AbstractCryptographicAcceleratorPeripheral implements IPeripheral {
+    public enum Blake3Modes {
+        hash,
+        keyed,
+        derive,
+    }
 
     @Override
     public @NonNull String getType() {
@@ -40,6 +45,30 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
     @LuaFunction
     public final String sha512(String data, Optional<Boolean> hex) {
         return Crypto.sha512(data, hex.orElse(true));
+    }
+
+    @LuaFunction
+    public final String blake3(IArguments args) throws LuaException {
+        var data = args.getString(0);
+        var hex = args.optBoolean(1, true);
+        var mode = args.optEnum(2, Blake3Modes.class).orElse(Blake3Modes.hash);
+        var outputSize = args.optInt(4, 32);
+
+        if (outputSize <= 0) {
+            throw new LuaException("output size must be greater than 0");
+        }
+
+        // for resource exhaustion reasons, we limit the output size to 4096.
+        // it lags the thread a lot for very high values, and there is no reason to go higher so far.
+        if (outputSize > 4096) {
+            throw new LuaException("output size must be less than or equal to 4096");
+        }
+
+        return switch (mode) {
+            case hash -> Crypto.blake3Hash(data, hex, outputSize);
+            case keyed -> Crypto.blake3Keyed(data, CryptoUtils.assertKey(args.getString(3)), hex, outputSize);
+            case derive -> Crypto.blake3Derive(data, args.getString(3), hex, outputSize);
+        };
     }
 
     @LuaFunction
@@ -109,8 +138,8 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
 
     @LuaFunction
     public final String encryptAes(String data, String key, String iv) throws LuaException {
-        CryptoUtils.validateLength(1, key.length(), 16, 24, 32);
-        CryptoUtils.validateLength(2, iv.length(), 16);
+        CryptoUtils.assertLength(1, key.length(), 16, 24, 32);
+        CryptoUtils.assertLength(2, iv.length(), 16);
 
         try {
             return Crypto.encryptAes(data, key, iv);
@@ -121,9 +150,9 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
 
     @LuaFunction
     public final String decryptAes(String data, String key, String iv) throws LuaException {
-        CryptoUtils.validateLength(1, key.length(), 16, 24, 32);
-        CryptoUtils.validateLength(2, iv.length(), 16);
-        
+        CryptoUtils.assertLength(1, key.length(), 16, 24, 32);
+        CryptoUtils.assertLength(2, iv.length(), 16);
+
         try {
             return Crypto.decryptAes(data, key, iv);
         } catch (BadPaddingException e) {
@@ -138,33 +167,33 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
 
     @LuaFunction
     public final String derivePublicKey(String privateKey) throws LuaException {
-        CryptoUtils.validateKey(privateKey);
+        CryptoUtils.assertKey(privateKey);
         return Crypto.derivePublicKey(privateKey);
     }
 
     @LuaFunction
     public final String sign(String message, String privateKey) throws LuaException {
-        CryptoUtils.validateKey(privateKey);
+        CryptoUtils.assertKey(privateKey);
         return Crypto.sign(message, privateKey);
     }
 
     @LuaFunction
     public final boolean verify(String message, String signature, String publicKey) throws LuaException {
-        CryptoUtils.validateKey(publicKey);
-        CryptoUtils.validateSignature(signature);
+        CryptoUtils.assertKey(publicKey);
+        CryptoUtils.assertSignature(signature);
         return Crypto.verify(message, signature, publicKey);
     }
 
     @LuaFunction
     public final String deriveEcdhPublicKey(String privateKey) throws LuaException {
-        CryptoUtils.validateKey(privateKey);
+        CryptoUtils.assertKey(privateKey);
         return Crypto.deriveECDHPublicKey(privateKey);
     }
 
     @LuaFunction
     public final String computeSharedSecret(String privateKey, String peerPublicKey) throws LuaException {
-        CryptoUtils.validateKey(privateKey);
-        CryptoUtils.validateKey(peerPublicKey);
+        CryptoUtils.assertKey(privateKey);
+        CryptoUtils.assertKey(peerPublicKey);
         return Crypto.computeSharedSecret(privateKey, peerPublicKey);
     }
 

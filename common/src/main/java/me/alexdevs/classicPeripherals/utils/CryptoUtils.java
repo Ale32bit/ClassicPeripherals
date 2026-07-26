@@ -6,22 +6,24 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class CryptoUtils {
-    public static void validateKey(String key) throws LuaException {
+    public static String assertKey(String key) throws LuaException {
         if (key != null && key.length() != 32) {
             throw new LuaException("Invalid key length, expected 32 bytes.");
         }
+        return key;
     }
 
-    public static void validateSignature(String key) throws LuaException {
+    public static String assertSignature(String key) throws LuaException {
         if (key != null && key.length() != 64) {
             throw new LuaException("Invalid signature length, expected 64 bytes.");
         }
+        return key;
     }
 
-    public static void validateLength(int index, int value, int... lengths) throws LuaException {
+    public static int assertLength(int index, int value, int... lengths) throws LuaException {
         for (int len : lengths) {
             if (value == len) {
-                return;
+                return value;
             }
         }
 

@@ -56,7 +56,7 @@ public class NfcReaderPeripheral implements IPeripheral {
     public final void write(String data, Optional<String> label, Optional<Boolean> flagReadOnly, Optional<String> privateKey) throws LuaException {
 
         if (privateKey.isPresent()) {
-            CryptoUtils.validateKey(privateKey.get());
+            CryptoUtils.assertKey(privateKey.get());
         }
 
         nfcReader.flagWrite(

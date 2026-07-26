@@ -2,11 +2,8 @@ package me.alexdevs.classicPeripherals.core;
 
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.bouncycastle.crypto.digests.*;
 import org.bouncycastle.crypto.engines.AESEngine;
-import org.bouncycastle.crypto.digests.MD5Digest;
-import org.bouncycastle.crypto.digests.SHA1Digest;
-import org.bouncycastle.crypto.digests.SHA256Digest;
-import org.bouncycastle.crypto.digests.SHA512Digest;
 import org.bouncycastle.crypto.macs.HMac;
 import org.bouncycastle.crypto.modes.CBCBlockCipher;
 import org.bouncycastle.crypto.paddings.PKCS7Padding;
@@ -34,7 +31,8 @@ public class Crypto {
     }
 
     private static String digest(Digest digest, String data, boolean hex) {
-        digest.update(data.getBytes(CHARSET), 0, data.length());
+        var bytes = data.getBytes(CHARSET);
+        digest.update(bytes, 0, bytes.length);
         byte[] hash = new byte[digest.getDigestSize()];
         digest.doFinal(hash, 0);
         return toStr(hash, hex);
@@ -102,6 +100,39 @@ public class Crypto {
         return hmac(
                 new SHA512Digest(),
                 key, data, hex
+        );
+    }
+
+    private static String blake3Digest(Blake3Digest digest, Blake3Parameters params, String data, boolean hex, int outputSize) {
+        if (params != null) {
+            digest.init(params);
+        }
+
+        var bytes = data.getBytes(CHARSET);
+        digest.update(bytes, 0, bytes.length);
+        byte[] hash = new byte[outputSize];
+        digest.doFinal(hash, 0, outputSize);
+        return toStr(hash, hex);
+    }
+
+    public static String blake3Hash(String data, boolean hex, int outputSize) {
+        return blake3Digest(
+                new Blake3Digest(), null,
+                data, hex, outputSize
+        );
+    }
+
+    public static String blake3Keyed(String data, String key, boolean hex, int outputSize) {
+        return blake3Digest(
+                new Blake3Digest(), Blake3Parameters.key(key.getBytes(CHARSET)),
+                data, hex, outputSize
+        );
+    }
+
+    public static String blake3Derive(String data, String context, boolean hex, int outputSize) {
+        return blake3Digest(
+                new Blake3Digest(), Blake3Parameters.context(context.getBytes(CHARSET)),
+                data, hex, outputSize
         );
     }
 

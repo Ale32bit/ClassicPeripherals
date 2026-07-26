@@ -46,7 +46,7 @@ public class PocketNfcAPI implements ILuaAPI {
     @LuaFunction
     public final void setPrivateKey(@Nullable String privateKey) throws LuaException {
         var id = getBrain().computer().getID();
-        CryptoUtils.validateKey(privateKey);
+        CryptoUtils.assertKey(privateKey);
 
         PocketNfcAccess.setPrivateKey(id, privateKey);
     }
