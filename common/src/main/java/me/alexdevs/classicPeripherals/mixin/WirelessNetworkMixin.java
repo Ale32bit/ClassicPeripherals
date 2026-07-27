@@ -38,8 +38,8 @@ public abstract class WirelessNetworkMixin {
 
                 // Apply dimensional coordinate scaling. (i.e., overworld / nether = 1 / 8)
                 var scale = DimensionType.getTeleportationScale(originLevel.dimensionType(), destinationLevel.dimensionType());
-                var receiverPos = receiver.getPosition().multiply(scale, 1d, scale);
-                var distanceSq = SableIntegration.getDistanceSquared(receiver.getLevel(), receiverPos, sender.getPosition());
+                var scaledSenderPos = sender.getPosition().multiply(scale, 1d, scale);
+                var distanceSq = SableIntegration.getDistanceSquared(receiver.getLevel(), scaledSenderPos, receiver.getPosition());
 
                 if (Math.sqrt(distanceSq) <= ClassicPeripherals.CONFIG.enderModemCrossDimensionalRange) {
                     receiver.receiveDifferentDimension(packet);
