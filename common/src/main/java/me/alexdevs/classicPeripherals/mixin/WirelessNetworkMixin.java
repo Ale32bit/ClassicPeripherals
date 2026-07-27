@@ -36,7 +36,7 @@ public abstract class WirelessNetworkMixin {
                 var originLevel = packet.sender().getLevel();
                 var destinationLevel = receiver.getLevel();
 
-                // Apply dimensional coordinate scaling. (i.e., overworld / nether = 1 / 8)
+                // Apply dimensional coordinate scaling. (i.e., overworld / nether = 8 / 1)
                 var scale = DimensionType.getTeleportationScale(originLevel.dimensionType(), destinationLevel.dimensionType());
                 var scaledSenderPos = sender.getPosition().multiply(scale, 1d, scale);
                 var distanceSq = SableIntegration.getDistanceSquared(receiver.getLevel(), scaledSenderPos, receiver.getPosition());
