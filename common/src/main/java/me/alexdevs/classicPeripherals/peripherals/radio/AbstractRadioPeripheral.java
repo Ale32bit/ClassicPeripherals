@@ -18,7 +18,6 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
     private final @GuardedBy("computers") AttachedComputerSet computers = new AttachedComputerSet();
     private int channel = 0;
     private final SplittableRandom rng = new SplittableRandom();
-    protected final Random random = new Random();
 
     @Override
     public @NonNull String getType() {
