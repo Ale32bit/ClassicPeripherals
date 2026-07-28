@@ -12,10 +12,12 @@ import oshi.annotation.concurrent.GuardedBy;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
+import java.util.SplittableRandom;
 
 public abstract class AbstractRadioPeripheral implements IPeripheral {
     private final @GuardedBy("computers") AttachedComputerSet computers = new AttachedComputerSet();
     private int channel = 0;
+    private final SplittableRandom rng = new SplittableRandom();
     protected final Random random = new Random();
 
     @Override
@@ -64,16 +66,25 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
     }
 
     public String flipString(String data, double percentage) {
-        var bytes = data.getBytes(StandardCharsets.ISO_8859_1);
-        var total = bytes.length * 8;
-        var toFlip = (int) Math.ceil(total * percentage);
+        byte[] bytes = data.getBytes(StandardCharsets.ISO_8859_1);
+        long total = (long) bytes.length << 3;
+        long toFlip = (long) Math.ceil(total * percentage);
+        if (toFlip <= 0) return data;
 
-        for (int i = 0; i < toFlip; i++) {
-            var bit = random.nextInt(total);
-            var byteIndex = bit / 8;
-            var bitIndex = bit % 8;
-            bytes[byteIndex] ^= (byte) (1 << bitIndex);
+        long i = 0;
+        for (; i + 1 < toFlip; i += 2) {
+            long r = rng.nextLong();
+            long a = ((r >>> 32) * total) >>> 32;
+            long b = ((r & 0xFFFFFFFFL) * total) >>> 32;
+            bytes[(int) (a >>> 3)] ^= (byte) (1 << (a & 7));
+            bytes[(int) (b >>> 3)] ^= (byte) (1 << (b & 7));
         }
+
+        if (i < toFlip) {
+            long a = (((rng.nextLong() >>> 32)) * total) >>> 32;
+            bytes[(int) (a >>> 3)] ^= (byte) (1 << (a & 7));
+        }
+
         return new String(bytes, StandardCharsets.ISO_8859_1);
     }
 
