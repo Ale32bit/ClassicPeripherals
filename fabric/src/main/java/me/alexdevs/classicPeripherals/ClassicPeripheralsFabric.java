@@ -9,6 +9,7 @@ import me.alexdevs.classicPeripherals.platform.PeripheralRegistrar;
 import me.alexdevs.classicPeripherals.platform.UpgradeRegistrar;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -43,5 +44,7 @@ public class ClassicPeripheralsFabric implements ModInitializer {
         });
 
         ServerLifecycleEvents.SERVER_STARTED.register(ClassicPeripherals::onServerStarted);
+        ServerLifecycleEvents.SERVER_STOPPING.register(ClassicPeripherals::onServerStopping);
+        ServerTickEvents.START_SERVER_TICK.register(ClassicPeripherals::tick);
     }
 }

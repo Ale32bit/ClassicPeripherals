@@ -1,10 +1,14 @@
 package me.alexdevs.classicPeripherals;
 
+import me.alexdevs.classicPeripherals.core.RadioNetwork;
+import me.alexdevs.classicPeripherals.core.satellite.Satellite;
+import me.alexdevs.classicPeripherals.core.satellite.SatelliteNetwork;
 import me.alexdevs.classicPeripherals.core.StateSaverAndLoader;
 import me.alexdevs.classicPeripherals.peripherals.nfc.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.platform.Registrar;
 import me.alexdevs.classicPeripherals.platform.RegistrySupplier;
 import me.alexdevs.classicPeripherals.platform.Services;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -44,6 +48,8 @@ public class ClassicPeripherals {
                     .build());
 
     private static @Nullable StateSaverAndLoader stateSaverAndLoader;
+    private static @Nullable RadioNetwork radioNetwork;
+    private static @Nullable SatelliteNetwork satelliteNetwork;
 
     public static void init() {
         ModRegistry.initialize();
@@ -52,9 +58,32 @@ public class ClassicPeripherals {
     public static void onServerStarted(MinecraftServer server) {
         PocketNfcAccess.clear();
         stateSaverAndLoader = StateSaverAndLoader.getServerState(server);
+        radioNetwork = new RadioNetwork();
+        satelliteNetwork = new SatelliteNetwork();
+
+        satelliteNetwork.addSatellite(new Satellite(satelliteNetwork, BlockPos.ZERO.atY(3000), server.overworld(), Satellite.RuntimeType.GPS));
+    }
+
+    public static void onServerStopping(MinecraftServer server) {
+        radioNetwork = null;
+        satelliteNetwork = null;
     }
 
     public static @Nullable StateSaverAndLoader getState() {
         return stateSaverAndLoader;
+    }
+
+    public static @Nullable RadioNetwork getRadioNetwork() {
+        return radioNetwork;
+    }
+
+    public static @Nullable SatelliteNetwork getSatelliteNetwork() {
+        return satelliteNetwork;
+    }
+
+    public static void tick(MinecraftServer server) {
+        if (satelliteNetwork != null) {
+            satelliteNetwork.tick(server);
+        }
     }
 }

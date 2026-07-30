@@ -4,6 +4,7 @@ import dan200.computercraft.api.lua.*;
 import dan200.computercraft.api.peripheral.AttachedComputerSet;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.core.RadioNetwork;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -11,6 +12,7 @@ import org.jspecify.annotations.NonNull;
 import oshi.annotation.concurrent.GuardedBy;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Random;
 import java.util.SplittableRandom;
 
@@ -28,7 +30,9 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
     public void attach(@NonNull IComputerAccess computer) {
         computers.add(computer);
 
-        RadioNetwork.addReceiver(this);
+        var radioNetwork = ClassicPeripherals.getRadioNetwork();
+        Objects.requireNonNull(radioNetwork);
+        radioNetwork.addReceiver(this);
     }
 
     @Override
@@ -36,7 +40,9 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
         computers.remove(computer);
 
         if (!computers.hasComputers()) {
-            RadioNetwork.removeReceiver(this);
+            var radioNetwork = ClassicPeripherals.getRadioNetwork();
+            Objects.requireNonNull(radioNetwork);
+            radioNetwork.removeReceiver(this);
         }
     }
 
@@ -125,7 +131,9 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
             throw new LuaException("This antenna is not capable of broadcasting.");
         }
 
-        RadioNetwork.broadcast(this, data, getRange());
+        var radioNetwork = ClassicPeripherals.getRadioNetwork();
+        Objects.requireNonNull(radioNetwork);
+        radioNetwork.broadcast(this, data, getRange());
         ping();
     }
 

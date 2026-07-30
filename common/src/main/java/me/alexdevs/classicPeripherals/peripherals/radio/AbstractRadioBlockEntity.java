@@ -15,6 +15,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Objects;
+
 public abstract class AbstractRadioBlockEntity extends BlockEntity {
     public static class RadioPeripheral extends AbstractRadioPeripheral {
         private final AbstractRadioBlockEntity be;
@@ -130,12 +132,16 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
 
     public void validate() {
         isValid = true;
-        RadioNetwork.addReceiver(peripheral);
+        var radioNetwork = ClassicPeripherals.getRadioNetwork();
+        Objects.requireNonNull(radioNetwork);
+        radioNetwork.addReceiver(peripheral);
     }
 
     public void invalidate() {
         isValid = false;
-        RadioNetwork.removeReceiver(peripheral);
+        var radioNetwork = ClassicPeripherals.getRadioNetwork();
+        Objects.requireNonNull(radioNetwork);
+        radioNetwork.removeReceiver(peripheral);
     }
 
     public void ping() {

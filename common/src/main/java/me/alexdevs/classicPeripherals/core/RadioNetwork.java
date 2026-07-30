@@ -8,11 +8,12 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RadioNetwork {
-    private static final Set<AbstractRadioPeripheral> receivers = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public static final int MIN_FREQUENCY = 0;
     public static final int MAX_FREQUENCY = 0xFFFF;
     public static final int STEP_FREQUENCY = 1;
+
+    private final Set<AbstractRadioPeripheral> receivers = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public static int getChannel(int frequency) {
         return (frequency - MIN_FREQUENCY) / STEP_FREQUENCY;
@@ -22,17 +23,15 @@ public class RadioNetwork {
         return channel * STEP_FREQUENCY + MIN_FREQUENCY;
     }
 
-    public static void addReceiver(AbstractRadioPeripheral receiver) {
-        Objects.requireNonNull(receiver);
+    public void addReceiver(AbstractRadioPeripheral receiver) {
         receivers.add(receiver);
     }
 
-    public static void removeReceiver(AbstractRadioPeripheral receiver) {
-        Objects.requireNonNull(receiver);
+    public void removeReceiver(AbstractRadioPeripheral receiver) {
         receivers.remove(receiver);
     }
 
-    public static void broadcast(AbstractRadioPeripheral source, String data, double range) {
+    public void broadcast(AbstractRadioPeripheral source, String data, double range) {
         if (!source.canBroadcast()) {
             return;
         }
@@ -44,7 +43,7 @@ public class RadioNetwork {
         }
     }
 
-    private static void tryBroadcast(AbstractRadioPeripheral sender, AbstractRadioPeripheral receiver, String data, double range) {
+    private void tryBroadcast(AbstractRadioPeripheral sender, AbstractRadioPeripheral receiver, String data, double range) {
         if (sender == receiver) {
             return;
         }
@@ -53,7 +52,7 @@ public class RadioNetwork {
             return;
         }
 
-        if(sender.getChannel() != receiver.getChannel()) {
+        if (sender.getChannel() != receiver.getChannel()) {
             return;
         }
 
