@@ -133,7 +133,11 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
 
     @LuaFunction
     public final String decodeBase64(String data) {
-        return Crypto.decodeBase64(data);
+        try {
+            return Crypto.decodeBase64(data);
+        } catch(IllegalArgumentException e) {
+            return null;
+        }
     }
 
     @LuaFunction
