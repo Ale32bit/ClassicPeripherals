@@ -54,7 +54,7 @@ public class Satellite extends SatelliteDevice {
             case relay:
                 if (!dataQueue.isEmpty()) {
                     var data = dataQueue.poll();
-                    network.broadcast(data, this);
+                    broadcast(data);
                 }
 
                 break;
@@ -62,8 +62,9 @@ public class Satellite extends SatelliteDevice {
                 var gameTime = level.getGameTime();
                 // every 20 ticks (1 second) broadcast GPS coordinates of the satellite.
                 if (gameTime % 20 == 0) {
-                    network.broadcast(serializeBlockPos(), this);
+                    broadcast(serializeBlockPos());
                 }
+
                 break;
             case cpu:
                 // todo
@@ -83,7 +84,7 @@ public class Satellite extends SatelliteDevice {
 
     @Override
     public int getRange() {
-        return 1024 * 16;
+        return 1024 * 16; // todo: placeholder value
     }
 
     @Override
