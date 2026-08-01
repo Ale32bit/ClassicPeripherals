@@ -1,19 +1,19 @@
 package me.alexdevs.classicPeripherals.core.satellite;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.UUID;
 
 public class Satellite extends SatelliteDevice {
     public static final int MAX_DATA_QUEUE_SIZE = 255;
 
     public enum RuntimeType {
-        RELAY("relay", true),
-        GPS("gps", false),
-        CPU("cpu", true),
+        relay("relay", true),
+        gps("gps", false),
+        cpu("cpu", true),
         ;
 
         public final String name;
@@ -27,35 +27,45 @@ public class Satellite extends SatelliteDevice {
 
     private final Queue<String> dataQueue = new ArrayDeque<>(20);
     private final RuntimeType runtimeType;
+    private final UUID uuid;
 
-    public Satellite(SatelliteNetwork network, BlockPos position, ServerLevel level, RuntimeType runtimeType) {
+    public Satellite(SatelliteNetwork network, UUID uuid, BlockPos position, ServerLevel level, RuntimeType runtimeType) {
         super(network, position, level, SatelliteType.SATELLITE);
 
         this.runtimeType = runtimeType;
+        this.uuid = uuid;
     }
 
     private String serializeBlockPos() {
         return String.format("%d;%d;%d", position.getX(), position.getY(), position.getZ());
     }
 
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public RuntimeType getRuntimeType() {
+        return runtimeType;
+    }
+
     @Override
-    public void tick(MinecraftServer server) {
+    public void tick(ServerLevel level) {
         switch (runtimeType) {
-            case RELAY:
+            case relay:
                 if (!dataQueue.isEmpty()) {
                     var data = dataQueue.poll();
                     network.broadcast(data, this);
                 }
 
                 break;
-            case GPS:
+            case gps:
                 var gameTime = level.getGameTime();
                 // every 20 ticks (1 second) broadcast GPS coordinates of the satellite.
                 if (gameTime % 20 == 0) {
                     network.broadcast(serializeBlockPos(), this);
                 }
                 break;
-            case CPU:
+            case cpu:
                 // todo
 
                 break;
@@ -78,6 +88,6 @@ public class Satellite extends SatelliteDevice {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Satellite other && position.equals(other.position) && level.equals(other.level);
+        return obj instanceof Satellite other && position.equals(other.position) && level.equals(other.level) && uuid.equals(other.uuid);
     }
 }

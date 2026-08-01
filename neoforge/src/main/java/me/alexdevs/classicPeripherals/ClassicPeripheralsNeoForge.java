@@ -19,6 +19,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
@@ -35,6 +36,7 @@ public class ClassicPeripheralsNeoForge {
         NeoForge.EVENT_BUS.addListener(this::onServerStarted);
         NeoForge.EVENT_BUS.addListener(this::onServerStopping);
         NeoForge.EVENT_BUS.addListener(this::onServerTick);
+        NeoForge.EVENT_BUS.addListener(this::onLevelTick);
 
         if (FMLEnvironment.dist.isClient()) {
             new ClassicPeripheralsClientNeoForge(modBus);
@@ -82,5 +84,9 @@ public class ClassicPeripheralsNeoForge {
 
     private void onServerTick(ServerTickEvent.Pre event) {
         ClassicPeripherals.tick(event.getServer());
+    }
+
+    private void onLevelTick(LevelTickEvent.Pre event) {
+        ClassicPeripherals.levelTick(event.getLevel());
     }
 }

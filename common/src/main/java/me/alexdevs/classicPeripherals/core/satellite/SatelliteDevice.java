@@ -1,7 +1,6 @@
 package me.alexdevs.classicPeripherals.core.satellite;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 
 public abstract class SatelliteDevice {
@@ -53,6 +52,6 @@ public abstract class SatelliteDevice {
     }
 
 
-    public void tick(MinecraftServer server) {
+    public void tick(ServerLevel level) {
     }
 }

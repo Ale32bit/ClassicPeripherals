@@ -12,8 +12,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 public class ClassicPeripherals {
     public static final String MOD_ID = "classicperipherals";
@@ -59,9 +63,9 @@ public class ClassicPeripherals {
         PocketNfcAccess.clear();
         stateSaverAndLoader = StateSaverAndLoader.getServerState(server);
         radioNetwork = new RadioNetwork();
-        satelliteNetwork = new SatelliteNetwork();
+        satelliteNetwork = new SatelliteNetwork(server);
 
-        satelliteNetwork.addSatellite(new Satellite(satelliteNetwork, BlockPos.ZERO.atY(3000), server.overworld(), Satellite.RuntimeType.GPS));
+        satelliteNetwork.addSatellite(new Satellite(satelliteNetwork, UUID.randomUUID(), BlockPos.ZERO.atY(3000), server.overworld(), Satellite.RuntimeType.gps));
     }
 
     public static void onServerStopping(MinecraftServer server) {
@@ -82,8 +86,13 @@ public class ClassicPeripherals {
     }
 
     public static void tick(MinecraftServer server) {
-        if (satelliteNetwork != null) {
-            satelliteNetwork.tick(server);
+    }
+
+    public static void levelTick(Level level) {
+        if (level instanceof ServerLevel serverLevel) {
+            if (satelliteNetwork != null) {
+                satelliteNetwork.tick(serverLevel);
+            }
         }
     }
 }
