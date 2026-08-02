@@ -41,8 +41,9 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
 
         if (!computers.hasComputers()) {
             var radioNetwork = ClassicPeripherals.getRadioNetwork();
-            Objects.requireNonNull(radioNetwork);
-            radioNetwork.removeReceiver(this);
+            if (radioNetwork != null) {
+                radioNetwork.removeReceiver(this);
+            }
         }
     }
 

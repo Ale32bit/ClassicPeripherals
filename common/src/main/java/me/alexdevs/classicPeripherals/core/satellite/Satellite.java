@@ -2,6 +2,7 @@ package me.alexdevs.classicPeripherals.core.satellite;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -28,12 +29,16 @@ public class Satellite extends SatelliteDevice {
     private final Queue<String> dataQueue = new ArrayDeque<>(20);
     private final RuntimeType runtimeType;
     private final UUID uuid;
+    private BlockPos position;
+    private final ServerLevel level;
 
     public Satellite(SatelliteNetwork network, UUID uuid, BlockPos position, ServerLevel level, RuntimeType runtimeType) {
-        super(network, position, level, SatelliteType.SATELLITE);
+        super(network, SatelliteType.SATELLITE);
 
         this.runtimeType = runtimeType;
         this.uuid = uuid;
+        this.position = position;
+        this.level = level;
     }
 
     private String serializeBlockPos() {
@@ -85,6 +90,20 @@ public class Satellite extends SatelliteDevice {
     @Override
     public int getRange() {
         return 1024 * 16; // todo: placeholder value
+    }
+
+    @Override
+    public Vec3 getPosition() {
+        return position.getCenter();
+    }
+
+    public void setPosition(BlockPos pos) {
+        position = pos;
+    }
+
+    @Override
+    public ServerLevel getLevel() {
+        return level;
     }
 
     @Override

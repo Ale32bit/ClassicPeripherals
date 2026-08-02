@@ -9,6 +9,11 @@ import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAccel
 import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlockEntity;
 import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.PocketRfid;
 import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.TurtleRfid;
+import me.alexdevs.classicPeripherals.peripherals.satellite.SatelliteDishBlock;
+import me.alexdevs.classicPeripherals.peripherals.satellite.SatelliteDishBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.satellite.SatelliteDishPeripheral;
+import me.alexdevs.classicPeripherals.peripherals.satellite.upgrades.PocketSatellite;
+import me.alexdevs.classicPeripherals.peripherals.satellite.upgrades.TurtleSatellite;
 import me.alexdevs.classicPeripherals.platform.*;
 import me.alexdevs.classicPeripherals.peripherals.crypto.full.CryptographicAcceleratorBlock;
 import me.alexdevs.classicPeripherals.peripherals.crypto.full.CryptographicAcceleratorBlockEntity;
@@ -131,6 +136,12 @@ public class ModRegistry {
                 .isValidSpawn(Blocks::never)
                 .isRedstoneConductor(Blocks::never)
         ));
+        public static final RegistrySupplier<SatelliteDishBlock> SATELLITE_DISH = register("satellite_dish", () -> new SatelliteDishBlock(BlockBehaviour.Properties.of()
+                .strength(2.0F)
+                .mapColor(MapColor.STONE)
+                .isValidSpawn(Blocks::never)
+                .isRedstoneConductor(Blocks::never)
+        ));
 
         private static <T extends Block> RegistrySupplier<T> register(String name, Supplier<T> block) {
             var registered = BLOCKS.register(name, block);
@@ -189,6 +200,9 @@ public class ModRegistry {
         public static final RegistrySupplier<BlockEntityType<ScannerBlockEntity>> SCANNER = register("scanner",
                 () -> BlockEntityType.Builder.of(ScannerBlockEntity::new, Blocks.SCANNER.get()).build(null));
 
+        public static final RegistrySupplier<BlockEntityType<SatelliteDishBlockEntity>> SATELLITE_DISH = register("satellite_dish",
+                () -> BlockEntityType.Builder.of(SatelliteDishBlockEntity::new, Blocks.SATELLITE_DISH.get()).build(null));
+
         private static <T extends BlockEntityType<?>> RegistrySupplier<T> register(String path, Supplier<T> factory) {
             return BLOCK_ENTITIES.register(path, factory);
         }
@@ -206,6 +220,8 @@ public class ModRegistry {
             registrar.register(TileEntities.CRYPTOGRAPHIC_ACCELERATOR.get(), (block, dir) -> block.peripheral());
             registrar.register(TileEntities.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get(), CryptographicAcceleratorSlimBlockEntity::peripheral);
             registrar.register(TileEntities.SCANNER.get(), (block, dir) -> block.peripheral());
+            registrar.register(TileEntities.SATELLITE_DISH.get(), SatelliteDishBlockEntity::peripheral);
+
         }
     }
 
@@ -219,6 +235,9 @@ public class ModRegistry {
         public static final UpgradeType<PocketRfid> POCKET_RFID = UpgradeType.simpleWithCustomItem(PocketRfid::new);
         public static final UpgradeType<TurtleRfid> TURTLE_RFID = UpgradeType.simpleWithCustomItem(TurtleRfid::new);
 
+        public static final UpgradeType<PocketSatellite> POCKET_SATELLITE = UpgradeType.simpleWithCustomItem(PocketSatellite::new);
+        public static final UpgradeType<TurtleSatellite> TURTLE_SATELLITE = UpgradeType.simpleWithCustomItem(TurtleSatellite::new);
+
         public static void register(UpgradeRegistrar registrar) {
             registrar.registerPocketUpgrade("radio", POCKET_RADIO);
             registrar.registerTurtleUpgrade("radio", TURTLE_RADIO);
@@ -226,6 +245,8 @@ public class ModRegistry {
             registrar.registerTurtleUpgrade("crypto", TURTLE_CRYPTO);
             registrar.registerPocketUpgrade("rfid", POCKET_RFID);
             registrar.registerTurtleUpgrade("rfid", TURTLE_RFID);
+            registrar.registerPocketUpgrade("satellite", POCKET_SATELLITE);
+            registrar.registerTurtleUpgrade("satellite", TURTLE_SATELLITE);
         }
 
         static void initialize() {

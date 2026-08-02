@@ -1,14 +1,12 @@
 package me.alexdevs.classicPeripherals;
 
 import me.alexdevs.classicPeripherals.core.RadioNetwork;
-import me.alexdevs.classicPeripherals.core.satellite.Satellite;
 import me.alexdevs.classicPeripherals.core.satellite.SatelliteNetwork;
 import me.alexdevs.classicPeripherals.core.StateSaverAndLoader;
 import me.alexdevs.classicPeripherals.peripherals.nfc.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.platform.Registrar;
 import me.alexdevs.classicPeripherals.platform.RegistrySupplier;
 import me.alexdevs.classicPeripherals.platform.Services;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -16,8 +14,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.UUID;
 
 public class ClassicPeripherals {
     public static final String MOD_ID = "classicperipherals";
@@ -48,6 +44,7 @@ public class ClassicPeripherals {
                         entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get());
                         entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get());
                         entries.accept(ModRegistry.Blocks.SCANNER.get());
+                        entries.accept(ModRegistry.Blocks.SATELLITE_DISH.get());
                     })
                     .build());
 
@@ -65,10 +62,10 @@ public class ClassicPeripherals {
         radioNetwork = new RadioNetwork();
         satelliteNetwork = new SatelliteNetwork(server);
 
-        satelliteNetwork.addSatellite(new Satellite(satelliteNetwork, UUID.randomUUID(), BlockPos.ZERO.atY(3000), server.overworld(), Satellite.RuntimeType.gps));
+        //satelliteNetwork.addSatellite(new Satellite(satelliteNetwork, UUID.randomUUID(), BlockPos.ZERO.atY(3000), server.overworld(), Satellite.RuntimeType.gps));
     }
 
-    public static void onServerStopping(MinecraftServer server) {
+    public static void onServerStopped(MinecraftServer server) {
         radioNetwork = null;
         satelliteNetwork = null;
     }

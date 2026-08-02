@@ -1,7 +1,7 @@
 package me.alexdevs.classicPeripherals.core.satellite;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 
 public abstract class SatelliteDevice {
     public enum SatelliteType {
@@ -10,16 +10,12 @@ public abstract class SatelliteDevice {
     }
 
     protected final SatelliteNetwork network;
-    protected final BlockPos position;
-    protected final ServerLevel level;
     protected final SatelliteType type;
 
     protected int channel = 0;
 
-    public SatelliteDevice(SatelliteNetwork network, BlockPos position, ServerLevel level, SatelliteType type) {
+    public SatelliteDevice(SatelliteNetwork network, SatelliteType type) {
         this.network = network;
-        this.position = position;
-        this.level = level;
         this.type = type;
     }
 
@@ -31,13 +27,9 @@ public abstract class SatelliteDevice {
 
     public abstract int getRange();
 
-    public BlockPos getPosition() {
-        return position;
-    }
+    public abstract Vec3 getPosition();
 
-    public ServerLevel getLevel() {
-        return level;
-    }
+    public abstract ServerLevel getLevel();
 
     public int getChannel() {
         return channel;
@@ -47,7 +39,7 @@ public abstract class SatelliteDevice {
         this.channel = channel;
     }
 
-    public SatelliteType getType() {
+    public SatelliteType getDeviceType() {
         return type;
     }
 

@@ -17,8 +17,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -34,7 +33,7 @@ public class ClassicPeripheralsNeoForge {
         modBus.addListener(this::onGatherData);
 
         NeoForge.EVENT_BUS.addListener(this::onServerStarted);
-        NeoForge.EVENT_BUS.addListener(this::onServerStopping);
+        NeoForge.EVENT_BUS.addListener(this::onServerStopped);
         NeoForge.EVENT_BUS.addListener(this::onServerTick);
         NeoForge.EVENT_BUS.addListener(this::onLevelTick);
 
@@ -78,8 +77,8 @@ public class ClassicPeripheralsNeoForge {
         ClassicPeripherals.onServerStarted(event.getServer());
     }
 
-    private void onServerStopping(ServerStoppingEvent event) {
-        ClassicPeripherals.onServerStopping(event.getServer());
+    private void onServerStopped(ServerStoppedEvent event) {
+        ClassicPeripherals.onServerStopped(event.getServer());
     }
 
     private void onServerTick(ServerTickEvent.Pre event) {

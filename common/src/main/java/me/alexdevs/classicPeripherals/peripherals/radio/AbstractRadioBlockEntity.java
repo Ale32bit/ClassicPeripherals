@@ -140,8 +140,9 @@ public abstract class AbstractRadioBlockEntity extends BlockEntity {
     public void invalidate() {
         isValid = false;
         var radioNetwork = ClassicPeripherals.getRadioNetwork();
-        Objects.requireNonNull(radioNetwork);
-        radioNetwork.removeReceiver(peripheral);
+        if(radioNetwork != null) {
+            radioNetwork.removeReceiver(peripheral);
+        }
     }
 
     public void ping() {

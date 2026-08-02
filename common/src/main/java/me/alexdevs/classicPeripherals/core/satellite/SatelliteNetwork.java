@@ -1,9 +1,11 @@
 package me.alexdevs.classicPeripherals.core.satellite;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,19 +65,19 @@ public class SatelliteNetwork {
                 .filter(receiver
                         -> receiver.getChannel() == channel // same channel
                         && !receiver.equals(source) // not source
-                        && !receiver.getType().equals(source.getType()) // different type: sats can talk to dishes and dishes can talk to sats.
+                        && !receiver.getDeviceType().equals(source.getDeviceType()) // different type: sats can talk to dishes and dishes can talk to sats.
                 )
                 .toList();
 
         for (var receiver : receivers) {
             var range = Math.max(sourceRange, receiver.getRange());
-            if (range * range <= sourcePosition.distSqr(receiver.getPosition())) {
+            if (range * range <= sourcePosition.distanceToSqr(receiver.getPosition())) {
                 receiver.onDataReceived(data, source);
             }
         }
     }
 
-    private Set<SatelliteDevice> getSatellites(@Nonnull ServerLevel level) {
+    private Set<SatelliteDevice> getSatellites(@NotNull ServerLevel level) {
         return levels.computeIfAbsent(level, l -> Collections.newSetFromMap(new ConcurrentHashMap<>()));
     }
 
@@ -86,9 +88,17 @@ public class SatelliteNetwork {
     private SatelliteNetworkStateManager.SatelliteState toSatelliteState(Satellite satellite) {
         return new SatelliteNetworkStateManager.SatelliteState(
                 satellite.getUUID(),
-                satellite.getPosition(),
+                toBlockPos(satellite.getPosition()),
                 satellite.getRuntimeType(),
                 satellite.getChannel()
+        );
+    }
+
+    private static BlockPos toBlockPos(Vec3 vec3) {
+        return new BlockPos(
+                (int) vec3.x,
+                (int) vec3.y,
+                (int) vec3.z
         );
     }
 }
