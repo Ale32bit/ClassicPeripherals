@@ -56,13 +56,17 @@ public class ClassicPeripherals {
         ModRegistry.initialize();
     }
 
-    public static void onServerStarted(MinecraftServer server) {
+    public static void onServerStarting(MinecraftServer server) {
         PocketNfcAccess.clear();
-        stateSaverAndLoader = StateSaverAndLoader.getServerState(server);
         radioNetwork = new RadioNetwork();
-        satelliteNetwork = new SatelliteNetwork(server);
+        satelliteNetwork = new SatelliteNetwork();
 
         //satelliteNetwork.addSatellite(new Satellite(satelliteNetwork, UUID.randomUUID(), BlockPos.ZERO.atY(3000), server.overworld(), Satellite.RuntimeType.gps));
+    }
+
+    public static void onServerStarted(MinecraftServer server) {
+        stateSaverAndLoader = StateSaverAndLoader.getServerState(server);
+        satelliteNetwork.load(server);
     }
 
     public static void onServerStopped(MinecraftServer server) {

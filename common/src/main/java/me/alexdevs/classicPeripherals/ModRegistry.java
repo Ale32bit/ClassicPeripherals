@@ -4,16 +4,16 @@ import com.mojang.serialization.Codec;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.component.ComputerComponents;
 import dan200.computercraft.api.upgrades.UpgradeType;
-import io.netty.buffer.ByteBuf;
 import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlock;
 import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlockEntity;
 import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.PocketRfid;
 import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.TurtleRfid;
-import me.alexdevs.classicPeripherals.peripherals.satellite.SatelliteDishBlock;
-import me.alexdevs.classicPeripherals.peripherals.satellite.SatelliteDishBlockEntity;
-import me.alexdevs.classicPeripherals.peripherals.satellite.SatelliteDishPeripheral;
-import me.alexdevs.classicPeripherals.peripherals.satellite.upgrades.PocketSatellite;
-import me.alexdevs.classicPeripherals.peripherals.satellite.upgrades.TurtleSatellite;
+import me.alexdevs.classicPeripherals.peripherals.satellite.dish.SatelliteDishBlock;
+import me.alexdevs.classicPeripherals.peripherals.satellite.dish.SatelliteDishBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.satellite.dish.upgrades.PocketSatellite;
+import me.alexdevs.classicPeripherals.peripherals.satellite.dish.upgrades.TurtleSatellite;
+import me.alexdevs.classicPeripherals.peripherals.satellite.launcher.SatelliteLauncherBlock;
+import me.alexdevs.classicPeripherals.peripherals.satellite.launcher.SatelliteLauncherBlockEntity;
 import me.alexdevs.classicPeripherals.platform.*;
 import me.alexdevs.classicPeripherals.peripherals.crypto.full.CryptographicAcceleratorBlock;
 import me.alexdevs.classicPeripherals.peripherals.crypto.full.CryptographicAcceleratorBlockEntity;
@@ -54,6 +54,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -142,6 +143,12 @@ public class ModRegistry {
                 .isValidSpawn(Blocks::never)
                 .isRedstoneConductor(Blocks::never)
         ));
+        public static final RegistrySupplier<SatelliteLauncherBlock> SATELLITE_LAUNCHER = register("satellite_launcher", () -> new SatelliteLauncherBlock(BlockBehaviour.Properties.of()
+                .strength(2.0F)
+                .mapColor(MapColor.STONE)
+                .isValidSpawn(Blocks::never)
+                .isRedstoneConductor(Blocks::never)
+        ));
 
         private static <T extends Block> RegistrySupplier<T> register(String name, Supplier<T> block) {
             var registered = BLOCKS.register(name, block);
@@ -203,6 +210,9 @@ public class ModRegistry {
         public static final RegistrySupplier<BlockEntityType<SatelliteDishBlockEntity>> SATELLITE_DISH = register("satellite_dish",
                 () -> BlockEntityType.Builder.of(SatelliteDishBlockEntity::new, Blocks.SATELLITE_DISH.get()).build(null));
 
+        public static final RegistrySupplier<BlockEntityType<SatelliteLauncherBlockEntity>> SATELLITE_LAUNCHER = register("satellite_launcher",
+                () -> BlockEntityType.Builder.of(SatelliteLauncherBlockEntity::new, Blocks.SATELLITE_LAUNCHER.get()).build(null));
+
         private static <T extends BlockEntityType<?>> RegistrySupplier<T> register(String path, Supplier<T> factory) {
             return BLOCK_ENTITIES.register(path, factory);
         }
@@ -221,6 +231,7 @@ public class ModRegistry {
             registrar.register(TileEntities.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get(), CryptographicAcceleratorSlimBlockEntity::peripheral);
             registrar.register(TileEntities.SCANNER.get(), (block, dir) -> block.peripheral());
             registrar.register(TileEntities.SATELLITE_DISH.get(), SatelliteDishBlockEntity::peripheral);
+            registrar.register(TileEntities.SATELLITE_LAUNCHER.get(), (block, dir) -> block.peripheral());
 
         }
     }

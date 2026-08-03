@@ -8,6 +8,8 @@
     "classicperipherals:rfid_scanner",
     "classicperipherals:cryptographic_accelerator",
     "classicperipherals:cryptographic_accelerator_slim",
-    "classicperipherals:scanner"
+    "classicperipherals:scanner",
+    "classicperipherals:satellite_dish",
+    "classicperipherals:satellite_launcher"
   ]
 }

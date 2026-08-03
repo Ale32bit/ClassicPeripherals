@@ -4,6 +4,8 @@
   "block.classicperipherals.cryptographic_accelerator_slim": "Cryptographic Accelerator",
   "block.classicperipherals.nfc_reader": "NFC Reader",
   "block.classicperipherals.rfid_scanner": "RFID Scanner",
+  "block.classicperipherals.satellite_dish": "Satellite Dish",
+  "block.classicperipherals.satellite_launcher": "Satellite Launcher",
   "block.classicperipherals.scanner": "Scanner",
   "block.classicperipherals.tower_base": "Radio Tower Controller",
   "block.classicperipherals.tower_head": "Radio Tower Antenna",
@@ -14,5 +16,6 @@
   "itemGroup.classicperipherals": "Classic Peripherals",
   "upgrade.crypto.adjective": "Crypto",
   "upgrade.radio.adjective": "Radio",
-  "upgrade.rfid.adjective": "RFID"
+  "upgrade.rfid.adjective": "RFID",
+  "upgrade.satellite.adjective": "Satellite"
 }

@@ -1,9 +1,8 @@
-package me.alexdevs.classicPeripherals.peripherals.satellite;
+package me.alexdevs.classicPeripherals.peripherals.satellite.dish;
 
 import me.alexdevs.classicPeripherals.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;

@@ -39,10 +39,13 @@ public class LanguageGenerator implements DataProvider {
         add(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), "Cryptographic Accelerator");
         add(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get(), "Cryptographic Accelerator");
         add(ModRegistry.Blocks.SCANNER.get(), "Scanner");
+        add(ModRegistry.Blocks.SATELLITE_DISH.get(), "Satellite Dish");
+        add(ModRegistry.Blocks.SATELLITE_LAUNCHER.get(), "Satellite Launcher");
 
         add("upgrade.radio.adjective", "Radio");
         add("upgrade.crypto.adjective", "Crypto");
         add("upgrade.rfid.adjective", "RFID");
+        add("upgrade.satellite.adjective", "Satellite");
     }
 
     private void add(String key, String value) {

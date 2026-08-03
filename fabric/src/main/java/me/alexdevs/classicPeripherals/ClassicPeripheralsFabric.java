@@ -43,6 +43,7 @@ public class ClassicPeripheralsFabric implements ModInitializer {
             }
         });
 
+        ServerLifecycleEvents.SERVER_STARTING.register(ClassicPeripherals::onServerStarting);
         ServerLifecycleEvents.SERVER_STARTED.register(ClassicPeripherals::onServerStarted);
         ServerLifecycleEvents.SERVER_STOPPED.register(ClassicPeripherals::onServerStopped);
         ServerTickEvents.START_SERVER_TICK.register(ClassicPeripherals::tick);

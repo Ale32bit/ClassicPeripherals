@@ -21,8 +21,14 @@ public class TagGenerator extends TagsProvider<Block> {
     @Override
     protected void addTags(HolderLookup.@NonNull Provider provider) {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .add(key(ModRegistry.Blocks.TOWER_BASE), key(ModRegistry.Blocks.TOWER_SEGMENT), key(ModRegistry.Blocks.TOWER_HEAD), key(ModRegistry.Blocks.ANTENNA))
-                .add(key(ModRegistry.Blocks.NFC_READER), key(ModRegistry.Blocks.RFID_SCANNER), key(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR), key(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM), key(ModRegistry.Blocks.SCANNER));
+                .add(
+                        key(ModRegistry.Blocks.TOWER_BASE), key(ModRegistry.Blocks.TOWER_SEGMENT),
+                        key(ModRegistry.Blocks.TOWER_HEAD), key(ModRegistry.Blocks.ANTENNA),
+                        key(ModRegistry.Blocks.NFC_READER), key(ModRegistry.Blocks.RFID_SCANNER),
+                        key(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR), key(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM),
+                        key(ModRegistry.Blocks.SCANNER), key(ModRegistry.Blocks.SATELLITE_DISH),
+                        key(ModRegistry.Blocks.SATELLITE_LAUNCHER)
+                );
     }
 
     private static ResourceKey<Block> key(RegistrySupplier<? extends Block> supplier) {

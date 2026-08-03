@@ -1,4 +1,4 @@
-package me.alexdevs.classicPeripherals.peripherals.satellite.upgrades;
+package me.alexdevs.classicPeripherals.peripherals.satellite.dish.upgrades;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.pocket.AbstractPocketUpgrade;
@@ -7,7 +7,7 @@ import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.upgrades.UpgradeType;
 import me.alexdevs.classicPeripherals.ModRegistry;
 import me.alexdevs.classicPeripherals.core.satellite.SatelliteDevice;
-import me.alexdevs.classicPeripherals.peripherals.satellite.AbstractSatelliteDishPeripheral;
+import me.alexdevs.classicPeripherals.peripherals.satellite.dish.AbstractSatelliteDishPeripheral;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;

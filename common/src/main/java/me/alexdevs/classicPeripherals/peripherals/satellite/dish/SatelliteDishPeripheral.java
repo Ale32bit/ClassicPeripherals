@@ -1,9 +1,10 @@
-package me.alexdevs.classicPeripherals.peripherals.satellite;
+package me.alexdevs.classicPeripherals.peripherals.satellite.dish;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.core.satellite.SatelliteDevice;
+import me.alexdevs.classicPeripherals.core.satellite.SatelliteNetwork;
+import me.alexdevs.classicPeripherals.utils.LuaUtils;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
@@ -27,11 +28,6 @@ public class SatelliteDishPeripheral extends AbstractSatelliteDishPeripheral {
     @Override
     public ServerLevel getLevel() {
         return (ServerLevel) dish.getLevel();
-    }
-
-    @Override
-    public void onDataReceived(String data, SatelliteDevice source) {
-
     }
 
     @Override

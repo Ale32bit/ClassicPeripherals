@@ -1,8 +1,7 @@
-package me.alexdevs.classicPeripherals.peripherals.satellite;
+package me.alexdevs.classicPeripherals.peripherals.satellite.dish;
 
 import com.mojang.serialization.MapCodec;
 import dan200.computercraft.shared.peripheral.modem.ModemShapes;
-import me.alexdevs.classicPeripherals.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;

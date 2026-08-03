@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "classicperipherals:block/satellite_dish",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "classicperipherals:block/satellite_dish",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "classicperipherals:block/satellite_dish"
+    },
+    "facing=south": {
+      "model": "classicperipherals:block/satellite_dish",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "classicperipherals:block/satellite_dish",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "classicperipherals:block/satellite_dish",
+      "y": 270
+    }
+  }
+}

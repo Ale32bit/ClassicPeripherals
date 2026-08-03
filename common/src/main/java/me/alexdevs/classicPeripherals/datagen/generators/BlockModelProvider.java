@@ -6,6 +6,7 @@ import me.alexdevs.classicPeripherals.ModRegistry;
 import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlock;
 import me.alexdevs.classicPeripherals.peripherals.nfc.NfcReaderBlock;
 import me.alexdevs.classicPeripherals.peripherals.rfid.RfidScannerBlock;
+import me.alexdevs.classicPeripherals.peripherals.satellite.dish.SatelliteDishBlock;
 import me.alexdevs.classicPeripherals.peripherals.scanner.ScannerBlock;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.blockstates.MultiVariantGenerator;
@@ -50,6 +51,7 @@ public class BlockModelProvider {
 
         createNfcReaderModel(generators, ModRegistry.Blocks.NFC_READER.get());
         createRfidScannerModel(generators, ModRegistry.Blocks.RFID_SCANNER.get());
+        createSatelliteDishModel(generators, ModRegistry.Blocks.SATELLITE_DISH.get());
         createScannerModel(generators, ModRegistry.Blocks.SCANNER.get());
         createCryptographicAcceleratorSlimModel(generators, ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get());
 
@@ -92,6 +94,14 @@ public class BlockModelProvider {
                             generators.modelOutput
                     );
                 }))
+        );
+        generators.delegateItemModel(block, getModelLocation(block));
+    }
+
+    private static void createSatelliteDishModel(BlockModelGenerators generators, SatelliteDishBlock block) {
+        generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, Variant.variant()
+                        .with(VariantProperties.MODEL, ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "block/satellite_dish")))
+                .with(BlockModelGenerators.createFacingDispatch())
         );
         generators.delegateItemModel(block, getModelLocation(block));
     }

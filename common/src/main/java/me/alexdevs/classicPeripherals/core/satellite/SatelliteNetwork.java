@@ -3,6 +3,7 @@ package me.alexdevs.classicPeripherals.core.satellite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,10 +12,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SatelliteNetwork {
+    public static final int MAX_CHANNEL = 65535;
+    public static final int MIN_CHANNEL = 0;
+
     private final ConcurrentHashMap<ServerLevel, Set<SatelliteDevice>> levels = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<ServerLevel, SatelliteNetworkStateManager> stateManagers = new ConcurrentHashMap<>();
 
-    public SatelliteNetwork(MinecraftServer server) {
+    public void load(MinecraftServer server) {
         for (var level : server.getAllLevels()) {
             var state = getStateManager(level);
             var levelSatellites = getSatellites(level);
@@ -36,6 +40,7 @@ public class SatelliteNetwork {
         if (satellite instanceof Satellite sat) {
             var state = getStateManager(satellite.getLevel());
             state.getData().put(sat.getUUID(), toSatelliteState(sat));
+            state.setDirty();
         }
     }
 
@@ -46,6 +51,7 @@ public class SatelliteNetwork {
         if (satellite instanceof Satellite sat) {
             var state = getStateManager(satellite.getLevel());
             state.getData().remove(sat.getUUID());
+            state.setDirty();
         }
     }
 
@@ -61,6 +67,8 @@ public class SatelliteNetwork {
         var sourceRange = source.getRange();
         var satellites = getSatellites(level);
 
+        var flatSource = flatPosition(sourcePosition);
+
         var receivers = satellites.stream()
                 .filter(receiver
                         -> receiver.getChannel() == channel // same channel
@@ -69,9 +77,10 @@ public class SatelliteNetwork {
                 )
                 .toList();
 
+
         for (var receiver : receivers) {
             var range = Math.max(sourceRange, receiver.getRange());
-            if (range * range <= sourcePosition.distanceToSqr(receiver.getPosition())) {
+            if (flatSource.distanceToSqr(flatPosition(receiver.getPosition())) <= range * range) {
                 receiver.onDataReceived(data, source);
             }
         }
@@ -100,5 +109,9 @@ public class SatelliteNetwork {
                 (int) vec3.y,
                 (int) vec3.z
         );
+    }
+
+    private static Vec2 flatPosition(Vec3 vec3) {
+        return new Vec2((float) vec3.x(), (float) vec3.z());
     }
 }
