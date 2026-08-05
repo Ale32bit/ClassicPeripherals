@@ -1,5 +1,6 @@
 package me.alexdevs.classicPeripherals.peripherals.radio.tower;
 
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -57,7 +58,7 @@ public class RadioTowerAntennaBlock extends Block implements SimpleWaterloggedBl
     }
 
     private void triggerBase(Level level, BlockPos blockPos) {
-        for (int i = 1; i < 32; i++) {
+        for (int i = 1; i < ClassicPeripherals.CONFIG.radioTowerMaxHeight; i++) {
             BlockPos below = blockPos.below(i);
             var blockBelow = level.getBlockState(below);
             if (blockBelow.is(ModRegistry.Blocks.TOWER_BASE.get())) {
