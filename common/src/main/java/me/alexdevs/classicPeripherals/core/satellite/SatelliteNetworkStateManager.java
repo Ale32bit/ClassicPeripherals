@@ -23,15 +23,26 @@ public class SatelliteNetworkStateManager extends SavedData {
             null
     );
 
-    private final Map<UUID, SatelliteState> data = new ConcurrentHashMap<>();
+    private final Map<BlockPos, SatelliteState> data = new ConcurrentHashMap<>();
+
+    private static String packPos(BlockPos pos) {
+        return pos.getX() + ";" + pos.getZ();
+    }
+
+    private static BlockPos unpackPos(String packedPos) {
+        var parts = packedPos.split(";");
+        return new BlockPos(Integer.parseInt(parts[0]), 0, Integer.parseInt(parts[1]));
+    }
 
     public static SatelliteNetworkStateManager loadData(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         var state = new SatelliteNetworkStateManager();
 
         var satelliteMap = nbt.getCompound("satelliteMap");
         for (var entry : satelliteMap.getAllKeys()) {
-            var uuid = UUID.fromString(entry);
+            var posKey = unpackPos(entry);
             var satelliteTag = satelliteMap.getCompound(entry);
+
+            var uuid = satelliteTag.getUUID("uuid");
 
             var x = satelliteTag.getInt("x");
             var y = satelliteTag.getInt("y");
@@ -42,7 +53,7 @@ public class SatelliteNetworkStateManager extends SavedData {
             var runtimeType = Satellite.RuntimeType.valueOf(satelliteTag.getString("runtimeType"));
             var channel = satelliteTag.getInt("channel");
 
-            state.data.put(uuid, new SatelliteState(uuid, pos, runtimeType, channel));
+            state.data.put(posKey, new SatelliteState(uuid, pos, runtimeType, channel));
         }
 
         return state;
@@ -69,18 +80,22 @@ public class SatelliteNetworkStateManager extends SavedData {
     public @NonNull CompoundTag save(@NonNull CompoundTag nbt, HolderLookup.@NonNull Provider registries) {
         var satelliteMap = new CompoundTag();
         for (var entry : data.entrySet()) {
-            var uuid = entry.getKey();
             var satelliteState = entry.getValue();
             var satelliteTag = new CompoundTag();
 
-            satelliteTag.putInt("x", satelliteState.pos.getX());
-            satelliteTag.putInt("y", satelliteState.pos.getY());
-            satelliteTag.putInt("z", satelliteState.pos.getZ());
+            var pos = satelliteState.pos;
+            var posKey = packPos(pos);
+
+            satelliteTag.putUUID("uuid", satelliteState.uuid);
+
+            satelliteTag.putInt("x", pos.getX());
+            satelliteTag.putInt("y", pos.getY());
+            satelliteTag.putInt("z", pos.getZ());
 
             satelliteTag.putString("runtimeType", satelliteState.runtimeType.toString());
             satelliteTag.putInt("channel", satelliteState.channel);
 
-            satelliteMap.put(uuid.toString(), satelliteTag);
+            satelliteMap.put(posKey, satelliteTag);
         }
 
         nbt.put("satelliteMap", satelliteMap);
@@ -88,7 +103,7 @@ public class SatelliteNetworkStateManager extends SavedData {
         return nbt;
     }
 
-    public Map<UUID, SatelliteState> getData() {
+    public Map<BlockPos, SatelliteState> getData() {
         return data;
     }
 

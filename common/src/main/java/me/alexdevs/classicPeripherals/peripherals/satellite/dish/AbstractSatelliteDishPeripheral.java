@@ -18,8 +18,6 @@ import java.util.Queue;
 public abstract class AbstractSatelliteDishPeripheral extends SatelliteDevice implements IPeripheral {
     protected final AttachedComputerSet computers = new AttachedComputerSet();
 
-    protected final Queue<Data> dataQueue = new ArrayDeque<>(20);
-
     public AbstractSatelliteDishPeripheral() {
         super(ClassicPeripherals.getSatelliteNetwork(), SatelliteType.DISH);
     }
@@ -46,17 +44,9 @@ public abstract class AbstractSatelliteDishPeripheral extends SatelliteDevice im
     }
 
     @Override
-    public void tick(ServerLevel level) {
-        if (!dataQueue.isEmpty()) {
-            var data = dataQueue.poll();
-            computers.forEach(computer -> computer.queueEvent("satellite_message", computer.getAttachmentName(), data.data, data.distance));
-        }
-    }
-
-    @Override
     public void onDataReceived(String data, SatelliteDevice source) {
         var distance = source.getPosition().distanceTo(getPosition());
-        dataQueue.add(new Data(data, distance));
+        computers.forEach(computer -> computer.queueEvent("satellite_message", computer.getAttachmentName(), data, distance));
     }
 
     @LuaFunction(value = "setChannel", mainThread = true)
@@ -74,8 +64,5 @@ public abstract class AbstractSatelliteDishPeripheral extends SatelliteDevice im
     @LuaFunction("broadcast")
     public final void luaBroadcast(String data) {
         broadcast(data);
-    }
-
-    protected record Data(String data, double distance) {
     }
 }

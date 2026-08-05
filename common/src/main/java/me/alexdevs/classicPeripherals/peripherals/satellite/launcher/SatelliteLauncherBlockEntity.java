@@ -3,10 +3,12 @@ package me.alexdevs.classicPeripherals.peripherals.satellite.launcher;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.ModRegistry;
 import me.alexdevs.classicPeripherals.core.satellite.Satellite;
+import me.alexdevs.classicPeripherals.utils.Point2i;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.Fireworks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,8 +28,11 @@ public class SatelliteLauncherBlockEntity extends BlockEntity {
     private Satellite.RuntimeType runtimeType = Satellite.RuntimeType.relay;
     private int channel = 0;
 
-    private ItemStack fuelStack = ItemStack.EMPTY;
-    private ItemStack rocketStack = ItemStack.EMPTY;
+    // gunpowder
+    private ItemStack fuelStack = Items.GUNPOWDER.getDefaultInstance(); // todo remove
+
+    // firework rocket
+    private ItemStack rocketStack = Items.FIREWORK_ROCKET.getDefaultInstance(); // todo remove
     private ItemStack satelliteStack = ItemStack.EMPTY;
 
     public SatelliteLauncherBlockEntity(BlockPos pos, BlockState blockState) {
@@ -91,7 +96,31 @@ public class SatelliteLauncherBlockEntity extends BlockEntity {
     }
 
     public boolean isReady() {
-        return true;
+        if (getLevel().isClientSide()) {
+            return false;
+        }
+
+        if (satelliteStack.isEmpty()) {
+            //return false;
+        }
+
+        if (getRocketPowerPercentage() == 0 || getFuelPercentage() == 0) {
+            return false;
+        }
+
+        if (!this.getLevel().canSeeSky(this.getBlockPos().above())) {
+            return false;
+        }
+
+        var network = ClassicPeripherals.getSatelliteNetwork();
+
+        if (network.hasSatellite((ServerLevel) getLevel(), Point2i.of(this.getBlockPos()))) {
+            return false;
+        }
+
+        var satsInRange = network.getSatellitesInRange((ServerLevel) getLevel(), Point2i.of(this.getBlockPos()), 8);
+
+        return satsInRange.isEmpty();
     }
 
     public void setMode(Satellite.RuntimeType type) {

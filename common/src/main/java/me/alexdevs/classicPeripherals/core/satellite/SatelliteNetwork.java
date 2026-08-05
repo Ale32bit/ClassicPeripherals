@@ -1,14 +1,15 @@
 package me.alexdevs.classicPeripherals.core.satellite;
 
+import me.alexdevs.classicPeripherals.utils.Point2i;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SatelliteNetwork {
@@ -17,6 +18,8 @@ public class SatelliteNetwork {
 
     private final ConcurrentHashMap<ServerLevel, Set<SatelliteDevice>> levels = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<ServerLevel, SatelliteNetworkStateManager> stateManagers = new ConcurrentHashMap<>();
+
+    private final ConcurrentHashMap<ServerLevel, Map<Point2i, Satellite>> satelliteMap = new ConcurrentHashMap<>();
 
     public void load(MinecraftServer server) {
         for (var level : server.getAllLevels()) {
@@ -38,9 +41,11 @@ public class SatelliteNetwork {
         satellites.add(satellite);
 
         if (satellite instanceof Satellite sat) {
-            var state = getStateManager(satellite.getLevel());
-            state.getData().put(sat.getUUID(), toSatelliteState(sat));
-            state.setDirty();
+            var satelliteState = toSatelliteState(sat);
+            getMap(satellite.getLevel()).put(Point2i.of(satelliteState.pos()), sat);
+            var stateManager = getStateManager(satellite.getLevel());
+            stateManager.getData().put(satelliteState.pos(), satelliteState);
+            stateManager.setDirty();
         }
     }
 
@@ -49,10 +54,52 @@ public class SatelliteNetwork {
         satellites.remove(satellite);
 
         if (satellite instanceof Satellite sat) {
-            var state = getStateManager(satellite.getLevel());
-            state.getData().remove(sat.getUUID());
-            state.setDirty();
+            var satelliteState = toSatelliteState(sat);
+            getMap(satellite.getLevel()).remove(Point2i.of(satelliteState.pos()));
+            var stateManager = getStateManager(satellite.getLevel());
+            stateManager.getData().remove(satelliteState.pos());
+            stateManager.setDirty();
         }
+    }
+
+    public Optional<Satellite> getSatellite(ServerLevel level, Point2i pos) {
+        var sat = getMap(level).get(pos);
+        return Optional.ofNullable(sat);
+    }
+
+    public boolean hasSatellite(ServerLevel level, Point2i pos) {
+        return getSatellite(level, pos).isPresent();
+    }
+
+    public int countChunkSatellites(ServerLevel level, ChunkPos pos) {
+        var minX = pos.getMinBlockX();
+        var minZ = pos.getMinBlockZ();
+        var maxX = pos.getMaxBlockX();
+        var maxZ = pos.getMaxBlockZ();
+
+        var count = 0;
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int z = minZ; z <= maxZ; z++) {
+                if (hasSatellite(level, new Point2i(x, z))) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public List<Satellite> getSatellitesInRange(ServerLevel level, Point2i pos, int range) {
+        var list = new ArrayList<Satellite>();
+        for (int x = pos.x() - range; x <= pos.x() + range; x++) {
+            for (int z = pos.z() - range; z <= pos.z() + range; z++) {
+                var satellite = getSatellite(level, new Point2i(x, z));
+                satellite.ifPresent(list::add);
+            }
+        }
+
+        return list;
     }
 
     public void tick(ServerLevel level) {
@@ -88,6 +135,10 @@ public class SatelliteNetwork {
 
     private Set<SatelliteDevice> getSatellites(@NotNull ServerLevel level) {
         return levels.computeIfAbsent(level, l -> Collections.newSetFromMap(new ConcurrentHashMap<>()));
+    }
+
+    private Map<Point2i, Satellite> getMap(ServerLevel level) {
+        return satelliteMap.computeIfAbsent(level, l -> new ConcurrentHashMap<>());
     }
 
     private SatelliteNetworkStateManager getStateManager(ServerLevel level) {
