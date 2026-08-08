@@ -8,6 +8,7 @@ import dan200.computercraft.api.upgrades.UpgradeType;
 import me.alexdevs.classicPeripherals.ModRegistry;
 import me.alexdevs.classicPeripherals.core.satellite.SatelliteDevice;
 import me.alexdevs.classicPeripherals.peripherals.satellite.dish.AbstractSatelliteDishPeripheral;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -29,6 +30,13 @@ public class PocketSatellite extends AbstractPocketUpgrade {
         @Override
         public void onDataReceived(String data, SatelliteDevice source) {
 
+        }
+
+        @Override
+        public boolean canTransreceive() {
+            var position = pocket.getPosition();
+            var blockPos = new BlockPos((int)position.x, (int)position.y, (int)position.z);
+            return pocket.getLevel().canSeeSky(blockPos);
         }
 
         @Override

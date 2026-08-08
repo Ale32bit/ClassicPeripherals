@@ -34,4 +34,10 @@ public class SatelliteDishPeripheral extends AbstractSatelliteDishPeripheral {
     public int getRange() {
         return 0;
     }
+
+    @Override
+    public boolean canTransreceive() {
+        var level = getLevel();
+        return level.canSeeSky(dish.getBlockPos().above());
+    }
 }

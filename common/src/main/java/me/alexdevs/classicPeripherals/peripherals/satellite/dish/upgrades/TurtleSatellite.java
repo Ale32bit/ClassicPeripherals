@@ -32,13 +32,18 @@ public class TurtleSatellite extends AbstractTurtleUpgrade {
         }
 
         @Override
+        public boolean canTransreceive() {
+            return turtle.getLevel().canSeeSky(turtle.getPosition());
+        }
+
+        @Override
         public int getRange() {
             return 0;
         }
 
         @Override
         public Vec3 getPosition() {
-            return Vec3.atLowerCornerOf(turtle.getPosition());
+            return turtle.getPosition().getCenter();
         }
 
         @Override

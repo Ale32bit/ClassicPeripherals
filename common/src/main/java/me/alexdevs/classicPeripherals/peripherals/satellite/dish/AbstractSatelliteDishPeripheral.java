@@ -45,9 +45,21 @@ public abstract class AbstractSatelliteDishPeripheral extends SatelliteDevice im
 
     @Override
     public void onDataReceived(String data, SatelliteDevice source) {
-        var distance = source.getPosition().distanceTo(getPosition());
-        computers.forEach(computer -> computer.queueEvent("satellite_message", computer.getAttachmentName(), data, distance));
+        if (canTransreceive()) {
+            var distance = source.getPosition().distanceTo(getPosition());
+            computers.forEach(computer -> computer.queueEvent("satellite_message", computer.getAttachmentName(), data, distance));
+        }
     }
+
+    @Override
+    public void broadcast(String data) {
+        if (canTransreceive()) {
+            super.broadcast(data);
+        }
+
+    }
+
+    public abstract boolean canTransreceive();
 
     @LuaFunction(value = "setChannel", mainThread = true)
     public final void luaSetChannel(int channel) throws LuaException {

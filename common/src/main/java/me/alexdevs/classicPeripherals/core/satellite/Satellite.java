@@ -57,7 +57,7 @@ public class Satellite extends SatelliteDevice {
     public void tick(ServerLevel level) {
         switch (runtimeType) {
             case relay:
-                if (!dataQueue.isEmpty()) {
+                while (!dataQueue.isEmpty()) {
                     var data = dataQueue.poll();
                     broadcast(data);
                 }

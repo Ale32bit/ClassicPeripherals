@@ -61,6 +61,8 @@ public class BlockModelProvider {
         registerTurtleUpgrade(generators, "block/turtle_radio", "block/turtle_radio_face");
         registerTurtleUpgrade(generators, "block/turtle_crypto", "block/turtle_crypto_face");
         registerTurtleRfidUpgrade(generators, "block/turtle_rfid", "block/turtle_rfid_face");
+        registerTurtleUpgrade(generators, "block/turtle_satellite", "block/turtle_satellite_face");
+
     }
 
     private static void createNfcReaderModel(BlockModelGenerators generators, NfcReaderBlock block) {
