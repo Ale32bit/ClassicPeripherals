@@ -1,5 +1,8 @@
 package me.alexdevs.classicPeripherals.core.riscv;
 
+import java.util.HashMap;
+import java.util.function.Function;
+
 public class RiscVEngine {
     public enum InstructionFormat {
         R, // reg-reg arithm
@@ -13,8 +16,24 @@ public class RiscVEngine {
     private final RegisterFile registers = new RegisterFile();
     private final Memory memory = new Memory(0, 1024 * 16);
     private int pc = 0;
+    private boolean halted = false;
 
-    public void tick() throws Trap {
+    private final HashMap<Integer, SystemCall> systemCalls = new HashMap<>();
+
+    public int run(int budget) {
+        int retired = 0;
+        try {
+            while (retired < budget && !halted) {
+                step();
+                retired++;
+            }
+        } catch (Trap trap) {
+            halt(trap);
+        }
+        return retired;
+    }
+
+    public void step() throws Trap {
         if ((pc & 3) != 0) {
             throw new Trap(Trap.Cause.INSN_MISALIGNED, pc);
         }
@@ -27,8 +46,30 @@ public class RiscVEngine {
         return memory;
     }
 
-    protected void ecall() throws Trap {
+    public void halt(Trap trap) {
+        halted = true;
+    }
 
+    protected void ecall() {
+        var call = registers.get(17);
+        var args = new int[]{
+                registers.get(10),
+                registers.get(11),
+                registers.get(12),
+                registers.get(13),
+                registers.get(14),
+                registers.get(15),
+                registers.get(16),
+        };
+
+        var handler = systemCalls.get(call);
+
+        if (handler == null) {
+            registers.set(10, -38); // ENOSYS
+            return;
+        }
+
+        registers.set(10, handler.call(this, args));
     }
 
     private int execute(int instruction, int nextPc) throws Trap {
