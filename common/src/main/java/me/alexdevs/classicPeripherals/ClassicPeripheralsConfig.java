@@ -45,6 +45,10 @@ public class ClassicPeripheralsConfig extends WrappedConfig {
     @Comment("Enable the Ender Modem nerf.")
     public boolean enderModemNerf = true;
 
+    @Comment("Multiplier of the Ender Modem range. The base range is the same as the Wireless Modem.")
+    @FloatRange(min = 0d, max = Double.MAX_VALUE)
+    public double enderModemRangeMultiplier = 2d;
+
     @Comment("Ender Modem cross-dimensional range.")
     @FloatRange(min = 1, max = Float.MAX_VALUE)
     public double enderModemCrossDimensionalRange = 8;

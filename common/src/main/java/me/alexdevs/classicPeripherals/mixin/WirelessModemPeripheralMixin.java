@@ -53,7 +53,7 @@ public abstract class WirelessModemPeripheralMixin {
             } else {
                 range = minRange;
             }
-            cir.setReturnValue(range * 2d);
+            cir.setReturnValue(range * ClassicPeripherals.CONFIG.enderModemRangeMultiplier);
             return;
         }
         cir.setReturnValue(0.0);

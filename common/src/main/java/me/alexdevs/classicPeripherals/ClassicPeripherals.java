@@ -5,11 +5,17 @@ import me.alexdevs.classicPeripherals.peripherals.nfc.luaApi.PocketNfcAccess;
 import me.alexdevs.classicPeripherals.platform.Registrar;
 import me.alexdevs.classicPeripherals.platform.RegistrySupplier;
 import me.alexdevs.classicPeripherals.platform.Services;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class ClassicPeripherals {
     public static final String MOD_ID = "classicperipherals";
@@ -56,5 +62,14 @@ public class ClassicPeripherals {
 
     public static @Nullable StateSaverAndLoader getState() {
         return stateSaverAndLoader;
+    }
+
+    public static void onTooltip(ItemStack stack, Item.TooltipContext context, TooltipFlag flag, List<Component> lines) {
+        if (stack.is(dan200.computercraft.shared.ModRegistry.Blocks.WIRELESS_MODEM_ADVANCED.get().asItem())) {
+            if(CONFIG.enderModemNerf) {
+                lines.add(Component.translatable("tooltip.classicperipherals.enderModemNerf", ClassicPeripherals.CONFIG.enderModemRangeMultiplier).withStyle(ChatFormatting.GRAY));
+            }
+        }
+
     }
 }

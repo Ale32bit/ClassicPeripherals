@@ -8,6 +8,7 @@ import me.alexdevs.classicPeripherals.peripherals.scanner.screen.ScannerScreen;
 import me.alexdevs.classicPeripherals.core.dataHolder.DataHolderHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
@@ -39,6 +40,8 @@ public class ClassicPeripheralsClientFabric implements ClientModInitializer {
             if (tintIndex == 1) return DataHolderHandler.getColor(stack);
             return 0xFF_FFFFFF;
         }, ModRegistry.Items.RFID_BADGE.get());
+
+        ItemTooltipCallback.EVENT.register(ClassicPeripherals::onTooltip);
     }
 
     private static ResourceLocation model(String path) {
