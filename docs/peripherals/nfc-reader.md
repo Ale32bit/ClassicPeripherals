@@ -52,7 +52,7 @@ When signing a message with a NFC Card, while in signing mode, the `nfc_sign` ev
 3. `string`: The signature of the message.
 4. `string`: The public key of the NFC Card.
 
-## Pocket computer behaviour (since 0.3.0)
+## Pocket computer behaviour (v0.3.0+)
 
 Pocket computers come with a 2-way NFC adapter pre-installed, usable by loading the module `os.nfc` (`require("os.nfc")`).
 

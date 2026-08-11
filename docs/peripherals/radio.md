@@ -12,7 +12,7 @@ The maximum possible range is **3072** blocks.
 
 The initial **85% range** is considered safe for data integrity. Beyond this range data will get linearly corrupted the further you go until out of range.
 
-The antenna, also called head, transmits at its maximum range when it is above **y96**. Below this height the range decreases exponentially.
+The antenna, also called head, transmits at its maximum range when it is above **Y96**. Below this height the range decreases exponentially.
 
 Radio messages are limited to the default maximum size of **8 MiB** (8,388,608 bytes), changeable in the configuration file.
 
