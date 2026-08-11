@@ -7,6 +7,6 @@
 
 Classic Peripherals is an addon for [CC: Tweaked](https://tweaked.cc/) implementing various kinds of peripherals and tweaks to the mod, some of which are inspired by older and no longer maintained addons.
 
-Check out [the wiki](https://github.com/Ale32bit/ClassicPeripherals/wiki) for all documentation of the peripherals and tweaks.
+Check out [the wiki](https://peripherals.proto.land/) for all documentation of the peripherals and tweaks.
 
 [![Join the Discord server](https://discord.com/api/guilds/387712125210198016/widget.png?style=banner2)](https://discord.gg/PYzP4XjzH4)
