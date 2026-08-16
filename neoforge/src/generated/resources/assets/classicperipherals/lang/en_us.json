@@ -12,6 +12,7 @@
   "item.classicperipherals.nfc_card": "NFC Card",
   "item.classicperipherals.rfid_badge": "RFID Badge",
   "itemGroup.classicperipherals": "Classic Peripherals",
+  "tooltip.classicperipherals.enderModemNerf": "Classic Peripherals limits the Ender Modem to %.2fx the range of a Wireless Modem.",
   "upgrade.crypto.adjective": "Crypto",
   "upgrade.radio.adjective": "Radio",
   "upgrade.rfid.adjective": "RFID"

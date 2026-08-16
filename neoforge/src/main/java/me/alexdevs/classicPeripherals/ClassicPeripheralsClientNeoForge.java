@@ -12,6 +12,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 public class ClassicPeripheralsClientNeoForge {
     public ClassicPeripheralsClientNeoForge(IEventBus modBus) {
@@ -19,6 +21,8 @@ public class ClassicPeripheralsClientNeoForge {
         modBus.addListener(this::onRegisterMenuScreens);
         modBus.addListener(this::onRegisterTurtleModellers);
         modBus.addListener(this::onRegisterItemColors);
+
+        NeoForge.EVENT_BUS.addListener(this::onTooltip);
     }
 
     private void onClientSetup(FMLClientSetupEvent event) {
@@ -53,5 +57,9 @@ public class ClassicPeripheralsClientNeoForge {
 
     private static ResourceLocation model(String path) {
         return ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "block/" + path);
+    }
+
+    private void onTooltip(ItemTooltipEvent event) {
+        ClassicPeripherals.onTooltip(event.getItemStack(), event.getContext(), event.getFlags(), event.getToolTip());
     }
 }

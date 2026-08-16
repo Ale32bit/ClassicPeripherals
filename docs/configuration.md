@@ -25,6 +25,10 @@ radioTowerMinHeight = 2
 # range: 1 - 2147483647
 # default: 128
 radioTowerSegmentRange = 128
+# The minimum Y coordinate of the radio tower for maximum effective range.
+# range: -2147483648 - 2147483647
+# default: 96
+radioTowerMinY = 96
 # The loss factor of the radio tower.
 # range: 0.0 - 1.0
 # default: 0.15
@@ -47,6 +51,10 @@ rfidScanRange = 8
 # Enable the Ender Modem nerf.
 # default: true
 enderModemNerf = true
+# Multiplier of the Ender Modem range. The base range is the same as the Wireless Modem.
+# range: 0.0 - 1.7976931348623157E308
+# default: 2.0
+enderModemRangeMultiplier = 2.0
 # Ender Modem cross-dimensional range.
 # range: 1.0 - 3.4028234663852886E38
 # default: 8.0

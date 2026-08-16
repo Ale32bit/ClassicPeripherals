@@ -46,6 +46,8 @@ public class LanguageGenerator implements DataProvider {
         add("upgrade.crypto.adjective", "Crypto");
         add("upgrade.rfid.adjective", "RFID");
         add("upgrade.satellite.adjective", "Satellite");
+
+        add("tooltip.classicperipherals.enderModemNerf", "Classic Peripherals limits the Ender Modem to %.2fx the range of a Wireless Modem.");
     }
 
     private void add(String key, String value) {

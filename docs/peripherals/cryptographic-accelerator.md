@@ -23,6 +23,20 @@ The network name of the Cryptographic Accelerator peripheral is `cryptographic_a
 * `hmacSha256(key: string, data: string, [hex: boolean]): string` Hash data with the `SHA256` algorithm and HMAC key.
 * `hmacSha512(key: string, data: string, [hex: boolean]): string` Hash data with the `SHA512` algorithm and HMAC key.
 
+#### BLAKE3 (v0.6.1+)
+
+* `blake3(data: string, [hex: boolean], [mode: string], [param: string], [outputSize: number]): string` Hash data with the `BLAKE3` algorithm.
+
+##### Modes
+
+* `hash`: Hash data. The `param` argument is ignored.
+* `keyed`: Hash data with a key, requires `param` argument to be a 32-bytes string key.
+* `derive`: Hash data with a context string, requires `param` argument to be a string of any length.
+
+##### Output Size
+
+The BLAKE3 algorithm allows to set the output size of the digest (returned string). By default it is `32` bytes (256 bit).
+The output size is limited up to `4096` bytes for ComputerCraft performance reasons.
 
 ### Random
 
@@ -34,7 +48,7 @@ The network name of the Cryptographic Accelerator peripheral is `cryptographic_a
 ### Encoding
 
 * `encodeBase64(data: string): string` Encode a string to Base64.
-* `decodeBase64(data: string): string` Decode a Base64 string.
+* `decodeBase64(data: string): string` Decode a Base64 string or return nil if input is invalid.
 
 ### Symmetric Encryption
 
@@ -57,3 +71,8 @@ The network name of the Cryptographic Accelerator peripheral is `cryptographic_a
 
 * `deriveEcdhPublicKey(privateKey: string): string` Derive the X25519 public key from a private key.
 * `computeSharedSecret(privateKey: string, peerPublicKey: string): string` Use your private key and the peer's public key to compute the shared secret.
+
+### Compression (v0.6.0+)
+
+* `deflate(data: string): string` Compress data using the DEFLATE compression algorithm.
+* `inflate(data: string): string` Decompress data using the DEFLATE compression algorithm.
