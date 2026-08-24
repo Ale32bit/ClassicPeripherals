@@ -4,6 +4,7 @@ import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.core.Compression;
 import me.alexdevs.classicPeripherals.core.Crypto;
 import me.alexdevs.classicPeripherals.utils.CryptoUtils;
@@ -117,7 +118,7 @@ public abstract class AbstractCryptographicAcceleratorPeripheral implements IPer
 
     @LuaFunction
     public final String randomBytes(int length) throws LuaException {
-        if (length > 0x7ffffff0) {
+        if (length > ClassicPeripherals.CONFIG.cryptographicRandomBytesMaxSize) {
             throw new LuaException("buffer size limit exceeded");
         }
 

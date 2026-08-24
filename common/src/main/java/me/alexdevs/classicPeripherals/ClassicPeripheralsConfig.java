@@ -42,6 +42,10 @@ public class ClassicPeripheralsConfig extends WrappedConfig {
     @IntegerRange(min = 1, max = Integer.MAX_VALUE)
     public int rfidScanRange = 8;
 
+    @Comment("The maximum size of bytes allowed in the cryptographic accelerator random bytes generator.")
+    @IntegerRange(min = 1, max = Integer.MAX_VALUE)
+    public int cryptographicRandomBytesMaxSize = 65536;
+
     @Comment("Enable the Ender Modem nerf.")
     public boolean enderModemNerf = true;
 
