@@ -19,7 +19,8 @@ The Scanner is a peripheral capable of reading text and colors from printed pape
 
 ## Methods
 
-The network name of the Scanner peripheral is `scanner`, you can wrap it via the peripheral functions like `peripheral.wrap` or `peripheral.find`.
+The network name of the Scanner peripheral is `scanner`, you can wrap it via the peripheral functions like
+`peripheral.wrap` or `peripheral.find`.
 
 * `hasPages(): boolean` Whether the Scanner can read the pages of the item.
 * `getLabel(): string` Get the title of the printed paper.
@@ -29,7 +30,8 @@ The network name of the Scanner peripheral is `scanner`, you can wrap it via the
 
 ### Pages data
 
-The `scan()` function returns a list of papers, containing two tables: one for text lines and one for colors respectively.
-Each table of the text and color is a list of the lines of the page.
+The `scan()` function returns a list of papers, containing two tables: one for text lines and one for colors
+respectively. Each table of the text and color is a list comprising the lines of the page.
 
-The colors are in the paint/blit format, that is, each hexadecimal character defines [one of the 16 colors](https://tweaked.cc/module/colors.html).
+The colors are in the paint/blit format; that is, each hexadecimal character
+defines [one of the 16 colors](https://tweaked.cc/module/colors.html).

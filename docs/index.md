@@ -8,7 +8,8 @@ hide:
 
 Welcome to the **ClassicPeripherals** wiki!
 
-Classic Peripherals is an addon for CC: Tweaked implementing various kinds of peripherals and tweaks to the mod, some of which are inspired by older and no longer maintained addons.
+Classic Peripherals is an addon for CC: Tweaked implementing various kinds of peripherals and tweaks to the mod, some of
+which are inspired by older and no longer maintained addons.
 
 ## Download & install
 
@@ -27,7 +28,8 @@ The issue tracker is available on the [GitHub repository](https://github.com/Ale
 
 ## How to contribute
 
-ClassicPeripherals is open-source! You can contribute from the GitHub repo [Ale32bit/ClassicPeripherals](https://github.com/Ale32bit/ClassicPeripherals).
+ClassicPeripherals is open-source! You can contribute from the GitHub
+repo [Ale32bit/ClassicPeripherals](https://github.com/Ale32bit/ClassicPeripherals).
 
 ## Donate!
 

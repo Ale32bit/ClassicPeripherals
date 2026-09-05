@@ -50,8 +50,7 @@ peripheral functions like `peripheral.wrap` or `peripheral.find`.
 ##### Output Size
 
 The BLAKE3 algorithm allows to set the output size of the digest (returned string). By default it is `32` bytes (256
-bit).
-The output size is limited up to `4096` bytes for ComputerCraft performance reasons.
+bit). The output size is limited up to `4096` bytes for ComputerCraft performance reasons.
 
 ### Random
 
