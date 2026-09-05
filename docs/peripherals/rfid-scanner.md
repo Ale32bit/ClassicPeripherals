@@ -1,5 +1,7 @@
 ---
 title: RFID Scanner
+hide:
+  - navigation
 ---
 
 The RFID Scanner is a peripheral capable of scanning for RFID Badges in a range of **8 blocks** in player inventories.

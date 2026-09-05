@@ -1,3 +1,9 @@
+---
+title: Scanner
+hide:
+  - navigation
+---
+
 The Scanner is a peripheral capable of reading text and colors from printed paper.
 
 <img width="500" height="300" alt="Scanner" src="/assets/peripherals/scanner.png" />

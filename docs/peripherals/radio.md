@@ -1,6 +1,19 @@
 ---
 title: Radio Antenna
+hide:
+  - navigation
 ---
+
+<div class="infobox" markdown>
+
+![Peripheral](../assets/blocks/tower_head.png)
+
+| Label     | Value         |
+|-----------|---------------|
+| **ID**    | `radio_tower` |
+| **Since** | v0.3.0        |
+
+</div>
 
 ## Radio Tower
 
@@ -18,6 +31,9 @@ Radio messages are limited to the default maximum size of **8 MiB** (8,388,608 b
 
 ## Setup
 
+!!! info inline end "Setup"
+    <img width="220" alt="Radio Tower" src="/assets/peripherals/radio_tower.png"/>
+
 To build one, you need:
 
 * 1x Radio Tower Base
@@ -26,7 +42,6 @@ To build one, you need:
 
 Place the **base**, then the **segments**, and finally the **antenna** to complete the build.
 
-<img width="220" alt="Radio Tower" src="/assets/peripherals/radio_tower.png"/>
 
 ## Methods
 
@@ -71,8 +86,17 @@ Graph of the range with default configurations and maximum total height of the t
 
 ## Mini radio antenna
 
+<div class="infobox" markdown>
+
+![Peripheral](../assets/blocks/antenna.png)
+
+| Label     | Value         |
+|-----------|---------------|
+| **ID**    | `radio_tower` |
+| **Since** | v0.3.0        |
+
+</div>
+
 A single-block radio antenna can be crafted, but will only be able to broadcast to and receive from radio towers, and relies on their range.
 
 This antenna can be attached to Pocket Computers and Turtles.
-
-<img width="200" alt="Radio Antenna" src="/assets/peripherals/radio_antenna.png" />

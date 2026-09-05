@@ -15,10 +15,6 @@ theme:
     edit: material/pencil
     view: material/eye
 
-  nav:
-    - Home: tweaks.md
-    - Peripherals: peripherals/tweaks.md
-
   features:
     - navigation.tabs
     - navigation.path

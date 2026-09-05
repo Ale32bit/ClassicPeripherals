@@ -1,14 +1,25 @@
 ---
 title: NFC Reader
+hide:
+  - navigation
 ---
+
+<div class="infobox" markdown>
+
+![Peripheral](../assets/blocks/nfc_reader.png)
+
+| Label     | Value        |
+|-----------|--------------|
+| **ID**    | `nfc_reader` |
+| **Since** | v0.3.0       |
+
+</div>
 
 The NFC Reader is a peripheral capable of reading and writing data from/to NFC Cards.
 
 A NFC Card is capable of holding string data up to **128 characters** and the `readonly` flag can be irreversibly enabled to prevent further writes.
 
 You can also put dyes along the NFC Card in a crafting table to dye the card.
-
-<img width="500" alt="NFC Reader" src="/assets/peripherals/nfc_reader.png" />
 
 ## Methods
 

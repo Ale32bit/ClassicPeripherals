@@ -1,0 +1,70 @@
+.admonition.wiki thead {
+    display: none;
+}
+.admonition.wiki table {
+    border: 0 !important;
+}
+.admonition.wiki tr, .admonition.wiki td {
+    border: 0 !important;
+    border-top: 0 !important;
+    padding: 2px !important;
+}
+
+.infobox {
+    float: right;
+    clear: right;
+    width: 12rem;
+    max-width: 100%;
+    margin: 0 0 1rem 0;
+    padding: .4rem;
+    border: 1px solid var(--md-default-fg-color);
+    border-radius: .2rem;
+    font-size: .72rem;
+    line-height: 1.4;
+}
+
+.infobox h3 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+.infobox img {
+    display: block;
+    margin: 0 auto .5rem;
+    max-width: 100%;
+}
+
+.infobox table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 0 !important;
+}
+
+.infobox thead {
+    display: none;
+}
+
+.infobox tr, .infobox td {
+    border: 0 !important;
+    border-top: 0 !important;
+    padding: 2px !important;
+    white-space: nowrap;
+}
+
+.infobox .caption {
+    margin: -.3rem 0 .5rem;
+    text-align: center;
+    font-style: italic;
+    color: var(--md-default-fg-color--light);
+}
+
+@media screen and (max-width: 76.1875em) {
+    .infobox {
+        float: none;
+        width: 100%;
+        margin: 0 0 1rem 0;
+    }
+}
