@@ -11,7 +11,7 @@ hide:
 | Label     | Value         |
 |-----------|---------------|
 | **ID**    | `radio_tower` |
-| **Since** | v0.3.0        |
+| **Since** | v0.1.0        |
 
 </div>
 

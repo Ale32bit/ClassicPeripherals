@@ -4,9 +4,18 @@ hide:
   - navigation
 ---
 
-The Scanner is a peripheral capable of reading text and colors from printed paper.
+<div class="infobox" markdown>
 
-<img width="500" height="300" alt="Scanner" src="/assets/peripherals/scanner.png" />
+![Peripheral](../assets/blocks/scanner.png)
+
+| Label     | Value     |
+|-----------|-----------|
+| **ID**    | `scanner` |
+| **Since** | v0.5.0    |
+
+</div>
+
+The Scanner is a peripheral capable of reading text and colors from printed paper.
 
 ## Methods
 

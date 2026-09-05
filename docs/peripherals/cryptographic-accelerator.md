@@ -11,7 +11,7 @@ hide:
 | Label     | Value                       |
 |-----------|-----------------------------|
 | **ID**    | `cryptographic_accelerator` |
-| **Since** | v0.3.0                      |
+| **Since** | v0.4.0                      |
 
 </div>
 

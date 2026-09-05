@@ -11,7 +11,7 @@ hide:
 | Label     | Value        |
 |-----------|--------------|
 | **ID**    | `nfc_reader` |
-| **Since** | v0.3.0       |
+| **Since** | v0.1.0       |
 
 </div>
 

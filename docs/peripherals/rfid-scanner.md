@@ -4,6 +4,17 @@ hide:
   - navigation
 ---
 
+<div class="infobox" markdown>
+
+![Peripheral](../assets/blocks/rfid_scanner.png)
+
+| Label     | Value          |
+|-----------|----------------|
+| **ID**    | `rfid_scanner` |
+| **Since** | v0.2.0         |
+
+</div>
+
 The RFID Scanner is a peripheral capable of scanning for RFID Badges in a range of **8 blocks** in player inventories.
 
 Just like the NFC Card, a RFID Badge is capable of holding string data up to **128 characters** and the `readonly` flag can be irreversibly enabled to prevent further writes.
