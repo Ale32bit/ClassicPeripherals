@@ -6,7 +6,7 @@ hide:
 
 <div class="infobox" markdown>
 
-![Peripheral](../assets/blocks/tower_head.png)
+![Radio Tower Antenna](../assets/blocks/tower_head.png)
 
 | Label     | Value         |
 |-----------|---------------|
@@ -80,15 +80,17 @@ Where:
 - $s_r$ is the `radioTowerSegmentRange` configuration value (128 by default).
 - $\text{EMR}$ is the EffectiveMaxRange of the tower.
 
-Graph of the range with default configurations and maximum total height of the tower for different Y levels of the antenna:
+<figure markdown="span">
+  [![Radio Range](/assets/peripherals/radio_range.png){ width="50%" }](https://www.desmos.com/calculator/wbyh3nkjsy)
 
-[<img width="1200" height="800" alt="Radio Range" src="/assets/peripherals/radio_range.png" />](https://www.desmos.com/calculator/wbyh3nkjsy)
+<figcaption>Graph of the range with default configurations and maximum total height of the tower for different Y levels of the antenna.</figcaption>
+</figure>
 
 ## Mini radio antenna
 
 <div class="infobox" markdown>
 
-![Peripheral](../assets/blocks/antenna.png)
+![Radio Antenna Peripheral](../assets/blocks/antenna.png)
 
 | Label     | Value         |
 |-----------|---------------|
