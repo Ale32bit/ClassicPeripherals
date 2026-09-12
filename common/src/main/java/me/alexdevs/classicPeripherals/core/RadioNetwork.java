@@ -3,8 +3,11 @@ package me.alexdevs.classicPeripherals.core;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
 import me.alexdevs.classicPeripherals.integrations.SableIntegration;
 import me.alexdevs.classicPeripherals.peripherals.radio.AbstractRadioPeripheral;
+import net.minecraft.core.Direction;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RadioNetwork {
@@ -32,7 +35,7 @@ public class RadioNetwork {
         receivers.remove(receiver);
     }
 
-    public static void broadcast(AbstractRadioPeripheral source, String data, double range) {
+    public static void broadcast(AbstractRadioPeripheral source, String data) {
         if (!source.canBroadcast()) {
             return;
         }
@@ -40,11 +43,11 @@ public class RadioNetwork {
         data = data.substring(0, Math.min(data.length(), ClassicPeripherals.CONFIG.radioTowerMaxMessageSize));
 
         for (var receiver : receivers) {
-            tryBroadcast(source, receiver, data, range);
+            tryBroadcast(source, receiver, data);
         }
     }
 
-    private static void tryBroadcast(AbstractRadioPeripheral sender, AbstractRadioPeripheral receiver, String data, double range) {
+    private static void tryBroadcast(AbstractRadioPeripheral sender, AbstractRadioPeripheral receiver, String data) {
         if (sender == receiver) {
             return;
         }
@@ -53,12 +56,19 @@ public class RadioNetwork {
             return;
         }
 
-        if(sender.getChannel() != receiver.getChannel()) {
+        if (sender.getChannel() != receiver.getChannel()) {
             return;
         }
 
-        var receiveRange = Math.max(range, receiver.getRange());
-        var distanceSquared = SableIntegration.getDistanceSquared(receiver.getLevel(), receiver.getPosition(), sender.getPosition());
+        var receiveRange = Math.max(sender.getRange(), receiver.getRange());
+
+        var senderPosition = SableIntegration.getTranslatedPos(sender.getLevel(), sender.getPosition())
+                .with(Direction.Axis.Y, 0);
+        var receiverPosition = SableIntegration.getTranslatedPos(receiver.getLevel(), receiver.getPosition())
+                .with(Direction.Axis.Y, 0);
+
+        var distanceSquared = senderPosition.distanceToSqr(receiverPosition);
+
         if (distanceSquared <= receiveRange * receiveRange) {
             receiver.receive(data, Math.sqrt(distanceSquared), receiveRange);
         }

@@ -125,7 +125,7 @@ public abstract class AbstractRadioPeripheral implements IPeripheral {
             throw new LuaException("This antenna is not capable of broadcasting.");
         }
 
-        RadioNetwork.broadcast(this, data, getRange());
+        RadioNetwork.broadcast(this, data);
         ping();
     }
 
