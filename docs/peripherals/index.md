@@ -4,8 +4,9 @@ hide:
   - navigation
 ---
 
-- [Radio](/peripherals/radio)
-- [NFC Reader](/peripherals/nfc-reader)
-- [Cryptographic Accelerator](/peripherals/cryptographic-accelerator)
-- [RFID Scanner](/peripherals/rfid-scanner)
-- [Scanner](/peripherals/scanner)
+- [Radio](radio.md)
+- [NFC Reader](nfc-reader.md)
+- [Cryptographic Accelerator](cryptographic-accelerator.md)
+- [RFID Scanner](rfid-scanner.md)
+- [Scanner](scanner.md)
+- [Body Area Network API](ban.md)

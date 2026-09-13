@@ -1,4 +1,4 @@
-package me.alexdevs.classicPeripherals.peripherals.pan;
+package me.alexdevs.classicPeripherals.peripherals.ban;
 
 import dan200.computercraft.api.network.Packet;
 import dan200.computercraft.api.network.PacketNetwork;

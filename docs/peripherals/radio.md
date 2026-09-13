@@ -84,7 +84,7 @@ Where:
 - $\text{EMR}$ is the EffectiveMaxRange of the tower.
 
 <figure markdown="span">
-  [![Radio Range](/assets/peripherals/radio_range.png){ width="50%" }](https://www.desmos.com/calculator/wbyh3nkjsy)
+  [![Radio Range](../assets/peripherals/radio_range.png){ width="50%" }](https://www.desmos.com/calculator/wbyh3nkjsy)
 
 <figcaption>Graph of the range with default configurations and maximum total height of the tower for different Y levels of the antenna.</figcaption>
 </figure>

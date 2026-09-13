@@ -1,4 +1,4 @@
-package me.alexdevs.classicPeripherals.peripherals.pan;
+package me.alexdevs.classicPeripherals.peripherals.ban;
 
 import dan200.computercraft.api.component.ComputerComponents;
 import dan200.computercraft.api.lua.IComputerSystem;
@@ -15,11 +15,11 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-public class PanApi extends ModemPeripheral implements ILuaAPI {
+public class BanModem extends ModemPeripheral implements ILuaAPI {
     private final IComputerSystem computer;
     private @Nullable Entity entity;
 
-    public PanApi(IComputerSystem computer) {
+    public BanModem(IComputerSystem computer) {
         super(new ModemState());
 
         this.computer = computer;
@@ -52,7 +52,7 @@ public class PanApi extends ModemPeripheral implements ILuaAPI {
 
     @Override
     public String getModuleName() {
-        return "os.pan";
+        return "os.ban";
     }
 
     @Override
