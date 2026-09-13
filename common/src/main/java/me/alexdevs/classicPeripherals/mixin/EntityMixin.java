@@ -2,7 +2,7 @@ package me.alexdevs.classicPeripherals.mixin;
 
 import dan200.computercraft.api.network.PacketNetwork;
 import me.alexdevs.classicPeripherals.mixinInterface.IEntityMixin;
-import me.alexdevs.classicPeripherals.peripherals.bluetooth.LocalEntityNetwork;
+import me.alexdevs.classicPeripherals.peripherals.pan.LocalEntityNetwork;
 import net.minecraft.world.entity.Entity;
 import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,4 +1,4 @@
-package me.alexdevs.classicPeripherals.peripherals.bluetooth;
+package me.alexdevs.classicPeripherals.peripherals.pan;
 
 import dan200.computercraft.api.network.Packet;
 import dan200.computercraft.api.network.PacketNetwork;
