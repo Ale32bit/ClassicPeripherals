@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.component.ComputerComponents;
 import dan200.computercraft.api.upgrades.UpgradeType;
+import me.alexdevs.classicPeripherals.peripherals.bluetooth.BluetoothApi;
 import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlock;
 import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlockEntity;
 import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.PocketRfid;
@@ -237,6 +238,8 @@ public class ModRegistry {
                 var pocket = computer.getComponent(ComputerComponents.POCKET);
                 return pocket != null ? new PocketNfcAPI(pocket) : null;
             });
+
+            ComputerCraftAPI.registerAPIFactory(BluetoothApi::new);
         }
     }
 

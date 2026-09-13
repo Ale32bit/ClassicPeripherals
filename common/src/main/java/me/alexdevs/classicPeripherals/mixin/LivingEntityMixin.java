@@ -18,34 +18,34 @@ public abstract class LivingEntityMixin implements ILivingEntityMixin {
     @Unique
     private static final String RFID_DATA_KEY = "rfidBadgeData";
     @Unique
-    private String rfidBadgeData = null;
+    private String classicPeripherals$rfidBadgeData = null;
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     public void classicPeripherals$addData(CompoundTag compound, CallbackInfo ci) {
-        if (rfidBadgeData != null) {
-            compound.putString(RFID_DATA_KEY, rfidBadgeData);
+        if (classicPeripherals$rfidBadgeData != null) {
+            compound.putString(RFID_DATA_KEY, classicPeripherals$rfidBadgeData);
         }
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     public void classicPeripherals$readData(CompoundTag compound, CallbackInfo ci) {
         if (compound.contains(RFID_DATA_KEY, Tag.TAG_STRING)) {
-            rfidBadgeData = compound.getString("rfidBadgeData");
+            classicPeripherals$rfidBadgeData = compound.getString("rfidBadgeData");
         }
     }
 
     @Override
-    public Optional<String> getRfidData() {
-        return Optional.ofNullable(rfidBadgeData);
+    public Optional<String> classicPeripherals$getRfidData() {
+        return Optional.ofNullable(classicPeripherals$rfidBadgeData);
     }
 
     @Override
-    public void setRfidData(@Nullable String data) {
-        rfidBadgeData = data;
+    public void classicPeripherals$setRfidData(@Nullable String data) {
+        classicPeripherals$rfidBadgeData = data;
     }
 
     @Override
-    public boolean hasRfidData() {
-        return rfidBadgeData != null;
+    public boolean classicPeripherals$hasRfidData() {
+        return classicPeripherals$rfidBadgeData != null;
     }
 }

@@ -4,8 +4,9 @@
   "package": "me.alexdevs.classicPeripherals.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "LivingEntityMixin",
+    "EntityMixin",
     "ItemMixin",
+    "LivingEntityMixin",
     "RedstoneRelayPeripheralMixin",
     "WirelessModemPeripheralMixin",
     "WirelessNetworkMixin"

@@ -107,7 +107,7 @@ public abstract class AbstractRfidScannerPeripheral implements IPeripheral {
 
             // Scan living entities with RFID injected
             var entity = (ILivingEntityMixin) livingEntity;
-            var injectedData = entity.getRfidData();
+            var injectedData = entity.classicPeripherals$getRfidData();
             injectedData.ifPresent(s -> badges.add(new ScannedRfidBadge(s, distance)));
 
             // Scan living entities holding RFID badge

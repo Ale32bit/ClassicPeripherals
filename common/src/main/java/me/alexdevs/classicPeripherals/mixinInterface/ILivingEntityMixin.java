@@ -5,9 +5,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public interface ILivingEntityMixin {
-    Optional<String> getRfidData();
+    Optional<String> classicPeripherals$getRfidData();
 
-    void setRfidData(@Nullable String data);
+    void classicPeripherals$setRfidData(@Nullable String data);
 
-    boolean hasRfidData();
+    boolean classicPeripherals$hasRfidData();
 }

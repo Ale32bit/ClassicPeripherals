@@ -41,7 +41,7 @@ public class RfidBadgeItem extends Item implements IDataHolder {
         }
 
         var entity = (ILivingEntityMixin) interactionTarget;
-        entity.setRfidData(data.get());
+        entity.classicPeripherals$setRfidData(data.get());
 
         if (!player.getAbilities().instabuild) {
             // stack.shrink wouldn't work :/
