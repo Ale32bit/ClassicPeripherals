@@ -4,11 +4,16 @@ import dan200.computercraft.api.peripheral.PeripheralLookup;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import dan200.computercraft.api.upgrades.UpgradeType;
+import me.alexdevs.classicPeripherals.network.S2CConfigurationPayload;
 import me.alexdevs.classicPeripherals.platform.PeripheralProvider;
 import me.alexdevs.classicPeripherals.platform.PeripheralRegistrar;
 import me.alexdevs.classicPeripherals.platform.UpgradeRegistrar;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -43,5 +48,10 @@ public class ClassicPeripheralsFabric implements ModInitializer {
         });
 
         ServerLifecycleEvents.SERVER_STARTED.register(ClassicPeripherals::onServerStarted);
+
+        PayloadTypeRegistry.playS2C().register(S2CConfigurationPayload.TYPE, S2CConfigurationPayload.CODEC);
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            sender.sendPacket(ClassicPeripherals.getConfigurationPayload());
+        });
     }
 }

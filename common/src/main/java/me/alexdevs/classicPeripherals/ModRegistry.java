@@ -3,47 +3,55 @@ package me.alexdevs.classicPeripherals;
 import com.mojang.serialization.Codec;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.component.ComputerComponents;
+import dan200.computercraft.api.pocket.IPocketUpgrade;
+import dan200.computercraft.api.turtle.ITurtleUpgrade;
+import dan200.computercraft.api.upgrades.UpgradeBase;
+import dan200.computercraft.api.upgrades.UpgradeData;
 import dan200.computercraft.api.upgrades.UpgradeType;
+import dan200.computercraft.core.util.Colour;
+import dan200.computercraft.shared.pocket.items.PocketComputerItem;
+import dan200.computercraft.shared.turtle.items.TurtleItem;
+import dan200.computercraft.shared.util.DataComponentUtil;
 import me.alexdevs.classicPeripherals.peripherals.ban.BanModem;
-import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlock;
-import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlockEntity;
-import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.PocketRfid;
-import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.TurtleRfid;
-import me.alexdevs.classicPeripherals.platform.*;
 import me.alexdevs.classicPeripherals.peripherals.crypto.full.CryptographicAcceleratorBlock;
 import me.alexdevs.classicPeripherals.peripherals.crypto.full.CryptographicAcceleratorBlockEntity;
-import me.alexdevs.classicPeripherals.peripherals.nfc.NfcReaderBlock;
-import me.alexdevs.classicPeripherals.peripherals.radio.antenna.RadioAntennaBlockEntity;
-import me.alexdevs.classicPeripherals.peripherals.radio.tower.RadioTowerControllerBlockEntity;
-import me.alexdevs.classicPeripherals.peripherals.rfid.RfidScannerBlock;
-import me.alexdevs.classicPeripherals.peripherals.scanner.ScannerBlock;
-import me.alexdevs.classicPeripherals.peripherals.radio.antenna.RadioAntennaBlock;
-import me.alexdevs.classicPeripherals.peripherals.radio.tower.RadioTowerControllerBlock;
-import me.alexdevs.classicPeripherals.peripherals.radio.tower.RadioTowerAntennaBlock;
-import me.alexdevs.classicPeripherals.peripherals.radio.tower.RadioTowerPoleBlock;
-import me.alexdevs.classicPeripherals.peripherals.nfc.item.NfcCardItem;
-import me.alexdevs.classicPeripherals.peripherals.rfid.item.RfidBadgeItem;
-import me.alexdevs.classicPeripherals.peripherals.nfc.luaApi.PocketNfcAPI;
-import me.alexdevs.classicPeripherals.peripherals.nfc.NfcReaderBlockEntity;
-import me.alexdevs.classicPeripherals.peripherals.rfid.RfidScannerBlockEntity;
-import me.alexdevs.classicPeripherals.peripherals.nfc.item.NfcCardRecipe;
-import me.alexdevs.classicPeripherals.peripherals.rfid.item.RfidBadgeRecipe;
-import me.alexdevs.classicPeripherals.peripherals.scanner.ScannerBlockEntity;
-import me.alexdevs.classicPeripherals.peripherals.scanner.screen.ScannerMenu;
+import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlock;
+import me.alexdevs.classicPeripherals.peripherals.crypto.slim.CryptographicAcceleratorSlimBlockEntity;
 import me.alexdevs.classicPeripherals.peripherals.crypto.upgrades.PocketCrypto;
 import me.alexdevs.classicPeripherals.peripherals.crypto.upgrades.TurtleCrypto;
+import me.alexdevs.classicPeripherals.peripherals.nfc.NfcReaderBlock;
+import me.alexdevs.classicPeripherals.peripherals.nfc.NfcReaderBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.nfc.item.NfcCardItem;
+import me.alexdevs.classicPeripherals.peripherals.nfc.item.NfcCardRecipe;
+import me.alexdevs.classicPeripherals.peripherals.nfc.luaApi.PocketNfcAPI;
+import me.alexdevs.classicPeripherals.peripherals.radio.antenna.RadioAntennaBlock;
+import me.alexdevs.classicPeripherals.peripherals.radio.antenna.RadioAntennaBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.radio.tower.RadioTowerAntennaBlock;
+import me.alexdevs.classicPeripherals.peripherals.radio.tower.RadioTowerControllerBlock;
+import me.alexdevs.classicPeripherals.peripherals.radio.tower.RadioTowerControllerBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.radio.tower.RadioTowerPoleBlock;
 import me.alexdevs.classicPeripherals.peripherals.radio.upgrades.PocketRadio;
 import me.alexdevs.classicPeripherals.peripherals.radio.upgrades.TurtleRadio;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.UUIDUtil;
+import me.alexdevs.classicPeripherals.peripherals.rfid.RfidScannerBlock;
+import me.alexdevs.classicPeripherals.peripherals.rfid.RfidScannerBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.rfid.item.RfidBadgeItem;
+import me.alexdevs.classicPeripherals.peripherals.rfid.item.RfidBadgeRecipe;
+import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.PocketRfid;
+import me.alexdevs.classicPeripherals.peripherals.rfid.upgrades.TurtleRfid;
+import me.alexdevs.classicPeripherals.peripherals.scanner.ScannerBlock;
+import me.alexdevs.classicPeripherals.peripherals.scanner.ScannerBlockEntity;
+import me.alexdevs.classicPeripherals.peripherals.scanner.screen.ScannerMenu;
+import me.alexdevs.classicPeripherals.platform.*;
+import net.minecraft.core.*;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
@@ -64,6 +72,58 @@ public class ModRegistry {
     private static final Registrar<BlockEntityType<?>> BLOCK_ENTITIES = Services.REGISTRATION.create(Registries.BLOCK_ENTITY_TYPE, ClassicPeripherals.MOD_ID);
     private static final Registrar<MenuType<?>> MENUS = Services.REGISTRATION.create(Registries.MENU, ClassicPeripherals.MOD_ID);
     private static final Registrar<DataComponentType<?>> COMPONENTS = Services.REGISTRATION.create(Registries.DATA_COMPONENT_TYPE, ClassicPeripherals.MOD_ID);
+
+    public static final RegistrySupplier<CreativeModeTab> CREATIVE_TAB = Services.REGISTRATION.create(Registries.CREATIVE_MODE_TAB, ClassicPeripherals.MOD_ID)
+            .register("classicperipherals", () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+                    .title(Component.translatable("itemGroup.classicperipherals"))
+                    .icon(() -> ModRegistry.Blocks.TOWER_HEAD.get().asItem().getDefaultInstance())
+                    .displayItems((context, entries) -> {
+                        entries.accept(ModRegistry.Blocks.TOWER_BASE.get());
+                        entries.accept(ModRegistry.Blocks.TOWER_SEGMENT.get());
+                        entries.accept(ModRegistry.Blocks.TOWER_HEAD.get());
+                        entries.accept(ModRegistry.Blocks.ANTENNA.get());
+                        entries.accept(ModRegistry.Items.COPPER_COIL.get());
+                        entries.accept(ModRegistry.Blocks.NFC_READER.get());
+                        entries.accept(ModRegistry.Blocks.RFID_SCANNER.get());
+                        entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get());
+                        entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get());
+                        entries.accept(ModRegistry.Blocks.SCANNER.get());
+
+                        addTurtle(entries, dan200.computercraft.shared.ModRegistry.Items.TURTLE_NORMAL.get(), context.holders());
+                        addTurtle(entries, dan200.computercraft.shared.ModRegistry.Items.TURTLE_ADVANCED.get(), context.holders());
+                        addPocket(entries, dan200.computercraft.shared.ModRegistry.Items.POCKET_COMPUTER_NORMAL.get(), context.holders());
+                        addPocket(entries, dan200.computercraft.shared.ModRegistry.Items.POCKET_COMPUTER_ADVANCED.get(), context.holders());
+
+                        addColoredItem(entries, ModRegistry.Items.NFC_CARD.get());
+                        addColoredItem(entries, ModRegistry.Items.RFID_BADGE.get());
+                    })
+                    .build());
+
+    private static void addTurtle(CreativeModeTab.Output out, TurtleItem turtle, HolderLookup.Provider registries) {
+        registries.lookupOrThrow(ITurtleUpgrade.REGISTRY).listElements()
+                .filter(ModRegistry::isOurUpgrade)
+                .map(x -> DataComponentUtil.createStack(turtle, dan200.computercraft.shared.ModRegistry.DataComponents.RIGHT_TURTLE_UPGRADE.get(), UpgradeData.ofDefault(x)))
+                .forEach(out::accept);
+    }
+
+    private static void addPocket(CreativeModeTab.Output out, PocketComputerItem pocket, HolderLookup.Provider registries) {
+        registries.lookupOrThrow(IPocketUpgrade.REGISTRY).listElements()
+                .filter(ModRegistry::isOurUpgrade)
+                .map(x -> DataComponentUtil.createStack(pocket, dan200.computercraft.shared.ModRegistry.DataComponents.POCKET_UPGRADE.get(), UpgradeData.ofDefault(x))).forEach(out::accept);
+    }
+
+    private static boolean isOurUpgrade(Holder.Reference<? extends UpgradeBase> upgrade) {
+        var namespace = upgrade.key().location().getNamespace();
+        return namespace.equals(ClassicPeripherals.MOD_ID);
+    }
+
+    private static void addColoredItem(CreativeModeTab.Output out, Item item) {
+        for (var color : Colour.VALUES) {
+            out.accept(DataComponentUtil.createStack(
+                    item, ModRegistry.DataComponents.DATAHOLDER_COLOR.get(), color.getHex()
+            ));
+        }
+    }
 
     public static class Blocks {
         public static final RegistrySupplier<RadioTowerControllerBlock> TOWER_BASE = register("tower_base", () -> new RadioTowerControllerBlock(BlockBehaviour.Properties.of()
@@ -185,7 +245,7 @@ public class ModRegistry {
 
         public static final RegistrySupplier<BlockEntityType<CryptographicAcceleratorSlimBlockEntity>> CRYPTOGRAPHIC_ACCELERATOR_SLIM = register("cryptographic_accelerator_slim",
                 () -> BlockEntityType.Builder.of(CryptographicAcceleratorSlimBlockEntity::new, Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get()).build(null));
-        
+
         public static final RegistrySupplier<BlockEntityType<ScannerBlockEntity>> SCANNER = register("scanner",
                 () -> BlockEntityType.Builder.of(ScannerBlockEntity::new, Blocks.SCANNER.get()).build(null));
 
