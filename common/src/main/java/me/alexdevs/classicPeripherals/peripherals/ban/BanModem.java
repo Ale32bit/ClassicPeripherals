@@ -9,6 +9,7 @@ import dan200.computercraft.api.pocket.IPocketAccess;
 import dan200.computercraft.shared.peripheral.modem.ModemPeripheral;
 import dan200.computercraft.shared.peripheral.modem.ModemState;
 import me.alexdevs.classicPeripherals.mixinInterface.IEntityMixin;
+import me.alexdevs.classicPeripherals.platform.Services;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -29,13 +30,20 @@ public class BanModem extends ModemPeripheral implements ILuaAPI {
 
     @Nullable
     public Entity getEntity() {
+        if (!isEntityBound()) {
+            return null;
+        }
         if (isPocket()) {
             return getPocket().getEntity();
         }
+        if (isNeural()) {
+            return Services.PLETHORA.getEntity(computer);
+        }
+
         return null;
     }
 
-    protected PacketNetwork createLocalNetwork() {
+    protected LocalEntityNetwork createLocalNetwork() {
         var entity = (IEntityMixin) getEntity();
         if (entity != null) {
             return entity.classicPeripherals$getPacketNetwork();
@@ -56,6 +64,12 @@ public class BanModem extends ModemPeripheral implements ILuaAPI {
     }
 
     @Override
+    public void startup() {
+        entity = getEntity();
+        attach(computer);
+    }
+
+    @Override
     public void update() {
         var currentEntity = getEntity();
         if (currentEntity != entity) {
@@ -71,7 +85,8 @@ public class BanModem extends ModemPeripheral implements ILuaAPI {
 
     @Override
     protected @NonNull PacketNetwork getNetwork() {
-        return createLocalNetwork();
+        var network = createLocalNetwork();
+        return network;
     }
 
     @Override
@@ -91,8 +106,8 @@ public class BanModem extends ModemPeripheral implements ILuaAPI {
 
     @Override
     public Vec3 getPosition() {
-        if (isPocket()) {
-            return getPocket().getPosition();
+        if (isEntityBound()) {
+            return getEntityPosition();
         }
         return computer.getPosition().getCenter();
     }
@@ -106,7 +121,27 @@ public class BanModem extends ModemPeripheral implements ILuaAPI {
         return getPocket() != null;
     }
 
+    private boolean isNeural() {
+        return Services.PLETHORA.isNeural(computer);
+    }
+
+    private boolean isEntityBound() {
+        return isPocket() || isNeural();
+    }
+
     private IPocketAccess getPocket() {
         return computer.getComponent(ComputerComponents.POCKET);
+    }
+
+    private Vec3 getEntityPosition() {
+        if (isPocket()) {
+            return getPocket().getPosition();
+        }
+
+        if (isNeural()) {
+            return Services.PLETHORA.getPosition(computer);
+        }
+
+        throw new IllegalStateException("IComputerSystem is not bound to an entity");
     }
 }

@@ -26,9 +26,11 @@ public class LocalEntityNetwork implements PacketNetwork {
 
     @Override
     public void transmitSameDimension(Packet packet, double range) {
+        var sender = packet.sender();
         for (PacketReceiver receiver : receivers) {
-            if (packet.sender() != receiver) {
-                receiver.receiveSameDimension(packet, range);
+            if (sender != receiver) {
+                var dist = sender.getPosition().distanceTo(receiver.getPosition());
+                receiver.receiveSameDimension(packet, dist);
             }
         }
     }

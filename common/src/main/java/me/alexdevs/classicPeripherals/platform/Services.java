@@ -2,6 +2,7 @@ package me.alexdevs.classicPeripherals.platform;
 
 import me.alexdevs.classicPeripherals.platform.services.IEquipmentIntegration;
 import me.alexdevs.classicPeripherals.platform.services.IPlatformHelper;
+import me.alexdevs.classicPeripherals.platform.services.IPlethoraIntegration;
 import me.alexdevs.classicPeripherals.platform.services.IRegistrationFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ public final class Services {
     public static final IPlatformHelper PLATFORM = load(IPlatformHelper.class);
     public static final IRegistrationFactory REGISTRATION = load(IRegistrationFactory.class);
     public static final IEquipmentIntegration EQUIPMENT = load(IEquipmentIntegration.class);
+    public static final IPlethoraIntegration PLETHORA = load(IPlethoraIntegration.class);
 
     public static <T> T load(Class<T> clazz) {
         final T loadedService = ServiceLoader.load(clazz)

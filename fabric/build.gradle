@@ -18,6 +18,18 @@ repositories {
             includeGroup('dev.ryanhcode.sable-companion')
         }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        // forRepositories(fg.repository) // Uncomment when using ForgeGradle
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 dependencies {
@@ -35,6 +47,8 @@ dependencies {
 
     // Trinkets (optional equipment integration)
     modCompileOnly "dev.emi:trinkets:${trinkets_version}"
+
+    modCompileOnly "maven.modrinth:${plethora_module}:${plethora_version}"
 
     // Bundled libraries (jar-in-jar)
     modImplementation "folk.sisby:kaleido-config:${kaleido_version}"
