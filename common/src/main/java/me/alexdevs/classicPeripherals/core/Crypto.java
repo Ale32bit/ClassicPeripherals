@@ -69,7 +69,7 @@ public class Crypto {
     private static String hmac(Digest digest, String key, String data, boolean hex) {
         var hmac = new HMac(digest);
         hmac.init(new KeyParameter(key.getBytes(CHARSET)));
-        hmac.update(data.getBytes(CHARSET), 0, key.length());
+        hmac.update(data.getBytes(CHARSET), 0, data.length());
         byte[] hash = new byte[hmac.getMacSize()];
         hmac.doFinal(hash, 0);
         return toStr(hash, hex);
