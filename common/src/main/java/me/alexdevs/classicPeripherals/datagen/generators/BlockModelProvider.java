@@ -52,6 +52,7 @@ public class BlockModelProvider {
         createRfidScannerModel(generators, ModRegistry.Blocks.RFID_SCANNER.get());
         createScannerModel(generators, ModRegistry.Blocks.SCANNER.get());
         createCryptographicAcceleratorSlimModel(generators, ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get());
+        createPresenceSensorModel(generators);
 
         generators.createHorizontallyRotatedBlock(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), TexturedModel.ORIENTABLE);
         generators.delegateItemModel(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get(), getModelLocation(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get()));
@@ -102,6 +103,14 @@ public class BlockModelProvider {
                 .with(BlockModelGenerators.createFacingDispatch())
         );
         generators.delegateItemModel(block, getModelLocation(block));
+    }
+
+    private static void createPresenceSensorModel(BlockModelGenerators generators) {
+        generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(ModRegistry.Blocks.PRESENCE_SENSOR.get(), Variant.variant()
+                        .with(VariantProperties.MODEL, ResourceLocation.fromNamespaceAndPath(ClassicPeripherals.MOD_ID, "block/presence_sensor")))
+                .with(BlockModelGenerators.createFacingDispatch())
+        );
+        generators.delegateItemModel(ModRegistry.Blocks.PRESENCE_SENSOR.get(), getModelLocation(ModRegistry.Blocks.PRESENCE_SENSOR.get()));
     }
 
     private static void createScannerModel(BlockModelGenerators generators, ScannerBlock block) {

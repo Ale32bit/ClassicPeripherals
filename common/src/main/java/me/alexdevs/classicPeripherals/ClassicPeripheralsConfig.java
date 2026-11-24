@@ -46,6 +46,17 @@ public class ClassicPeripheralsConfig extends WrappedConfig {
     @IntegerRange(min = 1, max = Integer.MAX_VALUE)
     public int cryptographicRandomBytesMaxSize = 65536;
 
+    @Comment("The maximum range of the Presence Sensor peripheral.")
+    @FloatRange(min = 0, max = 1024)
+    public double presenceSensorRange = 24;
+
+    @Comment("Interval in ticks between presence sensor scans.")
+    @IntegerRange(min = 1, max = Integer.MAX_VALUE)
+    public int presenceSensorInterval = 10;
+
+    @Comment("Toggle whether the presence sensor can automatically scan for players.")
+    public boolean presenceSensorAutomaticScan = true;
+
     @Comment("Enable the Ender Modem nerf.")
     public boolean enderModemNerf = true;
 

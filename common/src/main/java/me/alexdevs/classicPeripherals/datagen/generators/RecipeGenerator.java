@@ -146,6 +146,16 @@ public class RecipeGenerator extends RecipeProvider {
                 .requires(me.alexdevs.classicPeripherals.ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get())
                 .unlockedBy("has_crypto_accelerator_slim", has(me.alexdevs.classicPeripherals.ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get()))
                 .save(output, id("crypto_accelerator_slim_to_full"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, me.alexdevs.classicPeripherals.ModRegistry.Blocks.PRESENCE_SENSOR.get())
+                .pattern("sss")
+                .pattern("ses")
+                .pattern("sqs")
+                .define('s', Items.STONE)
+                .define('e', Items.ENDER_EYE)
+                .define('q', Items.QUARTZ)
+                .unlockedBy("has_ender_eye", has(Items.ENDER_EYE))
+                .save(output);
     }
 
     private static ResourceLocation id(String path) {

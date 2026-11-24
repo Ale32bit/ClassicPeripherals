@@ -24,6 +24,8 @@ import me.alexdevs.classicPeripherals.peripherals.nfc.NfcReaderBlockEntity;
 import me.alexdevs.classicPeripherals.peripherals.nfc.item.NfcCardItem;
 import me.alexdevs.classicPeripherals.peripherals.nfc.item.NfcCardRecipe;
 import me.alexdevs.classicPeripherals.peripherals.nfc.luaApi.PocketNfcAPI;
+import me.alexdevs.classicPeripherals.peripherals.presenceSensor.PresenceSensorBlock;
+import me.alexdevs.classicPeripherals.peripherals.presenceSensor.PresenceSensorBlockEntity;
 import me.alexdevs.classicPeripherals.peripherals.radio.antenna.RadioAntennaBlock;
 import me.alexdevs.classicPeripherals.peripherals.radio.antenna.RadioAntennaBlockEntity;
 import me.alexdevs.classicPeripherals.peripherals.radio.tower.RadioTowerAntennaBlock;
@@ -88,6 +90,7 @@ public class ModRegistry {
                         entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR.get());
                         entries.accept(ModRegistry.Blocks.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get());
                         entries.accept(ModRegistry.Blocks.SCANNER.get());
+                        entries.accept(ModRegistry.Blocks.PRESENCE_SENSOR.get());
 
                         addTurtle(entries, dan200.computercraft.shared.ModRegistry.Items.TURTLE_NORMAL.get(), context.holders());
                         addTurtle(entries, dan200.computercraft.shared.ModRegistry.Items.TURTLE_ADVANCED.get(), context.holders());
@@ -191,6 +194,12 @@ public class ModRegistry {
                 .isValidSpawn(Blocks::never)
                 .isRedstoneConductor(Blocks::never)
         ));
+        public static final RegistrySupplier<PresenceSensorBlock> PRESENCE_SENSOR = register("presence_sensor", () -> new PresenceSensorBlock(BlockBehaviour.Properties.of()
+                .strength(2.0F)
+                .mapColor(MapColor.STONE)
+                .isValidSpawn(Blocks::never)
+                .isRedstoneConductor(Blocks::never)
+        ));
 
         private static <T extends Block> RegistrySupplier<T> register(String name, Supplier<T> block) {
             var registered = BLOCKS.register(name, block);
@@ -249,6 +258,9 @@ public class ModRegistry {
         public static final RegistrySupplier<BlockEntityType<ScannerBlockEntity>> SCANNER = register("scanner",
                 () -> BlockEntityType.Builder.of(ScannerBlockEntity::new, Blocks.SCANNER.get()).build(null));
 
+        public static final RegistrySupplier<BlockEntityType<PresenceSensorBlockEntity>> PRESENCE_SENSOR = register("presence_sensor",
+                () -> BlockEntityType.Builder.of(PresenceSensorBlockEntity::new, Blocks.PRESENCE_SENSOR.get()).build(null));
+
         private static <T extends BlockEntityType<?>> RegistrySupplier<T> register(String path, Supplier<T> factory) {
             return BLOCK_ENTITIES.register(path, factory);
         }
@@ -266,6 +278,7 @@ public class ModRegistry {
             registrar.register(TileEntities.CRYPTOGRAPHIC_ACCELERATOR.get(), (block, dir) -> block.peripheral());
             registrar.register(TileEntities.CRYPTOGRAPHIC_ACCELERATOR_SLIM.get(), CryptographicAcceleratorSlimBlockEntity::peripheral);
             registrar.register(TileEntities.SCANNER.get(), (block, dir) -> block.peripheral());
+            registrar.register(TileEntities.PRESENCE_SENSOR.get(), PresenceSensorBlockEntity::peripheral);
         }
     }
 
