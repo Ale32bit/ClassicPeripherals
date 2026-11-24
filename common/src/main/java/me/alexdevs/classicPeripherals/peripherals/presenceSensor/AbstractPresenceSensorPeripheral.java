@@ -7,22 +7,18 @@ import dan200.computercraft.api.peripheral.AttachedComputerSet;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import me.alexdevs.classicPeripherals.ClassicPeripherals;
-import me.alexdevs.classicPeripherals.ClassicPeripheralsConfig;
 import me.alexdevs.classicPeripherals.integrations.SableIntegration;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-
 import org.jspecify.annotations.NonNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class AbstractPresenceSensorPeripheral implements IPeripheral {
     protected final AttachedComputerSet computers = new AttachedComputerSet();
@@ -49,8 +45,8 @@ public abstract class AbstractPresenceSensorPeripheral implements IPeripheral {
 
     public abstract Level getLevel();
 
-    protected List<PlayerData> scanPlayers() {
-        var detectedPlayers = new ArrayList<PlayerData>();
+    protected List<EntityPresenceData> scanEntities() {
+        var detectedEntities = new ArrayList<EntityPresenceData>();
 
         var level = getLevel();
         var origin = SableIntegration.getTranslatedPos(level, getPosition());
@@ -60,26 +56,23 @@ public abstract class AbstractPresenceSensorPeripheral implements IPeripheral {
 
         var range = ClassicPeripherals.CONFIG.presenceSensorRange;
 
-        var nearbyPlayers = level.players().stream()
-                .filter(player -> player.position().distanceToSqr(origin) <= range * range)
-                .map(player -> (ServerPlayer) player)
-                .toList();
+        var aabb = AABB.ofSize(origin, range, range, range);
+        var nearbyEntities = level.getEntitiesOfClass(LivingEntity.class, aabb);
 
-        for (var player : nearbyPlayers) {
-            if (canSee(player, origin, level)) {
-                detectedPlayers.add(new PlayerData(player.getUUID(), player.getGameProfile().getName(), Math.sqrt(player.distanceToSqr(origin))));
+        for (var entity : nearbyEntities) {
+            if (canSee(entity, origin, level)) {
+                detectedEntities.add(new EntityPresenceData(EntityType.getKey(entity.getType()).toString(), Math.sqrt(entity.distanceToSqr(origin))));
             }
         }
 
-        return detectedPlayers;
+        return detectedEntities;
     }
 
-    private boolean canSee(ServerPlayer player, Vec3 origin, BlockGetter level) {
-        var castPoints = getPlayerCastPoints(player);
+    private boolean canSee(LivingEntity entity, Vec3 origin, BlockGetter level) {
+        var castPoints = getPlayerCastPoints(entity);
 
         for (var point : castPoints) {
-            var ctx = new ClipContext(origin, point, ClipContext.Block.VISUAL, ClipContext.Fluid.NONE,
-                    player);
+            var ctx = new ClipContext(origin, point, ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, entity);
 
             var result = level.clip(ctx);
             if (result.getType() == BlockHitResult.Type.MISS) {
@@ -105,24 +98,23 @@ public abstract class AbstractPresenceSensorPeripheral implements IPeripheral {
                 return;
             }
 
-            var players = scanPlayers();
-            emitScanEvent(players, manualScan);
+            var entities = scanEntities();
+            emitScanEvent(entities, !manualScan);
             manualScan = false;
         }
     }
 
-    protected void emitScanEvent(List<PlayerData> players, boolean ignoreEmpty) {
-        if (ignoreEmpty && players.size() == 0) {
+    protected void emitScanEvent(List<EntityPresenceData> entities, boolean ignoreEmpty) {
+        if (ignoreEmpty && entities.isEmpty()) {
             return;
         }
 
         var map = new HashMap<Integer, ObjectLuaTable>();
-        for (var i = 1; i <= players.size(); i++) {
-            var player = players.get(i - 1);
+        for (var i = 1; i <= entities.size(); i++) {
+            var entity = entities.get(i - 1);
             map.put(i, new ObjectLuaTable(Map.of(
-                    "uuid", player.uuid(),
-                    "name", player.name(),
-                    "distance", player.distance())));
+                    "type", entity.type(),
+                    "distance", entity.distance())));
         }
 
         var table = new ObjectLuaTable(map);
@@ -130,12 +122,12 @@ public abstract class AbstractPresenceSensorPeripheral implements IPeripheral {
         computers.forEach(computer -> computer.queueEvent("presence_sense", computer.getAttachmentName(), table));
     }
 
-    protected List<Vec3> getPlayerCastPoints(ServerPlayer player) {
-        var aabb = player.getBoundingBox();
+    protected List<Vec3> getPlayerCastPoints(LivingEntity entity) {
+        var aabb = entity.getBoundingBox();
 
         return List.of(
                 aabb.getBottomCenter().add(0, aabb.getYsize(), 0),
-                player.getEyePosition(),
+                entity.getEyePosition(),
                 aabb.getCenter(),
                 aabb.getBottomCenter());
     }
@@ -152,6 +144,6 @@ public abstract class AbstractPresenceSensorPeripheral implements IPeripheral {
         });
     }
 
-    public record PlayerData(UUID uuid, String name, double distance) {
+    public record EntityPresenceData(String type, double distance) {
     }
 }
