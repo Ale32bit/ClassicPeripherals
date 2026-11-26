@@ -3,6 +3,7 @@
   "block.classicperipherals.cryptographic_accelerator": "Cryptographic Accelerator",
   "block.classicperipherals.cryptographic_accelerator_slim": "Cryptographic Accelerator",
   "block.classicperipherals.nfc_reader": "NFC Reader",
+  "block.classicperipherals.presence_sensor": "Presence Sensor",
   "block.classicperipherals.rfid_scanner": "RFID Scanner",
   "block.classicperipherals.scanner": "Scanner",
   "block.classicperipherals.tower_base": "Radio Tower Controller",

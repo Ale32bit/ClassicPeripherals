@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "classicperipherals:block/presence_sensor",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "classicperipherals:block/presence_sensor",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "classicperipherals:block/presence_sensor"
+    },
+    "facing=south": {
+      "model": "classicperipherals:block/presence_sensor",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "classicperipherals:block/presence_sensor",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "classicperipherals:block/presence_sensor",
+      "y": 270
+    }
+  }
+}

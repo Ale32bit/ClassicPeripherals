@@ -10,3 +10,4 @@ hide:
 - [RFID Scanner](rfid-scanner.md)
 - [Scanner](scanner.md)
 - [Body Area Network API](ban.md)
+- [Presence Sensor](presence-sensor.md)
